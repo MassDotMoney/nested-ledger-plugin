@@ -5,16 +5,17 @@
 #include <string.h>
 
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
-// EDIT THIS: Put in the number of selectors your plugin is going to support.
-#define NUM_SELECTORS 1
+#define NUM_SELECTORS 2
 
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
-// EDIT THIS: Change the naming (`selector_t`), and add your selector names.
 typedef enum
 {
     CREATE,
+    PROCESS_OUTPUT_ORDERS,
 } selector_t;
+
+extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 
 /*
     INestedFactory Structs
@@ -70,15 +71,20 @@ typedef enum
     CREATE__OFFSET_BATCHINPUTORDER,
     CREATE__LEN_BATCHINPUTORDER,
     CREATE__OFFSET_ARRAY_BATCHINPUTORDER,
-    CREATE__BATCH_INPUT_ORDERS,
+    CREATE__BATCH_INPUT_ORDERS, // will not be reach
 } create_parameter;
 
-// EDIT THIS: Rename `BOILERPLATE` to be the same as the one initialized in `main.c`.
-extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
+// Booleans
+#define IS_COPY (1)
+#define BOOL2 (1 << 2)
+#define BOOL3 (1 << 3)
+#define BOOL4 (1 << 4)
+#define BOOL5 (1 << 5)
+#define BOOL6 (1 << 6)
+#define BOOL7 (1 << 7)
+#define BOOL8 (1 << 8)
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-// EDIT THIS: This struct is used by your plugin to save the parameters you parse. You
-// will need to adapt this struct to your plugin.
 typedef struct context_t
 {
     uint8_t on_struct;
@@ -86,10 +92,10 @@ typedef struct context_t
     // For display.
     uint8_t amount_received[INT256_LENGTH];
     uint8_t beneficiary[ADDRESS_LENGTH];
-    uint8_t token_received[ADDRESS_LENGTH];
-    char ticker[MAX_TICKER_LEN];
-    uint8_t decimals;
-    uint8_t token_found;
+    uint8_t token_received[ADDRESS_LENGTH]; // keep
+    char ticker[MAX_TICKER_LEN];            // keep
+    uint8_t decimals;                       // keep
+    uint8_t token_found;                    // keep
 
     // For parsing data.
     uint8_t next_param; // Set to be the next param we expect to parse.
@@ -105,7 +111,7 @@ typedef struct context_t
     uint16_t offsets_lvl0[2];
     uint16_t offsets_lvl1[2];
     uint8_t length_offset_array;
-
+    uint8_t booleans;
     // For both parsing and display.
     selector_t selectorIndex;
 } context_t;

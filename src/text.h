@@ -1,2 +1,2 @@
 
-#define PLUGIN_NAME "Nested"
+#define PLUGIN_NAME "Nested Finance"

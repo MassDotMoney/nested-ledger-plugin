@@ -23,7 +23,7 @@ Archive member included to satisfy reference by file (symbol)
 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
                               obj/eth_internals.o (__aeabi_memset)
 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
-                              obj/handle_finalize.o (memcmp)
+                              obj/os.o (memcmp)
 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
                               /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o) (memcpy)
 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
@@ -147,9 +147,13 @@ Discarded input sections
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_hash_get_info
                 0x0000000000000000        0xc obj/cx_stubs.o
+ .text.cx_hash_get_size
+                0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_hash_init
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_hash_init_ex
+                0x0000000000000000        0xc obj/cx_stubs.o
+ .text.cx_hash_no_throw
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_hash_sha256
                 0x0000000000000000        0xc obj/cx_stubs.o
@@ -184,6 +188,8 @@ Discarded input sections
  .text.cx_hmac_update
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_init  0x0000000000000000        0xc obj/cx_stubs.o
+ .text.cx_keccak_init_no_throw
+                0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_math_addm_no_throw
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_math_add_no_throw
@@ -268,7 +274,26 @@ Discarded input sections
                 0x0000000000000000        0xc obj/cx_stubs.o
  .text.cx_swap_uint32
                 0x0000000000000000        0xc obj/cx_stubs.o
+ .text.cx_swap_uint64
+                0x0000000000000000       0x14 obj/cx_stubs.o
+ .debug_line    0x0000000000000000      0x78a obj/cx_stubs.o
+ .debug_info    0x0000000000000000       0x22 obj/cx_stubs.o
+ .debug_abbrev  0x0000000000000000       0x12 obj/cx_stubs.o
+ .debug_aranges
+                0x0000000000000000      0x398 obj/cx_stubs.o
+ .debug_str     0x0000000000000000       0x54 obj/cx_stubs.o
+ .debug_ranges  0x0000000000000000      0x390 obj/cx_stubs.o
+ .ARM.attributes
+                0x0000000000000000       0x1c obj/cx_stubs.o
  .text          0x0000000000000000        0x0 obj/eth_internals.o
+ .text.getEthAddressStringFromBinary
+                0x0000000000000000       0xfc obj/eth_internals.o
+ .ARM.exidx.text.getEthAddressStringFromBinary
+                0x0000000000000000        0x8 obj/eth_internals.o
+ .text.u64_to_string
+                0x0000000000000000       0x9c obj/eth_internals.o
+ .ARM.exidx.text.u64_to_string
+                0x0000000000000000        0x8 obj/eth_internals.o
  .text.getEthAddressFromKey
                 0x0000000000000000       0x4c obj/eth_internals.o
  .ARM.exidx.text.getEthAddressFromKey
@@ -276,6 +301,18 @@ Discarded input sections
  .text.getEthDisplayableAddress
                 0x0000000000000000       0x38 obj/eth_internals.o
  .ARM.exidx.text.getEthDisplayableAddress
+                0x0000000000000000        0x8 obj/eth_internals.o
+ .text.adjustDecimals
+                0x0000000000000000       0xec obj/eth_internals.o
+ .ARM.exidx.text.adjustDecimals
+                0x0000000000000000        0x8 obj/eth_internals.o
+ .text.uint256_to_decimal
+                0x0000000000000000       0xc4 obj/eth_internals.o
+ .ARM.exidx.text.uint256_to_decimal
+                0x0000000000000000        0x8 obj/eth_internals.o
+ .text.amountToString
+                0x0000000000000000       0x7c obj/eth_internals.o
+ .ARM.exidx.text.amountToString
                 0x0000000000000000        0x8 obj/eth_internals.o
  .text.copy_address
                 0x0000000000000000       0x12 obj/eth_internals.o
@@ -285,6 +322,20 @@ Discarded input sections
                 0x0000000000000000        0xe obj/eth_internals.o
  .ARM.exidx.text.copy_parameter
                 0x0000000000000000        0x8 obj/eth_internals.o
+ .rodata.str1.1
+                0x0000000000000000       0x1c obj/eth_internals.o
+ .debug_str     0x0000000000000000      0x79f obj/eth_internals.o
+ .debug_loc     0x0000000000000000      0xd20 obj/eth_internals.o
+ .debug_abbrev  0x0000000000000000      0x1c3 obj/eth_internals.o
+ .debug_info    0x0000000000000000      0xc10 obj/eth_internals.o
+ .debug_ranges  0x0000000000000000      0x100 obj/eth_internals.o
+ .comment       0x0000000000000000       0x20 obj/eth_internals.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 obj/eth_internals.o
+ .ARM.attributes
+                0x0000000000000000       0x47 obj/eth_internals.o
+ .debug_frame   0x0000000000000000      0x124 obj/eth_internals.o
+ .debug_line    0x0000000000000000      0x73c obj/eth_internals.o
  .llvm_addrsig  0x0000000000000000        0x0 obj/eth_internals.o
  .text          0x0000000000000000        0x0 obj/glyphs.o
  .rodata.C_icon_down_colors
@@ -326,11 +377,6 @@ Discarded input sections
  .text          0x0000000000000000        0x0 obj/handle_init_contract.o
  .llvm_addrsig  0x0000000000000000        0x0 obj/handle_init_contract.o
  .text          0x0000000000000000        0x0 obj/handle_provide_parameter.o
- .text.print_bytes
-                0x0000000000000000       0x64 obj/handle_provide_parameter.o
- .ARM.exidx.text.print_bytes
-                0x0000000000000000        0x8 obj/handle_provide_parameter.o
- .rodata.cst16  0x0000000000000000       0x10 obj/handle_provide_parameter.o
  .llvm_addrsig  0x0000000000000000        0x0 obj/handle_provide_parameter.o
  .text          0x0000000000000000        0x0 obj/handle_provide_token.o
  .llvm_addrsig  0x0000000000000000        0x0 obj/handle_provide_token.o
@@ -1191,6 +1237,26 @@ Discarded input sections
  .ARM.exidx.text.os_deny_protected_flash
                 0x0000000000000000        0x8 obj/syscalls.o
  .llvm_addrsig  0x0000000000000000        0x0 obj/syscalls.o
+ .text          0x0000000000000000        0x0 obj/utils.o
+ .text.print_bytes
+                0x0000000000000000       0x64 obj/utils.o
+ .ARM.exidx.text.print_bytes
+                0x0000000000000000        0x8 obj/utils.o
+ .rodata.cst16  0x0000000000000000       0x10 obj/utils.o
+ .rodata.str1.1
+                0x0000000000000000        0x7 obj/utils.o
+ .debug_str     0x0000000000000000       0xde obj/utils.o
+ .debug_loc     0x0000000000000000       0x75 obj/utils.o
+ .debug_abbrev  0x0000000000000000       0xb1 obj/utils.o
+ .debug_info    0x0000000000000000      0x120 obj/utils.o
+ .comment       0x0000000000000000       0x20 obj/utils.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 obj/utils.o
+ .ARM.attributes
+                0x0000000000000000       0x47 obj/utils.o
+ .debug_frame   0x0000000000000000       0x30 obj/utils.o
+ .debug_line    0x0000000000000000      0x12f obj/utils.o
+ .llvm_addrsig  0x0000000000000000        0x0 obj/utils.o
  .text          0x0000000000000000        0x0 obj/ux_flow_engine.o
  .text.ux_flow_is_first
                 0x0000000000000000       0x4c obj/ux_flow_engine.o
@@ -1739,17 +1805,31 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+ .text          0x0000000000000000       0x40 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
+ .ARM.attributes
+                0x0000000000000000       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
+ .text          0x0000000000000000      0x198 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
  .ARM.extab     0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+ .ARM.exidx     0x0000000000000000        0x8 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x0000000000000000       0x3c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
+ .text          0x0000000000000000       0x18 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
+ .ARM.attributes
+                0x0000000000000000       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
+ .text          0x0000000000000000       0x3c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
+ .ARM.attributes
+                0x0000000000000000       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
@@ -1759,18 +1839,31 @@ Discarded input sections
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
+ .text.__aeabi_memmove
+                0x0000000000000000        0x8 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
+ .debug_frame   0x0000000000000000       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
+ .text.memcmp   0x0000000000000000       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
+ .debug_frame   0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .text.memmove  0x0000000000000000       0x26 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .debug_frame   0x0000000000000000       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
@@ -1779,14 +1872,25 @@ Discarded input sections
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
+ .text.strlcat  0x0000000000000000       0x44 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
+ .debug_frame   0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
+ .text          0x0000000000000000        0xe /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
+ .ARM.attributes
+                0x0000000000000000       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
+ .text.strnlen  0x0000000000000000       0x16 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
+ .debug_frame   0x0000000000000000       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
+ .ARM.attributes
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
 
 Memory Configuration
 
@@ -1821,6 +1925,7 @@ LOAD obj/printf.o
 LOAD obj/svc_call.o
 LOAD obj/svc_cx_call.o
 LOAD obj/syscalls.o
+LOAD obj/utils.o
 LOAD obj/ux_flow_engine.o
 LOAD obj/ux_layout_bb.o
 LOAD obj/ux_layout_bn.o
@@ -1858,199 +1963,147 @@ END GROUP
                 0x0000000000000000                OFF_G_cx = (0x20001400 - ORIGIN (CXSRAM))
                 0x0000000000120001                _cx_trampoline = 0x120001
 
-.text           0x00000000c0d00000     0x1800
+.text           0x00000000c0d00000     0x1100
                 0x00000000c0d00000                _text = .
                 0x00000000c0d00000                _nvram_start = .
  *(.boot*)
  .boot          0x00000000c0d00000       0x84 obj/main.o
                 0x00000000c0d00000                main
  *(.text*)
- .text.cx_hash_get_size
-                0x00000000c0d00084        0xc obj/cx_stubs.o
-                0x00000000c0d00084                cx_hash_get_size
- .text.cx_hash_no_throw
-                0x00000000c0d00090        0xc obj/cx_stubs.o
-                0x00000000c0d00090                cx_hash_no_throw
- .text.cx_keccak_init_no_throw
-                0x00000000c0d0009c        0xc obj/cx_stubs.o
-                0x00000000c0d0009c                cx_keccak_init_no_throw
- .text.cx_swap_uint64
-                0x00000000c0d000a8       0x14 obj/cx_stubs.o
-                0x00000000c0d000a8                cx_swap_uint64
- .text.getEthAddressStringFromBinary
-                0x00000000c0d000bc       0xfc obj/eth_internals.o
-                0x00000000c0d000bc                getEthAddressStringFromBinary
- .text.u64_to_string
-                0x00000000c0d001b8       0x9c obj/eth_internals.o
-                0x00000000c0d001b8                u64_to_string
- .text.adjustDecimals
-                0x00000000c0d00254       0xec obj/eth_internals.o
-                0x00000000c0d00254                adjustDecimals
- .text.uint256_to_decimal
-                0x00000000c0d00340       0xc4 obj/eth_internals.o
-                0x00000000c0d00340                uint256_to_decimal
- .text.amountToString
-                0x00000000c0d00404       0x7c obj/eth_internals.o
-                0x00000000c0d00404                amountToString
  .text.handle_finalize
-                0x00000000c0d00480       0x30 obj/handle_finalize.o
-                0x00000000c0d00480                handle_finalize
+                0x00000000c0d00084       0x12 obj/handle_finalize.o
+                0x00000000c0d00084                handle_finalize
+ *fill*         0x00000000c0d00096        0x2 00
  .text.handle_init_contract
-                0x00000000c0d004b0       0x74 obj/handle_init_contract.o
-                0x00000000c0d004b0                handle_init_contract
+                0x00000000c0d00098       0x8c obj/handle_init_contract.o
+                0x00000000c0d00098                handle_init_contract
  .text.copy_offset
-                0x00000000c0d00524       0x4c obj/handle_provide_parameter.o
-                0x00000000c0d00524                copy_offset
+                0x00000000c0d00124       0x4c obj/handle_provide_parameter.o
+                0x00000000c0d00124                copy_offset
  .text.handle_provide_parameter
-                0x00000000c0d00570      0x26c obj/handle_provide_parameter.o
-                0x00000000c0d00570                handle_provide_parameter
+                0x00000000c0d00170      0x298 obj/handle_provide_parameter.o
+                0x00000000c0d00170                handle_provide_parameter
  .text.handle_provide_token
-                0x00000000c0d007dc       0x4c obj/handle_provide_token.o
-                0x00000000c0d007dc                handle_provide_token
+                0x00000000c0d00408       0x4c obj/handle_provide_token.o
+                0x00000000c0d00408                handle_provide_token
  .text.handle_query_contract_id
-                0x00000000c0d00828       0x44 obj/handle_query_contract_id.o
-                0x00000000c0d00828                handle_query_contract_id
+                0x00000000c0d00454       0x68 obj/handle_query_contract_id.o
+                0x00000000c0d00454                handle_query_contract_id
  .text.handle_query_contract_ui
-                0x00000000c0d0086c       0xe8 obj/handle_query_contract_ui.o
-                0x00000000c0d0086c                handle_query_contract_ui
+                0x00000000c0d004bc       0x54 obj/handle_query_contract_ui.o
+                0x00000000c0d004bc                handle_query_contract_ui
  .text.dispatch_plugin_calls
-                0x00000000c0d00954       0x78 obj/main.o
-                0x00000000c0d00954                dispatch_plugin_calls
- .text.os_boot  0x00000000c0d009cc        0xa obj/os.o
-                0x00000000c0d009cc                os_boot
+                0x00000000c0d00510       0x78 obj/main.o
+                0x00000000c0d00510                dispatch_plugin_calls
+ .text.os_boot  0x00000000c0d00588        0xa obj/os.o
+                0x00000000c0d00588                os_boot
  .text.os_longjmp
-                0x00000000c0d009d6        0xc obj/os.o
-                0x00000000c0d009d6                os_longjmp
- *fill*         0x00000000c0d009e2        0x2 00
+                0x00000000c0d00592        0xc obj/os.o
+                0x00000000c0d00592                os_longjmp
+ *fill*         0x00000000c0d0059e        0x2 00
  .text.semihosted_printf
-                0x00000000c0d009e4      0x36c obj/printf.o
-                0x00000000c0d009e4                semihosted_printf
- .text.prints   0x00000000c0d00d50       0x42 obj/printf.o
- .text          0x00000000c0d00d92        0xe obj/svc_call.o
-                0x00000000c0d00d92                SVC_Call
+                0x00000000c0d005a0      0x36c obj/printf.o
+                0x00000000c0d005a0                semihosted_printf
+ .text.prints   0x00000000c0d0090c       0x42 obj/printf.o
+ .text          0x00000000c0d0094e        0xe obj/svc_call.o
+                0x00000000c0d0094e                SVC_Call
  .text.get_api_level
-                0x00000000c0d00da0       0x1c obj/syscalls.o
-                0x00000000c0d00da0                get_api_level
+                0x00000000c0d0095c       0x1c obj/syscalls.o
+                0x00000000c0d0095c                get_api_level
  .text.os_lib_call
-                0x00000000c0d00dbc       0x1c obj/syscalls.o
-                0x00000000c0d00dbc                os_lib_call
+                0x00000000c0d00978       0x1c obj/syscalls.o
+                0x00000000c0d00978                os_lib_call
  .text.os_lib_end
-                0x00000000c0d00dd8       0x18 obj/syscalls.o
-                0x00000000c0d00dd8                os_lib_end
+                0x00000000c0d00994       0x18 obj/syscalls.o
+                0x00000000c0d00994                os_lib_end
  .text.os_sched_exit
-                0x00000000c0d00df0       0x1c obj/syscalls.o
-                0x00000000c0d00df0                os_sched_exit
+                0x00000000c0d009ac       0x1c obj/syscalls.o
+                0x00000000c0d009ac                os_sched_exit
  .text.try_context_get
-                0x00000000c0d00e0c       0x18 obj/syscalls.o
-                0x00000000c0d00e0c                try_context_get
+                0x00000000c0d009c8       0x18 obj/syscalls.o
+                0x00000000c0d009c8                try_context_get
  .text.try_context_set
-                0x00000000c0d00e24       0x1c obj/syscalls.o
-                0x00000000c0d00e24                try_context_set
- .text          0x00000000c0d00e40      0x114 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
-                0x00000000c0d00e40                __udivsi3
-                0x00000000c0d00e40                __aeabi_uidiv
-                0x00000000c0d00f4c                __aeabi_uidivmod
- .text          0x00000000c0d00f54        0x4 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
-                0x00000000c0d00f54                __aeabi_ldiv0
-                0x00000000c0d00f54                __aeabi_idiv0
- .text          0x00000000c0d00f58       0x40 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
-                0x00000000c0d00f58                __aeabi_uldivmod
- .text          0x00000000c0d00f98       0x5c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
-                0x00000000c0d00f98                __aeabi_lmul
-                0x00000000c0d00f98                __muldi3
- .text          0x00000000c0d00ff4      0x198 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
-                0x00000000c0d00ff4                __udivmoddi4
- .text          0x00000000c0d0118c       0x18 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
-                0x00000000c0d0118c                __clzdi2
- .text          0x00000000c0d011a4       0x3c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
-                0x00000000c0d011a4                __clzsi2
+                0x00000000c0d009e0       0x1c obj/syscalls.o
+                0x00000000c0d009e0                try_context_set
+ .text          0x00000000c0d009fc      0x114 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+                0x00000000c0d009fc                __udivsi3
+                0x00000000c0d009fc                __aeabi_uidiv
+                0x00000000c0d00b08                __aeabi_uidivmod
+ .text          0x00000000c0d00b10        0x4 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+                0x00000000c0d00b10                __aeabi_ldiv0
+                0x00000000c0d00b10                __aeabi_idiv0
+ .text          0x00000000c0d00b14       0x5c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
+                0x00000000c0d00b14                __aeabi_lmul
+                0x00000000c0d00b14                __muldi3
  .text.__aeabi_memclr
-                0x00000000c0d011e0        0xa /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
-                0x00000000c0d011e0                __aeabi_memclr8
-                0x00000000c0d011e0                __aeabi_memclr
-                0x00000000c0d011e0                __aeabi_memclr4
+                0x00000000c0d00b70        0xa /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
+                0x00000000c0d00b70                __aeabi_memclr8
+                0x00000000c0d00b70                __aeabi_memclr
+                0x00000000c0d00b70                __aeabi_memclr4
  .text.__aeabi_memcpy
-                0x00000000c0d011ea        0x8 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
-                0x00000000c0d011ea                __aeabi_memcpy
-                0x00000000c0d011ea                __aeabi_memcpy4
-                0x00000000c0d011ea                __aeabi_memcpy8
- .text.__aeabi_memmove
-                0x00000000c0d011f2        0x8 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
-                0x00000000c0d011f2                __aeabi_memmove8
-                0x00000000c0d011f2                __aeabi_memmove
-                0x00000000c0d011f2                __aeabi_memmove4
+                0x00000000c0d00b7a        0x8 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
+                0x00000000c0d00b7a                __aeabi_memcpy
+                0x00000000c0d00b7a                __aeabi_memcpy4
+                0x00000000c0d00b7a                __aeabi_memcpy8
  .text.__aeabi_memset
-                0x00000000c0d011fa        0xe /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
-                0x00000000c0d011fa                __aeabi_memset
-                0x00000000c0d011fa                __aeabi_memset8
-                0x00000000c0d011fa                __aeabi_memset4
- .text.memcmp   0x00000000c0d01208       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
-                0x00000000c0d01208                memcmp
- .text.memcpy   0x00000000c0d01224       0x12 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
-                0x00000000c0d01224                memcpy
- .text.memmove  0x00000000c0d01236       0x26 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
-                0x00000000c0d01236                memmove
- .text.memset   0x00000000c0d0125c       0x10 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
-                0x00000000c0d0125c                memset
- .text          0x00000000c0d0126c       0x34 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-setjmp.o)
-                0x00000000c0d0126c                setjmp
-                0x00000000c0d01284                longjmp
- .text.strlcat  0x00000000c0d012a0       0x44 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
-                0x00000000c0d012a0                strlcat
- .text.strlcpy  0x00000000c0d012e4       0x4c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
-                0x00000000c0d012e4                strlcpy
- .text          0x00000000c0d01330        0xe /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
-                0x00000000c0d01330                strlen
- .text.strnlen  0x00000000c0d0133e       0x16 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
-                0x00000000c0d0133e                strnlen
+                0x00000000c0d00b82        0xe /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
+                0x00000000c0d00b82                __aeabi_memset
+                0x00000000c0d00b82                __aeabi_memset8
+                0x00000000c0d00b82                __aeabi_memset4
+ .text.memcpy   0x00000000c0d00b90       0x12 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
+                0x00000000c0d00b90                memcpy
+ .text.memset   0x00000000c0d00ba2       0x10 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
+                0x00000000c0d00ba2                memset
+ .text          0x00000000c0d00bb2       0x34 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-setjmp.o)
+                0x00000000c0d00bb2                setjmp
+                0x00000000c0d00bca                longjmp
+ .text.strlcpy  0x00000000c0d00be6       0x4c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
+                0x00000000c0d00be6                strlcpy
  *(.rodata)
  *(.rodata.[^N]*)
  .rodata.str1.1
-                0x00000000c0d01354       0x1c obj/eth_internals.o
+                0x00000000c0d00c32       0x5e obj/handle_init_contract.o
  .rodata.str1.1
-                0x00000000c0d01370       0x4a obj/handle_init_contract.o
+                0x00000000c0d00c90      0x348 obj/handle_provide_parameter.o
  .rodata.str1.1
-                0x00000000c0d013ba      0x341 obj/handle_provide_parameter.o
-                                        0x345 (size before relaxing)
+                0x00000000c0d00fd8       0x1d obj/handle_provide_token.o
  .rodata.str1.1
-                0x00000000c0d016fb       0x1d obj/handle_provide_token.o
+                0x00000000c0d00ff5       0x5e obj/handle_query_contract_id.o
  .rodata.str1.1
-                0x00000000c0d01718       0x30 obj/handle_query_contract_id.o
+                0x00000000c0d01053       0x2d obj/handle_query_contract_ui.o
  .rodata.str1.1
-                0x00000000c0d01748       0x44 obj/handle_query_contract_ui.o
- .rodata.str1.1
-                0x00000000c0d0178c       0x1f obj/main.o
- .rodata.cst16  0x00000000c0d017ab       0x20 obj/printf.o
+                0x00000000c0d01080       0x1f obj/main.o
+ .rodata.cst16  0x00000000c0d0109f       0x20 obj/printf.o
  *(.rodata.N[^_]*)
- *fill*         0x00000000c0d017cb        0x1 00
+ *fill*         0x00000000c0d010bf        0x1 00
  .rodata.NESTED_SELECTORS
-                0x00000000c0d017cc        0x4 obj/main.o
-                0x00000000c0d017cc                NESTED_SELECTORS
-                0x00000000c0d017d0                . = ALIGN (0x4)
-                0x00000000c0d017d0                _etext = .
-                0x00000000c0d01800                . = ALIGN (PAGE_SIZE)
- *fill*         0x00000000c0d017d0       0x30 00
-                0x00000000c0d01800                _nvram_data = .
+                0x00000000c0d010c0        0x8 obj/main.o
+                0x00000000c0d010c0                NESTED_SELECTORS
+                0x00000000c0d010c8                . = ALIGN (0x4)
+                0x00000000c0d010c8                _etext = .
+                0x00000000c0d01100                . = ALIGN (PAGE_SIZE)
+ *fill*         0x00000000c0d010c8       0x38 00
+                0x00000000c0d01100                _nvram_data = .
  *(.bss.N_* .rodata.N_*)
-                0x00000000c0d01800                . = ALIGN (PAGE_SIZE)
-                0x00000000c0d01800                _envram_data = .
-                0x00000000c0d01800                _install_parameters = .
-                0x00000000c0d01800                _nvram_end = .
+                0x00000000c0d01100                . = ALIGN (PAGE_SIZE)
+                0x00000000c0d01100                _envram_data = .
+                0x00000000c0d01100                _install_parameters = .
+                0x00000000c0d01100                _nvram_end = .
 
-.glue_7         0x00000000c0d01800        0x0
- .glue_7        0x00000000c0d01800        0x0 linker stubs
+.glue_7         0x00000000c0d01100        0x0
+ .glue_7        0x00000000c0d01100        0x0 linker stubs
 
-.glue_7t        0x00000000c0d01800        0x0
- .glue_7t       0x00000000c0d01800        0x0 linker stubs
+.glue_7t        0x00000000c0d01100        0x0
+ .glue_7t       0x00000000c0d01100        0x0 linker stubs
 
-.vfp11_veneer   0x00000000c0d01800        0x0
- .vfp11_veneer  0x00000000c0d01800        0x0 linker stubs
+.vfp11_veneer   0x00000000c0d01100        0x0
+ .vfp11_veneer  0x00000000c0d01100        0x0 linker stubs
 
-.v4_bx          0x00000000c0d01800        0x0
- .v4_bx         0x00000000c0d01800        0x0 linker stubs
+.v4_bx          0x00000000c0d01100        0x0
+ .v4_bx         0x00000000c0d01100        0x0 linker stubs
 
-.iplt           0x00000000c0d01800        0x0
- .iplt          0x00000000c0d01800        0x0 obj/cx_stubs.o
+.iplt           0x00000000c0d01100        0x0
+ .iplt          0x00000000c0d01100        0x0 obj/handle_finalize.o
 
 .data           0x00000000d0000000        0x0
                 0x00000000d0000000                . = ALIGN (0x4)
@@ -2060,7 +2113,7 @@ END GROUP
                 0x00000000d0000000                _edata = .
 
 .igot.plt       0x00000000d0000000        0x0
- .igot.plt      0x00000000d0000000        0x0 obj/cx_stubs.o
+ .igot.plt      0x00000000d0000000        0x0 obj/handle_finalize.o
 
 .cx_ram         0x0000000020001400      0x400
                 0x0000000020001400                _cxram = .
@@ -2091,21 +2144,6 @@ DEBUG           0x00000000d0000000        0x8
  libm.a(*)
  libgcc.a(*)
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx.text.getEthAddressStringFromBinary
-                0x00000000d0000000        0x0 obj/eth_internals.o
-                                          0x8 (size before relaxing)
- .ARM.exidx.text.u64_to_string
-                0x00000000d0000000        0x0 obj/eth_internals.o
-                                          0x8 (size before relaxing)
- .ARM.exidx.text.adjustDecimals
-                0x00000000d0000000        0x0 obj/eth_internals.o
-                                          0x8 (size before relaxing)
- .ARM.exidx.text.uint256_to_decimal
-                0x00000000d0000000        0x0 obj/eth_internals.o
-                                          0x8 (size before relaxing)
- .ARM.exidx.text.amountToString
-                0x00000000d0000000        0x0 obj/eth_internals.o
-                                          0x8 (size before relaxing)
  .ARM.exidx.text.handle_finalize
                 0x00000000d0000000        0x0 obj/handle_finalize.o
                                           0x8 (size before relaxing)
@@ -2162,11 +2200,9 @@ DEBUG           0x00000000d0000000        0x8
  .ARM.exidx.text.try_context_set
                 0x00000000d0000008        0x0 obj/syscalls.o
                                           0x8 (size before relaxing)
- .ARM.exidx     0x00000000d0000008        0x0 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
-                                          0x8 (size before relaxing)
 
 .rel.dyn        0x00000000d0000008        0x0
- .rel.iplt      0x00000000d0000008        0x0 obj/cx_stubs.o
+ .rel.iplt      0x00000000d0000008        0x0 obj/handle_finalize.o
 
 /DISCARD/
  *(.ARM.extab)
@@ -2195,9 +2231,8 @@ DEBUG           0x00000000d0000000        0x8
 
 .comment        0x0000000000000000       0x1f
  *(.comment)
- .comment       0x0000000000000000       0x1f obj/eth_internals.o
+ .comment       0x0000000000000000       0x1f obj/handle_finalize.o
                                          0x20 (size before relaxing)
- .comment       0x000000000000001f       0x20 obj/handle_finalize.o
  .comment       0x000000000000001f       0x20 obj/handle_init_contract.o
  .comment       0x000000000000001f       0x20 obj/handle_provide_parameter.o
  .comment       0x000000000000001f       0x20 obj/handle_provide_token.o
@@ -2208,79 +2243,8 @@ DEBUG           0x00000000d0000000        0x8
  .comment       0x000000000000001f       0x20 obj/printf.o
  .comment       0x000000000000001f       0x20 obj/syscalls.o
 
-.ARM.attributes
-                0x0000000000000000       0x35
- .ARM.attributes
-                0x0000000000000000       0x1c obj/cx_stubs.o
- .ARM.attributes
-                0x000000000000001c       0x47 obj/eth_internals.o
- .ARM.attributes
-                0x0000000000000063       0x47 obj/handle_finalize.o
- .ARM.attributes
-                0x00000000000000aa       0x47 obj/handle_init_contract.o
- .ARM.attributes
-                0x00000000000000f1       0x47 obj/handle_provide_parameter.o
- .ARM.attributes
-                0x0000000000000138       0x47 obj/handle_provide_token.o
- .ARM.attributes
-                0x000000000000017f       0x47 obj/handle_query_contract_id.o
- .ARM.attributes
-                0x00000000000001c6       0x47 obj/handle_query_contract_ui.o
- .ARM.attributes
-                0x000000000000020d       0x47 obj/main.o
- .ARM.attributes
-                0x0000000000000254       0x47 obj/os.o
- .ARM.attributes
-                0x000000000000029b       0x47 obj/printf.o
- .ARM.attributes
-                0x00000000000002e2       0x1c obj/svc_call.o
- .ARM.attributes
-                0x00000000000002fe       0x47 obj/syscalls.o
- .ARM.attributes
-                0x0000000000000345       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
- .ARM.attributes
-                0x0000000000000363       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
- .ARM.attributes
-                0x0000000000000381       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_aeabi_uldivmod.o)
- .ARM.attributes
-                0x000000000000039f       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
- .ARM.attributes
-                0x00000000000003cb       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
- .ARM.attributes
-                0x00000000000003f7       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzdi2.o)
- .ARM.attributes
-                0x0000000000000415       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_clzsi2.o)
- .ARM.attributes
-                0x0000000000000433       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
- .ARM.attributes
-                0x000000000000045f       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
- .ARM.attributes
-                0x000000000000048b       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
- .ARM.attributes
-                0x00000000000004b7       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
- .ARM.attributes
-                0x00000000000004e3       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
- .ARM.attributes
-                0x000000000000050f       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
- .ARM.attributes
-                0x000000000000053b       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
- .ARM.attributes
-                0x0000000000000567       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
- .ARM.attributes
-                0x0000000000000593       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-setjmp.o)
- .ARM.attributes
-                0x00000000000005af       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
- .ARM.attributes
-                0x00000000000005db       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
- .ARM.attributes
-                0x0000000000000607       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlen.o)
- .ARM.attributes
-                0x0000000000000623       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
-
 .note.GNU-stack
                 0x0000000000000000        0x0
- .note.GNU-stack
-                0x0000000000000000        0x0 obj/eth_internals.o
  .note.GNU-stack
                 0x0000000000000000        0x0 obj/handle_finalize.o
  .note.GNU-stack
@@ -2302,6 +2266,51 @@ DEBUG           0x00000000d0000000        0x8
  .note.GNU-stack
                 0x0000000000000000        0x0 obj/syscalls.o
 
+.ARM.attributes
+                0x0000000000000000       0x35
+ .ARM.attributes
+                0x0000000000000000       0x47 obj/handle_finalize.o
+ .ARM.attributes
+                0x0000000000000047       0x47 obj/handle_init_contract.o
+ .ARM.attributes
+                0x000000000000008e       0x47 obj/handle_provide_parameter.o
+ .ARM.attributes
+                0x00000000000000d5       0x47 obj/handle_provide_token.o
+ .ARM.attributes
+                0x000000000000011c       0x47 obj/handle_query_contract_id.o
+ .ARM.attributes
+                0x0000000000000163       0x47 obj/handle_query_contract_ui.o
+ .ARM.attributes
+                0x00000000000001aa       0x47 obj/main.o
+ .ARM.attributes
+                0x00000000000001f1       0x47 obj/os.o
+ .ARM.attributes
+                0x0000000000000238       0x47 obj/printf.o
+ .ARM.attributes
+                0x000000000000027f       0x1c obj/svc_call.o
+ .ARM.attributes
+                0x000000000000029b       0x47 obj/syscalls.o
+ .ARM.attributes
+                0x00000000000002e2       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x0000000000000300       0x1e /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x000000000000031e       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
+ .ARM.attributes
+                0x000000000000034a       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
+ .ARM.attributes
+                0x0000000000000376       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
+ .ARM.attributes
+                0x00000000000003a2       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
+ .ARM.attributes
+                0x00000000000003ce       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
+ .ARM.attributes
+                0x00000000000003fa       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x0000000000000426       0x1c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-setjmp.o)
+ .ARM.attributes
+                0x0000000000000442       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
+
 .debug
  *(.debug)
 
@@ -2314,133 +2323,114 @@ DEBUG           0x00000000d0000000        0x8
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000      0x3b8
+.debug_aranges  0x0000000000000000       0x20
  *(.debug_aranges)
  .debug_aranges
-                0x0000000000000000      0x398 obj/cx_stubs.o
- .debug_aranges
-                0x0000000000000398       0x20 obj/svc_call.o
+                0x0000000000000000       0x20 obj/svc_call.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x79d2
+.debug_info     0x0000000000000000     0x6c5b
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x0000000000000000       0x22 obj/cx_stubs.o
- .debug_info    0x0000000000000022      0xc10 obj/eth_internals.o
- .debug_info    0x0000000000000c32      0x6b1 obj/handle_finalize.o
- .debug_info    0x00000000000012e3      0x7e2 obj/handle_init_contract.o
- .debug_info    0x0000000000001ac5      0x955 obj/handle_provide_parameter.o
- .debug_info    0x000000000000241a      0x73b obj/handle_provide_token.o
- .debug_info    0x0000000000002b55      0x6a0 obj/handle_query_contract_id.o
- .debug_info    0x00000000000031f5      0x8bc obj/handle_query_contract_ui.o
- .debug_info    0x0000000000003ab1      0x23c obj/main.o
- .debug_info    0x0000000000003ced      0x61d obj/os.o
- .debug_info    0x000000000000430a      0x574 obj/printf.o
- .debug_info    0x000000000000487e       0x26 obj/svc_call.o
- .debug_info    0x00000000000048a4     0x312e obj/syscalls.o
+ .debug_info    0x0000000000000000      0x6c1 obj/handle_finalize.o
+ .debug_info    0x00000000000006c1      0x7f5 obj/handle_init_contract.o
+ .debug_info    0x0000000000000eb6      0x8da obj/handle_provide_parameter.o
+ .debug_info    0x0000000000001790      0x74f obj/handle_provide_token.o
+ .debug_info    0x0000000000001edf      0x6b4 obj/handle_query_contract_id.o
+ .debug_info    0x0000000000002593      0x7a7 obj/handle_query_contract_ui.o
+ .debug_info    0x0000000000002d3a      0x23c obj/main.o
+ .debug_info    0x0000000000002f76      0x61d obj/os.o
+ .debug_info    0x0000000000003593      0x574 obj/printf.o
+ .debug_info    0x0000000000003b07       0x26 obj/svc_call.o
+ .debug_info    0x0000000000003b2d     0x312e obj/syscalls.o
 
-.debug_abbrev   0x0000000000000000      0xf75
+.debug_abbrev   0x0000000000000000      0xd3b
  *(.debug_abbrev)
- .debug_abbrev  0x0000000000000000       0x12 obj/cx_stubs.o
- .debug_abbrev  0x0000000000000012      0x1c3 obj/eth_internals.o
- .debug_abbrev  0x00000000000001d5       0xf4 obj/handle_finalize.o
- .debug_abbrev  0x00000000000002c9      0x164 obj/handle_init_contract.o
- .debug_abbrev  0x000000000000042d      0x187 obj/handle_provide_parameter.o
- .debug_abbrev  0x00000000000005b4      0x101 obj/handle_provide_token.o
- .debug_abbrev  0x00000000000006b5      0x101 obj/handle_query_contract_id.o
- .debug_abbrev  0x00000000000007b6      0x163 obj/handle_query_contract_ui.o
- .debug_abbrev  0x0000000000000919      0x17b obj/main.o
- .debug_abbrev  0x0000000000000a94      0x1be obj/os.o
- .debug_abbrev  0x0000000000000c52      0x1a0 obj/printf.o
- .debug_abbrev  0x0000000000000df2       0x14 obj/svc_call.o
- .debug_abbrev  0x0000000000000e06      0x16f obj/syscalls.o
+ .debug_abbrev  0x0000000000000000      0x103 obj/handle_finalize.o
+ .debug_abbrev  0x0000000000000103      0x157 obj/handle_init_contract.o
+ .debug_abbrev  0x000000000000025a      0x175 obj/handle_provide_parameter.o
+ .debug_abbrev  0x00000000000003cf      0x101 obj/handle_provide_token.o
+ .debug_abbrev  0x00000000000004d0      0x101 obj/handle_query_contract_id.o
+ .debug_abbrev  0x00000000000005d1      0x10e obj/handle_query_contract_ui.o
+ .debug_abbrev  0x00000000000006df      0x17b obj/main.o
+ .debug_abbrev  0x000000000000085a      0x1be obj/os.o
+ .debug_abbrev  0x0000000000000a18      0x1a0 obj/printf.o
+ .debug_abbrev  0x0000000000000bb8       0x14 obj/svc_call.o
+ .debug_abbrev  0x0000000000000bcc      0x16f obj/syscalls.o
 
-.debug_line     0x0000000000000000     0x4843
+.debug_line     0x0000000000000000     0x389b
  *(.debug_line)
- .debug_line    0x0000000000000000      0x78a obj/cx_stubs.o
- .debug_line    0x000000000000078a      0x73c obj/eth_internals.o
- .debug_line    0x0000000000000ec6      0x242 obj/handle_finalize.o
- .debug_line    0x0000000000001108      0x2fe obj/handle_init_contract.o
- .debug_line    0x0000000000001406      0x451 obj/handle_provide_parameter.o
- .debug_line    0x0000000000001857      0x24b obj/handle_provide_token.o
- .debug_line    0x0000000000001aa2      0x2a2 obj/handle_query_contract_id.o
- .debug_line    0x0000000000001d44      0x373 obj/handle_query_contract_ui.o
- .debug_line    0x00000000000020b7      0x280 obj/main.o
- .debug_line    0x0000000000002337      0x597 obj/os.o
- .debug_line    0x00000000000028ce      0x4ae obj/printf.o
- .debug_line    0x0000000000002d7c       0x57 obj/svc_call.o
- .debug_line    0x0000000000002dd3     0x1a70 obj/syscalls.o
+ .debug_line    0x0000000000000000      0x227 obj/handle_finalize.o
+ .debug_line    0x0000000000000227      0x302 obj/handle_init_contract.o
+ .debug_line    0x0000000000000529      0x421 obj/handle_provide_parameter.o
+ .debug_line    0x000000000000094a      0x24b obj/handle_provide_token.o
+ .debug_line    0x0000000000000b95      0x2b6 obj/handle_query_contract_id.o
+ .debug_line    0x0000000000000e4b      0x2c6 obj/handle_query_contract_ui.o
+ .debug_line    0x0000000000001111      0x27e obj/main.o
+ .debug_line    0x000000000000138f      0x597 obj/os.o
+ .debug_line    0x0000000000001926      0x4ae obj/printf.o
+ .debug_line    0x0000000000001dd4       0x57 obj/svc_call.o
+ .debug_line    0x0000000000001e2b     0x1a70 obj/syscalls.o
 
-.debug_frame    0x0000000000000000     0x1730
+.debug_frame    0x0000000000000000     0x14d4
  *(.debug_frame)
- .debug_frame   0x0000000000000000      0x124 obj/eth_internals.o
- .debug_frame   0x0000000000000124       0x2c obj/handle_finalize.o
- .debug_frame   0x0000000000000150       0x30 obj/handle_init_contract.o
- .debug_frame   0x0000000000000180       0x6c obj/handle_provide_parameter.o
- .debug_frame   0x00000000000001ec       0x2c obj/handle_provide_token.o
- .debug_frame   0x0000000000000218       0x2c obj/handle_query_contract_id.o
- .debug_frame   0x0000000000000244       0x30 obj/handle_query_contract_ui.o
- .debug_frame   0x0000000000000274       0x64 obj/main.o
- .debug_frame   0x00000000000002d8      0x144 obj/os.o
- .debug_frame   0x000000000000041c       0x54 obj/printf.o
- .debug_frame   0x0000000000000470     0x1078 obj/syscalls.o
- .debug_frame   0x00000000000014e8       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
- .debug_frame   0x0000000000001508       0x34 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
- .debug_frame   0x000000000000153c       0x3c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivmoddi4.o)
- .debug_frame   0x0000000000001578       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
- .debug_frame   0x00000000000015a0       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
- .debug_frame   0x00000000000015c8       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memmove.o)
- .debug_frame   0x00000000000015f0       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
- .debug_frame   0x0000000000001618       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcmp.o)
- .debug_frame   0x0000000000001644       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
- .debug_frame   0x000000000000166c       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memmove.o)
- .debug_frame   0x0000000000001694       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
- .debug_frame   0x00000000000016b4       0x2c /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcat.o)
- .debug_frame   0x00000000000016e0       0x30 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
- .debug_frame   0x0000000000001710       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strnlen.o)
+ .debug_frame   0x0000000000000000       0x20 obj/handle_finalize.o
+ .debug_frame   0x0000000000000020       0x2c obj/handle_init_contract.o
+ .debug_frame   0x000000000000004c       0x4c obj/handle_provide_parameter.o
+ .debug_frame   0x0000000000000098       0x2c obj/handle_provide_token.o
+ .debug_frame   0x00000000000000c4       0x2c obj/handle_query_contract_id.o
+ .debug_frame   0x00000000000000f0       0x2c obj/handle_query_contract_ui.o
+ .debug_frame   0x000000000000011c       0x64 obj/main.o
+ .debug_frame   0x0000000000000180      0x144 obj/os.o
+ .debug_frame   0x00000000000002c4       0x54 obj/printf.o
+ .debug_frame   0x0000000000000318     0x1078 obj/syscalls.o
+ .debug_frame   0x0000000000001390       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000000000013b0       0x34 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a(_muldi3.o)
+ .debug_frame   0x00000000000013e4       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memclr.o)
+ .debug_frame   0x000000000000140c       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memcpy.o)
+ .debug_frame   0x0000000000001434       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-aeabi_memset.o)
+ .debug_frame   0x000000000000145c       0x28 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x0000000000001484       0x20 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x00000000000014a4       0x30 /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc_nano.a(lib_a-strlcpy.o)
 
-.debug_str      0x0000000000000000     0x23cd
+.debug_str      0x0000000000000000     0x2140
  *(.debug_str)
- .debug_str     0x0000000000000000       0x54 obj/cx_stubs.o
- .debug_str     0x0000000000000054      0x6d7 obj/eth_internals.o
-                                        0x79f (size before relaxing)
- .debug_str     0x000000000000072b      0x2fc obj/handle_finalize.o
-                                        0x5c2 (size before relaxing)
- .debug_str     0x0000000000000a27      0x1b9 obj/handle_init_contract.o
-                                        0x6f9 (size before relaxing)
- .debug_str     0x0000000000000be0      0x1fc obj/handle_provide_parameter.o
-                                        0x7e2 (size before relaxing)
- .debug_str     0x0000000000000ddc       0xb8 obj/handle_provide_token.o
-                                        0x5e4 (size before relaxing)
- .debug_str     0x0000000000000e94       0x6b obj/handle_query_contract_id.o
-                                        0x59a (size before relaxing)
- .debug_str     0x0000000000000eff       0xd5 obj/handle_query_contract_ui.o
-                                        0x669 (size before relaxing)
- .debug_str     0x0000000000000fd4      0x186 obj/main.o
+ .debug_str     0x0000000000000000      0x55b obj/handle_finalize.o
+                                        0x5e1 (size before relaxing)
+ .debug_str     0x000000000000055b      0x1c6 obj/handle_init_contract.o
+                                        0x718 (size before relaxing)
+ .debug_str     0x0000000000000721      0x1d6 obj/handle_provide_parameter.o
+                                        0x7cd (size before relaxing)
+ .debug_str     0x00000000000008f7       0xb8 obj/handle_provide_token.o
+                                        0x603 (size before relaxing)
+ .debug_str     0x00000000000009af       0x6b obj/handle_query_contract_id.o
+                                        0x5b9 (size before relaxing)
+ .debug_str     0x0000000000000a1a       0x84 obj/handle_query_contract_ui.o
+                                        0x637 (size before relaxing)
+ .debug_str     0x0000000000000a9e      0x186 obj/main.o
                                         0x21c (size before relaxing)
- .debug_str     0x000000000000115a      0x19b obj/os.o
+ .debug_str     0x0000000000000c24      0x1a3 obj/os.o
                                         0x292 (size before relaxing)
- .debug_str     0x00000000000012f5      0x101 obj/printf.o
+ .debug_str     0x0000000000000dc7      0x11b obj/printf.o
                                         0x1dc (size before relaxing)
- .debug_str     0x00000000000013f6       0x25 obj/svc_call.o
+ .debug_str     0x0000000000000ee2       0x33 obj/svc_call.o
                                          0x54 (size before relaxing)
- .debug_str     0x000000000000141b      0xfb2 obj/syscalls.o
+ .debug_str     0x0000000000000f15     0x122b obj/syscalls.o
                                        0x1427 (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x4714
+.debug_loc      0x0000000000000000     0x3865
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0xd20 obj/eth_internals.o
- .debug_loc     0x0000000000000d20       0x4f obj/handle_finalize.o
- .debug_loc     0x0000000000000d6f       0xdf obj/handle_init_contract.o
- .debug_loc     0x0000000000000e4e      0x313 obj/handle_provide_parameter.o
- .debug_loc     0x0000000000001161       0x5a obj/handle_provide_token.o
- .debug_loc     0x00000000000011bb       0x3c obj/handle_query_contract_id.o
- .debug_loc     0x00000000000011f7      0x13c obj/handle_query_contract_ui.o
- .debug_loc     0x0000000000001333      0x121 obj/main.o
- .debug_loc     0x0000000000001454      0x79e obj/os.o
- .debug_loc     0x0000000000001bf2      0x74b obj/printf.o
- .debug_loc     0x000000000000233d     0x23d7 obj/syscalls.o
+ .debug_loc     0x0000000000000000       0x13 obj/handle_finalize.o
+ .debug_loc     0x0000000000000013       0xed obj/handle_init_contract.o
+ .debug_loc     0x0000000000000100      0x2bd obj/handle_provide_parameter.o
+ .debug_loc     0x00000000000003bd       0x5a obj/handle_provide_token.o
+ .debug_loc     0x0000000000000417       0x3c obj/handle_query_contract_id.o
+ .debug_loc     0x0000000000000453       0x31 obj/handle_query_contract_ui.o
+ .debug_loc     0x0000000000000484      0x121 obj/main.o
+ .debug_loc     0x00000000000005a5      0x79e obj/os.o
+ .debug_loc     0x0000000000000d43      0x74b obj/printf.o
+ .debug_loc     0x000000000000148e     0x23d7 obj/syscalls.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -2457,20 +2447,16 @@ DEBUG           0x00000000d0000000        0x8
 .debug_varnames
  *(.debug_varnames)
                 0x00000000c0d00000                PROVIDE (_nvram = ABSOLUTE (_nvram_start))
-                0x00000000c0d01800                PROVIDE (_envram = ABSOLUTE (_nvram_end))
+                0x00000000c0d01100                PROVIDE (_envram = ABSOLUTE (_nvram_end))
 OUTPUT(bin/app.elf elf32-littlearm)
 LOAD linker stubs
 LOAD /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a
 LOAD /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
 LOAD /opt/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a
 
-.debug_ranges   0x0000000000000000      0xb60
- .debug_ranges  0x0000000000000000      0x390 obj/cx_stubs.o
- .debug_ranges  0x0000000000000390      0x100 obj/eth_internals.o
- .debug_ranges  0x0000000000000490       0x30 obj/handle_init_contract.o
- .debug_ranges  0x00000000000004c0       0x78 obj/handle_provide_parameter.o
- .debug_ranges  0x0000000000000538       0x18 obj/handle_query_contract_ui.o
- .debug_ranges  0x0000000000000550       0x38 obj/main.o
- .debug_ranges  0x0000000000000588       0xa8 obj/os.o
- .debug_ranges  0x0000000000000630       0x78 obj/printf.o
- .debug_ranges  0x00000000000006a8      0x4b8 obj/syscalls.o
+.debug_ranges   0x0000000000000000      0x6b0
+ .debug_ranges  0x0000000000000000       0xa0 obj/handle_provide_parameter.o
+ .debug_ranges  0x00000000000000a0       0x38 obj/main.o
+ .debug_ranges  0x00000000000000d8       0xa8 obj/os.o
+ .debug_ranges  0x0000000000000180       0x78 obj/printf.o
+ .debug_ranges  0x00000000000001f8      0x4b8 obj/syscalls.o

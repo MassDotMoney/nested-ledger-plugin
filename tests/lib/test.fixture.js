@@ -33,13 +33,13 @@ const NANOS_ETH_PATH = Resolve('elfs/ethereum_nanos.elf');
 const NANOX_ETH_PATH = Resolve('elfs/ethereum_nanox.elf');
 const NANOS_PLUGIN_PATH = Resolve('elfs/plugin_nanos.elf');
 const NANOX_PLUGIN_PATH = Resolve('elfs/plugin_nanox.elf');
-const nano_models = [// { name: 'nanos', letter: 'S', path: NANOS_PLUGIN_PATH, eth_path: NANOS_ETH_PATH },
-{
-  name: 'nanox',
-  letter: 'X',
-  path: NANOX_PLUGIN_PATH,
-  eth_path: NANOX_ETH_PATH
-}];
+const nano_models = [{
+  name: 'nanos',
+  letter: 'S',
+  path: NANOS_PLUGIN_PATH,
+  eth_path: NANOS_ETH_PATH
+} // { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
+];
 const boilerplateJSON = (0, _generate_plugin_config.generate_plugin_config)(); // console.log("boilerplateJSON", boilerplateJSON, boilerplateJSON['0x9a065e500cdcd01c0a506b0eb1a8b060b0ce1379']['0xa378534b'].erc20OfInterest)
 
 const SPECULOS_ADDRESS = '0xFE984369CE3919AA7BB4F431082D027B4F8ED70C';
