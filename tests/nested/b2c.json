@@ -32,7 +32,30 @@
                     "plugin": "Nested"
                 }
             }
+        },
+        {
+            "address": "0x449d088c9f184af598fe72d26742a58a11c5200f",
+            "contractName": "FeeSplitter",
+            "selectors": {
+                "0x6d9634b7": {
+                    "erc20OfInterest" : ["_tokens.0"],
+                    "method": "releaseTokens",
+                    "plugin": "Nested"
+                }
+            }
+        },
+        {
+            "address": "0x0fff7f99d2b32849848e31cb48090c5268e06f65",
+            "contractName": "NestedNFT",
+            "selectors": {
+                "0x23b872dd": {
+                    "erc20OfInterest": [],
+                    "method": "transferFrom",
+                    "plugin": "Nested"
+
+            }
         }
+    }
     ],
     "name": "Nested"
 }
