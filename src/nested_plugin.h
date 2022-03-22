@@ -5,14 +5,19 @@
 #include <string.h>
 
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
-#define NUM_SELECTORS 2
+#define NUM_SELECTORS 6
 
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum
 {
     CREATE,
+    PROCESS_INPUT_ORDERS,
     PROCESS_OUTPUT_ORDERS,
+    DESTROY,
+    RELEASE_TOKENS,
+    TRANSFER_FROM,
+
 } selector_t;
 
 extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
@@ -71,7 +76,7 @@ typedef enum
     CREATE__OFFSET_BATCHINPUTORDER,
     CREATE__LEN_BATCHINPUTORDER,
     CREATE__OFFSET_ARRAY_BATCHINPUTORDER,
-    CREATE__BATCH_INPUT_ORDERS, // will not be reach
+    CREATE__BATCH_INPUT_ORDERS, // will not be reached
 } create_parameter;
 
 // Booleans
