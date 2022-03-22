@@ -6,10 +6,9 @@ import { ethers } from "ethers";
 import { parseEther, parseUnits } from "ethers/lib/utils";
 
 const contractAddr = "0x9a065e500cdcd01c0a506b0eb1a8b060b0ce1379";
-const pluginName = "nested";
 
 nano_models.forEach(function (model) {
-  test('[Nano ' + model.letter + '] swap', zemu(model, async (sim, eth) => {
+  test('[Nano ' + model.letter + '] processOutputOrders', zemu(model, async (sim, eth) => {
     let unsignedTx = genericTx;
 
     unsignedTx.to = contractAddr;
@@ -36,7 +35,7 @@ nano_models.forEach(function (model) {
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
-    await sim.navigateAndCompareSnapshots('.', model.name + '_swap', [right_clicks, 0]);
+    await sim.navigateAndCompareSnapshots('.', model.name + '_processOutputOrders', [right_clicks, 0]);
 
     await tx;
   }));

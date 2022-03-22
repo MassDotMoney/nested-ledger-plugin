@@ -10,7 +10,7 @@ void handle_provide_token(void *parameters)
 
     if (msg->item1)
     {
-        PRINTF("PENZO item1\n");
+        PRINTF("handle_provide_token item1\n");
         // The Ethereum App found the information for the requested token!
         // Store its decimals.
         context->decimals = msg->item1->token.decimals;
@@ -22,7 +22,7 @@ void handle_provide_token(void *parameters)
     }
     else
     {
-        PRINTF("PENZO no item1\n");
+        PRINTF("handle_provide_token no item1\n");
         // The Ethereum App did not manage to find the info for the requested token.
         context->token_found = false;
 

@@ -12,6 +12,24 @@
                     ],
                     "method": "create",
                     "plugin": "Nested"
+                },
+                "0x90e1aa69": {
+                    "erc20OfInterest": [
+                        "_batchedOrders.0.inputToken",
+                        "_batchedOrders.0.orders.0.token"
+                    ],
+                    "method": "processInputOrders",
+                    "plugin": "Nested"
+                },
+                "0x51227094": {
+                    "erc20OfInterest": [],
+                    "method": "processOutputOrders",
+                    "plugin": "Nested"
+                },
+                "0xbba9b10c": {
+                    "erc20OfInterest": [],
+                    "method": "destroy",
+                    "plugin": "Nested"
                 }
             }
         }

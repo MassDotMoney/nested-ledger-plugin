@@ -178,9 +178,18 @@ void handle_provide_parameter(void *parameters)
     case CREATE:
         handle_create(msg, context);
         break;
+    case PROCESS_INPUT_ORDERS:
+        PRINTF("handle_provide_parameter IN PBIO\n");
+        handle_create(msg, context);
+        break;
+    case PROCESS_OUTPUT_ORDERS:
+        break;
+    case DESTROY:
+        break;
     default:
         PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
-        msg->result = ETH_PLUGIN_RESULT_ERROR;
+        // msg->result = ETH_PLUGIN_RESULT_ERROR;
+        msg->result = ETH_PLUGIN_RESULT_OK;
         break;
     }
 }

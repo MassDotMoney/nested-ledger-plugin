@@ -117,7 +117,6 @@ __attribute__((section(".boot"))) int main(int arg0)
                 {
                     dispatch_plugin_calls(args[0], (void *)args[1]);
                 }
-
                 // Call `os_lib_end`, go back to the ethereum app.
                 os_lib_end();
             }

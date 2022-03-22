@@ -79,6 +79,19 @@ typedef enum
     CREATE__BATCH_INPUT_ORDERS, // will not be reached
 } create_parameter;
 
+typedef enum
+{
+    PROCESS_INPUT_ORDERS_NOOP,
+    PROCESS_INPUT_NFTID,
+    PROCESS_INPUT_BATCHED_ORDERS,
+} process_input_orders_parameter;
+
+typedef enum
+{
+    PROCESS_OUTPUT_NFTID,
+    PROCESS_OUTPUT_BATCHED_ORDERS,
+} process_output_orders_parameter;
+
 // Booleans
 #define IS_COPY (1)
 #define BOOL2 (1 << 2)

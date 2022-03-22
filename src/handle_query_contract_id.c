@@ -21,6 +21,18 @@ void handle_query_contract_id(void *parameters)
             strlcpy(msg->version, "Create", msg->versionLength);
         msg->result = ETH_PLUGIN_RESULT_OK;
     }
+    else if (context->selectorIndex == PROCESS_INPUT_ORDERS)
+    {
+        strlcpy(msg->version, "PROCESS_INPUT_ORDERS", msg->versionLength);
+    }
+    else if (context->selectorIndex == PROCESS_OUTPUT_ORDERS)
+    {
+        strlcpy(msg->version, "PROCESS_OUTPUT_ORDERS", msg->versionLength);
+    }
+    else if (context->selectorIndex == DESTROY)
+    {
+        strlcpy(msg->version, "DESTROY", msg->versionLength);
+    }
     else
     {
         PRINTF("Selector index: %d not supported\n", context->selectorIndex);

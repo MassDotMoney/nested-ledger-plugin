@@ -16,6 +16,7 @@ static int find_selector(uint32_t selector, const uint32_t *selectors, size_t n,
 // Called once to init.
 void handle_init_contract(void *parameters)
 {
+    PRINTF("IN handle_init_contract\n");
     // Cast the msg to the type of structure we expect (here, ethPluginInitContract_t).
     ethPluginInitContract_t *msg = (ethPluginInitContract_t *)parameters;
 
@@ -45,6 +46,7 @@ void handle_init_contract(void *parameters)
     uint32_t selector = U4BE(msg->selector, 0);
     if (find_selector(selector, NESTED_SELECTORS, NUM_SELECTORS, &context->selectorIndex))
     {
+        PRINTF("can't find selector\n");
         msg->result = ETH_PLUGIN_RESULT_UNAVAILABLE;
         return;
     }
