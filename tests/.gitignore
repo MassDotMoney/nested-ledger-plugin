@@ -1,2 +1,5 @@
-snapshots-tmp
-
+snapshots-tmp/
+node_modules/
+elfs/
+lib/
+DS_Store/

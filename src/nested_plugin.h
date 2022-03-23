@@ -92,6 +92,16 @@ typedef enum
     PROCESS_OUTPUT_BATCHED_ORDERS,
 } process_output_orders_parameter;
 
+/* FeeSplitter Functions */
+
+typedef enum
+{
+    RELEASE_NOOP,
+    RELEASE_OFFSET_TOKENS,
+    RELEASE_LEN_TOKENS,
+    RELEASE_ARRAY_TOKENS,
+} release_tokens_paramter;
+
 // Booleans
 #define IS_COPY (1)
 #define BOOL2 (1 << 2)

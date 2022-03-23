@@ -159,6 +159,26 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     context->next_param++;
 }
 
+static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
+{
+    PRINTF("HANDLE_RELEASE_TOKENS\n");
+    switch ((release_tokens_paramter)context->next_param)
+    {
+    case RELEASE_OFFSET_TOKENS:
+        PRINTF("RELEASE_OFFSET_TOKENS\n");
+        context->next_param++;
+        break;
+    case RELEASE_LEN_TOKENS:
+        PRINTF("RELEASE_LEN_TOKENS\n");
+        context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->next_param++;
+        break;
+    case RELEASE_ARRAY_TOKENS:
+        PRINTF("RELEASE_TOKENS\n");
+        break;
+    }
+}
+
 void handle_provide_parameter(void *parameters)
 {
     ethPluginProvideParameter_t *msg = (ethPluginProvideParameter_t *)parameters;
@@ -185,6 +205,9 @@ void handle_provide_parameter(void *parameters)
     case PROCESS_OUTPUT_ORDERS:
         break;
     case DESTROY:
+        break;
+    case RELEASE_TOKENS:
+        handle_release_tokens(msg, context);
         break;
     default:
         PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

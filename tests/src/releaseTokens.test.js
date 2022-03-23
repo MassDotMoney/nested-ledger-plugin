@@ -12,7 +12,7 @@ nano_models.forEach(function (model) {
     let unsignedTx = genericTx;
 
     unsignedTx.to = contractAddr;
-    // https://snowtrace.io/tx/0xed4480a4ea78338c365d16a3218c051dec565bda7cab6cd4d47da70005fb9f89
+    // https://snowtrace.io/tx/0x8eaf5ba02d0dd6c3815aa0158e51eb1f61b27abb94c3f985508adb7b36cc14c9
     unsignedTx.data = "0x6d9634b700000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001000000000000000000000000b31f66aa3c1e785363f0875a1b74e27b85fd66c7";
     unsignedTx.value = parseEther("1");
 

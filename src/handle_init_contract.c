@@ -72,7 +72,7 @@ void handle_init_contract(void *parameters)
         break;
     case RELEASE_TOKENS:
         PRINTF("IN RELEASE TOKENS\n");
-        context->next_param = CREATE__TOKEN_ID; /// ? PARAMS TO BE MODIFIED
+        context->next_param = RELEASE_OFFSET_TOKENS;
         break;
     case TRANSFER_FROM:
         PRINTF("IN TRANSFER FROM\n");

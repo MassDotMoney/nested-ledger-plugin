@@ -35,7 +35,14 @@ void handle_query_contract_id(void *parameters)
     }
     else if (context->selectorIndex == RELEASE_TOKENS)
     {
-        strlcpy(msg->version, "Claim Royalties", msg->versionLength);
+        if (context->current_length > 1)
+        {
+            strlcpy(msg->version, TITLE_CLAIM_ALL, msg->versionLength);
+        }
+        else
+        {
+            strlcpy(msg->version, TITLE_CLAIM_SINGLE, msg->versionLength);
+        }
     }
     else if (context->selectorIndex == TRANSFER_FROM)
     {
