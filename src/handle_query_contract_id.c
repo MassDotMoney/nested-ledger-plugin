@@ -31,11 +31,15 @@ void handle_query_contract_id(void *parameters)
     }
     else if (context->selectorIndex == DESTROY)
     {
-        strlcpy(msg->version, "Sell All", msg->versionLength);
+        strlcpy(msg->version, "Sell Portfolio", msg->versionLength);
     }
     else if (context->selectorIndex == RELEASE_TOKENS)
     {
         strlcpy(msg->version, "Claim Royalties", msg->versionLength);
+    }
+    else if (context->selectorIndex == TRANSFER_FROM)
+    {
+        strlcpy(msg->version, "Send", msg->versionLength);
     }
     else
     {

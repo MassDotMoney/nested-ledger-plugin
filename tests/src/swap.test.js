@@ -32,7 +32,7 @@ nano_models.forEach(function (model) {
       resolution
     );
 
-    const right_clicks = model.letter === 'S' ? 9 : 7;
+    const right_clicks = model.letter === 'S' ? 5 : 3;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
