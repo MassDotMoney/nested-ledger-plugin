@@ -11,6 +11,11 @@ void copy_offset(ethPluginProvideParameter_t *msg, context_t *context)
 
 static void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
+    if (context->offsets_lvl1[0] == msg->parameterOffset)
+    {
+        PRINTF("PENZO START LAST ORDER\n");
+        context->next_param = (order)ORDER__OPERATOR;
+    }
     PRINTF("PARSING ORDER\n");
     switch ((order)context->next_param)
     {
@@ -44,6 +49,7 @@ static void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context
     case BIO__INPUTTOKEN:
         PRINTF("parse BIO__INPUTTOKEN\n");
         context->current_tuple_offset = msg->parameterOffset;
+        PRINTF("parse BIO__INPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
         break;
     case BIO__AMOUNT:
         PRINTF("parse BIO__AMOUNT\n");
@@ -60,6 +66,9 @@ static void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context
         context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         PRINTF("current_length: %d\n", context->current_length);
+        // test
+        context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
+        PRINTF("parse BIO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
         break;
     case BIO__OFFSET_ARRAY_ORDERS:
         context->length_offset_array--;
@@ -67,7 +76,7 @@ static void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context
         if (context->length_offset_array < 2)
         {
             context->offsets_lvl1[context->length_offset_array] =
-                U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+                U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
             PRINTF("offsets_lvl1[%d]: %d\n",
                    context->length_offset_array,
                    context->offsets_lvl1[context->length_offset_array]);
