@@ -21,7 +21,7 @@
 
 /// CREATE ///
 
-#define TITLE_CREATE_DEPOSITED_TOKEN "Budget token:"
+#define TITLE_CREATE_SENT_TOKEN "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
 #define TITLE_CREATE_RECEIVED_TOKEN "Adding:"
@@ -29,7 +29,7 @@
 
 /// COPY ///
 
-#define TITLE_COPY_DEPOSITED_TOKEN "Budget token:"
+#define TITLE_COPY_SENT_TOKEN "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
 #define TITLE_COPY_RECEIVED_TOKEN "Copying:"
@@ -37,7 +37,22 @@
 
 /// DESTROY ///
 
-#define TITLE_DESTROY_
+#define TITLE_DESTROY_SENT_TOKEN "Selling:"
+#define MSG_DESTROY_SENT_TOKEN "%s tokens TBD"
 
+#define TITLE_DESTROY_RECEIVED_TOKEN "Receiving:"
+#define MSG_DESTROY_RECEIVED_TOKEN "%s tokens TBD"
+
+/// CLAIM SINGLE///
+
+#define TITLE_CLAIM_SINGLE_SENT_TOKEN "Claiming:"
+#define MSG_CLAIM_SINGLE_SENT_TOKEN "%s tokens TBD"
+
+/// CLAIM ALL///
+
+#define TITLE_CLAIM_ALL_SENT_TOKEN "Claiming"
+#define MSG_CLAIM_ALL_SENT_TOKEN "%s tokens TBD"
+
+///////////////////////
 #define UNKNOWN_PAYMENT_TOKEN_TITLE "Unknown"
 #define UNKNOWN_PAYMENT_TOKEN_MSG "payment token"

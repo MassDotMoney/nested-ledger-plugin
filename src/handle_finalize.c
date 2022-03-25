@@ -18,11 +18,11 @@ void handle_finalize(void *parameters)
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
-    context->screen_array |= DEPOSITED_TOKEN_UI;
+    context->screen_array |= SENT_TOKEN_UI;
     context->screen_array |= RECEIVED_TOKEN_UI;
 
     // set the first screen to display.
-    context->plugin_screen_index = DEPOSITED_TOKEN_UI;
+    context->plugin_screen_index = SENT_TOKEN_UI;
 
     // Look for payment token info
     msg->tokenLookup1 = context->payment_token_address;

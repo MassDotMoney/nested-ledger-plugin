@@ -1,20 +1,24 @@
 #include "nested_plugin.h"
 #include "text.h"
 
-static void set_deposited_token_ui(ethQueryContractUI_t *msg, context_t *context)
+static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
 {
     switch (context->selectorIndex)
     {
     case CREATE:
         if (context->booleans & IS_COPY)
-            strlcpy(msg->title, TITLE_COPY_DEPOSITED_TOKEN, msg->titleLength);
+            strlcpy(msg->title, TITLE_COPY_SENT_TOKEN, msg->titleLength);
         else
-            strlcpy(msg->title, TITLE_CREATE_DEPOSITED_TOKEN, msg->titleLength);
+            strlcpy(msg->title, TITLE_CREATE_SENT_TOKEN, msg->titleLength);
         amountToString(context->payment_token_amount, sizeof(context->payment_token_amount),
                        context->payment_token_decimals,
                        context->ticker,
                        msg->msg,
                        msg->msgLength);
+        break;
+    case DESTROY:
+        strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
+        strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
         break;
     default:
         break;
@@ -36,6 +40,10 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
             strlcpy(msg->title, TITLE_CREATE_RECEIVED_TOKEN, msg->titleLength);
             strlcpy(msg->msg, MSG_CREATE_RECEIVED_TOKEN, msg->msgLength);
         }
+        break;
+    case DESTROY:
+        strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
+        strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
         break;
     default:
         break;
@@ -76,7 +84,7 @@ static void get_screen_array(ethQueryContractUI_t *msg, context_t *context)
 {
     if (msg->screenIndex == 0)
     {
-        context->plugin_screen_index = DEPOSITED_TOKEN_UI;
+        context->plugin_screen_index = SENT_TOKEN_UI;
         context->previous_screen_index = 0;
         return;
     }
@@ -112,8 +120,8 @@ void handle_query_contract_ui(void *parameters)
     msg->result = ETH_PLUGIN_RESULT_OK;
     switch (context->plugin_screen_index)
     {
-    case DEPOSITED_TOKEN_UI:
-        set_deposited_token_ui(msg, context);
+    case SENT_TOKEN_UI:
+        set_sent_token_ui(msg, context);
         break;
     case RECEIVED_TOKEN_UI:
         set_received_token_ui(msg, context);
