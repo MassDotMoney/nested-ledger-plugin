@@ -21,6 +21,8 @@ static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
         strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
         break;
     default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
         break;
     }
 }
@@ -50,6 +52,8 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
                        msg->msgLength);
         break;
     default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
         break;
     }
 }
@@ -134,6 +138,7 @@ void handle_query_contract_ui(void *parameters)
     //    set_token_warning_ui(msg, context);
     //    break;
     default:
+        PRINTF("AN ERROR OCCURED IN UI\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }

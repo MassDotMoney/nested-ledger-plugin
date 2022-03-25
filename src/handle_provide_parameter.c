@@ -184,7 +184,8 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:
-        PRINTF("RELEASE_TOKENS\n");
+        context->current_length--;
+        PRINTF("RELEASE_TOKENS %d\n", context->current_length);
         break;
     }
 }

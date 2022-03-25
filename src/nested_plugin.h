@@ -167,6 +167,7 @@ typedef struct __attribute__((__packed__)) context_t
     uint16_t offsets_lvl1[2];
     uint8_t length_offset_array;
     uint8_t booleans;
+    uint8_t number_of_tokens;
     // For both parsing and display.
     selector_t selectorIndex;
 } context_t;
