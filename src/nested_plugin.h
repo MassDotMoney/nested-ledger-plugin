@@ -117,8 +117,8 @@ typedef enum
 #define BOOL8 (1 << 8)
 
 // screen array correspondance
-#define TX_TYPE_UI 1 // Must remain first screen in screen array and always up.
-#define PLACEHOLDER_UI (1 << 1)
+#define DEPOSITED_TOKEN_UI 1 // Must remain first screen in screen array and always up.
+#define RECEIVED_TOKEN_UI (1 << 1)
 #define UNKNOWN_PAYMENT_TOKEN_UI (1 << 2)
 #define SCREEN_UI_4 (1 << 3)
 #define SCREEN_UI_5 (1 << 4)

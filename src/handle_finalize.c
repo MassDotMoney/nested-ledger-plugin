@@ -18,17 +18,15 @@ void handle_finalize(void *parameters)
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
-    context->screen_array |= TX_TYPE_UI;
-    context->screen_array |= PLACEHOLDER_UI;
-
-    // Look for payment token info
-
-    //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
-    //// token addresses you will info for (such as decimals, ticker...)
-    msg->tokenLookup1 = context->payment_token_address;
+    context->screen_array |= DEPOSITED_TOKEN_UI;
+    context->screen_array |= RECEIVED_TOKEN_UI;
 
     // set the first screen to display.
-    context->plugin_screen_index = TX_TYPE_UI;
+    context->plugin_screen_index = DEPOSITED_TOKEN_UI;
+
+    // Look for payment token info
+    msg->tokenLookup1 = context->payment_token_address;
+
     context->payment_token_decimals = DEFAULT_DECIMAL;
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).

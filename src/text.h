@@ -1,4 +1,3 @@
-
 #define PLUGIN_NAME "Nested"
 
 /* Screen strings */
@@ -22,19 +21,19 @@
 
 /// CREATE ///
 
-#define CREATE_BUDGET_TOKEN_TITLE "Budget token:"
+#define CREATE_DEPOSITED_TOKEN_TITLE "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
-#define CREATE_ADDED_TOKENS_TITLE "Adding:"
-#define CREATE_AMOUNT_OF_TOKENS_MSG "%s tokens TBD"
+#define CREATE_RECEIVED_TOKEN_TITLE "Adding:"
+#define CREATE_RECEIVED_TOKEN_MSG "%s tokens TBD"
 
 /// COPY ///
 
-#define CREATE_BUDGET_TOKEN_TITLE "Budget token:"
+#define COPY_DEPOSITED_TOKEN_TITLE "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
-#define COPY_ADDED_TOKENS_TITLE "Copying:"
-#define COPY_AMOUNT_OF_TOKENS_MSG "%s tokens TBD"
+#define COPY_RECEIVED_TOKEN_TITLE "Copying:"
+#define COPY_RECEIVED_TOKEN_MSG "%s tokens TBD"
 
 // Warning strings
 #define UNKNOWN_PAYMENT_TOKEN_TITLE "Unknown"
