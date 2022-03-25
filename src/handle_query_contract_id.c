@@ -16,31 +16,31 @@ void handle_query_contract_id(void *parameters)
     {
     case CREATE:
         if (context->booleans & IS_COPY)
-            strlcpy(msg->version, COPY_ID_MSG, msg->versionLength);
+            strlcpy(msg->version, MSG_COPY_ID, msg->versionLength);
         else
-            strlcpy(msg->version, CREATE_ID_MSG, msg->versionLength);
+            strlcpy(msg->version, MSG_CREATE_ID, msg->versionLength);
         break;
     case PROCESS_INPUT_ORDERS:
-        strlcpy(msg->version, PROCESS_INPUT_ORDERS_ID_MSG, msg->versionLength);
+        strlcpy(msg->version, MSG_PROCESS_INPUT_ORDERS_ID, msg->versionLength);
         break;
     case PROCESS_OUTPUT_ORDERS:
-        strlcpy(msg->version, PROCESS_OUTPUT_ORDERS_ID_MSG, msg->versionLength);
+        strlcpy(msg->version, MSG_PROCESS_OUTPUT_ORDERS_ID, msg->versionLength);
         break;
     case DESTROY:
-        strlcpy(msg->version, DESTROY_ID_MSG, msg->versionLength);
+        strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
         break;
     case RELEASE_TOKENS:
         if (context->current_length > 1)
         {
-            strlcpy(msg->version, CLAIM_ALL_ID_MSG, msg->versionLength);
+            strlcpy(msg->version, MSG_CLAIM_ALL_ID, msg->versionLength);
         }
         else
         {
-            strlcpy(msg->version, CLAIM_SINGLE_ID_MSG, msg->versionLength);
+            strlcpy(msg->version, MSG_CLAIM_SINGLE_ID, msg->versionLength);
         }
         break;
     case TRANSFER_FROM:
-        strlcpy(msg->version, TRANSFER_FROM_ID_MSG, msg->versionLength);
+        strlcpy(msg->version, MSG_TRANSFER_FROM_ID, msg->versionLength);
         break;
     default:
         PRINTF("Selector index: %d not supported\n", context->selectorIndex);

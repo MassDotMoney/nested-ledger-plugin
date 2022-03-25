@@ -6,14 +6,14 @@
 // TITLE and MSG strings are respectively used for the top and bottom text displays in the UI screens.
 
 // Title string for 1st UI is always PLUGIN_NAME in src/handle_query_contract_id.c.
-#define CREATE_ID_MSG "Create"
-#define COPY_ID_MSG "Copy"
-#define CLAIM_SINGLE_ID_MSG "Claim Royalties"
-#define CLAIM_ALL_ID_MSG "Claim All"
-#define PROCESS_INPUT_ORDERS_ID_MSG "PROCESS_INPUT_ORDERS"
-#define PROCESS_OUTPUT_ORDERS_ID_MSG "PROCESS_OUTPUT_ORDERS"
-#define DESTROY_ID_MSG "Sell All"
-#define TRANSFER_FROM_ID_MSG "Send Portfolio"
+#define MSG_CREATE_ID "Create"
+#define MSG_COPY_ID "Copy"
+#define MSG_CLAIM_SINGLE_ID "Claim Royalties"
+#define MSG_CLAIM_ALL_ID "Claim All"
+#define MSG_PROCESS_INPUT_ORDERS_ID "PROCESS_INPUT_ORDERS"
+#define MSG_PROCESS_OUTPUT_ORDERS_ID "PROCESS_OUTPUT_ORDERS"
+#define MSG_DESTROY_ID "Sell Portfolio"
+#define MSG_TRANSFER_FROM_ID "Send Portfolio"
 
 #define TITLE_PLACEHOLDER "PLACEHOLDER"
 
@@ -21,20 +21,23 @@
 
 /// CREATE ///
 
-#define CREATE_DEPOSITED_TOKEN_TITLE "Budget token:"
+#define TITLE_CREATE_DEPOSITED_TOKEN "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
-#define CREATE_RECEIVED_TOKEN_TITLE "Adding:"
-#define CREATE_RECEIVED_TOKEN_MSG "%s tokens TBD"
+#define TITLE_CREATE_RECEIVED_TOKEN "Adding:"
+#define MSG_CREATE_RECEIVED_TOKEN "%s tokens TBD"
 
 /// COPY ///
 
-#define COPY_DEPOSITED_TOKEN_TITLE "Budget token:"
+#define TITLE_COPY_DEPOSITED_TOKEN "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
-#define COPY_RECEIVED_TOKEN_TITLE "Copying:"
-#define COPY_RECEIVED_TOKEN_MSG "%s tokens TBD"
+#define TITLE_COPY_RECEIVED_TOKEN "Copying:"
+#define MSG_COPY_RECEIVED_TOKEN "%s tokens TBD"
 
-// Warning strings
+/// DESTROY ///
+
+#define TITLE_DESTROY_
+
 #define UNKNOWN_PAYMENT_TOKEN_TITLE "Unknown"
 #define UNKNOWN_PAYMENT_TOKEN_MSG "payment token"
