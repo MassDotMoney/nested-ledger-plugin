@@ -31,9 +31,7 @@ const nano_models: DeviceModel[] = [
 ];
 
 
-const boilerplateJSON = generate_plugin_config();
-
-// console.log("boilerplateJSON", boilerplateJSON, boilerplateJSON['0x9a065e500cdcd01c0a506b0eb1a8b060b0ce1379']['0xa378534b'].erc20OfInterest)
+const nestedJSON = generate_plugin_config();
 
 const SPECULOS_ADDRESS = '0xFE984369CE3919AA7BB4F431082D027B4F8ED70C';
 const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
@@ -49,7 +47,7 @@ const loadConfig = {
     // nftExplorerBaseURL: null,
     pluginBaseURL: "https://cdn.live.ledger.com",
     // pluginBaseURL: null,
-    extraPlugins: boilerplateJSON,
+    extraPlugins: nestedJSON,
 }
 
 let genericTx = {
@@ -109,7 +107,7 @@ function zemu(device, func) {
             const eth = new Eth(transport);
             eth.setLoadConfig({
                 baseURL: null,
-                extraPlugins: boilerplateJSON,
+                extraPlugins: nestedJSON,
             });
             await func(sim, eth);
         } finally {
