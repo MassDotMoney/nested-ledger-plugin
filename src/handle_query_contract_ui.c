@@ -6,8 +6,12 @@ static void set_tx_type_ui(ethQueryContractUI_t *msg, context_t *context)
     switch (context->selectorIndex)
     {
     case CREATE:
-        strlcpy(msg->title, TITLE_CREATE, msg->titleLength);
-        strlcpy(msg->msg, MSG_CREATE, msg->msgLength);
+        strlcpy(msg->title, CREATE_BUDGET_TOKEN_TITLE, msg->titleLength);
+        amountToString(context->payment_token_amount, sizeof(context->payment_token_amount),
+                       context->payment_token_decimals,
+                       context->ticker,
+                       msg->msg,
+                       msg->msgLength);
         break;
     default:
         break;
@@ -20,20 +24,20 @@ static void set_placeholder_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case CREATE:
         strlcpy(msg->title, TITLE_PLACEHOLDER, msg->titleLength);
-        strlcpy(msg->msg, MSG_PLACEHOLDER, msg->msgLength);
+        strlcpy(msg->msg, TITLE_PLACEHOLDER, msg->msgLength);
         break;
     default:
         break;
     }
 }
 
-// Set UI for "Warning" screen.
-static void set_token_warning_ui(ethQueryContractUI_t *msg,
-                                 context_t *context __attribute__((unused)))
-{
-    strlcpy(msg->title, TITLE_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-    strlcpy(msg->msg, MSG_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-}
+//// Set UI for "Warning" screen.
+//static void set_token_warning_ui(ethQueryContractUI_t *msg,
+//                                 context_t *context __attribute__((unused)))
+//{
+//    strlcpy(msg->title, TITLE_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
+//    strlcpy(msg->msg, MSG_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
+//}
 
 static void skip_right(context_t *context)
 {
@@ -96,6 +100,7 @@ void handle_query_contract_ui(void *parameters)
     memset(msg->msg, 0, msg->msgLength);
 
     get_screen_array(msg, context);
+
     msg->result = ETH_PLUGIN_RESULT_OK;
     switch (context->plugin_screen_index)
     {
@@ -105,9 +110,9 @@ void handle_query_contract_ui(void *parameters)
     case PLACEHOLDER_UI:
         set_placeholder_ui(msg, context);
         break;
-    case UNKNOWN_PAYMENT_TOKEN_UI:
-        set_token_warning_ui(msg, context);
-        break;
+    //case UNKNOWN_PAYMENT_TOKEN_UI:
+    //    set_token_warning_ui(msg, context);
+    //    break;
     default:
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
