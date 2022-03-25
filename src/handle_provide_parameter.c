@@ -127,19 +127,19 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
             }
         }
         break;
-    case CREATE__OFFSET_BATCHINPUTORDER:
-        PRINTF("CREATE__OFFSET_BATCHINPUTORDER\n");
+    case CREATE__OFFSET_BIO:
+        PRINTF("CREATE__OFFSET_BIO\n");
         copy_offset(msg, context); // osef
         break;
-    case CREATE__LEN_BATCHINPUTORDER:
-        PRINTF("CREATE__LEN_BATCHINPUTORDER\n");
+    case CREATE__LEN_BIO:
+        PRINTF("CREATE__LEN_BIO\n");
         context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         PRINTF("current_length: %d\n", context->current_length);
         break;
-    case CREATE__OFFSET_ARRAY_BATCHINPUTORDER:
+    case CREATE__OFFSET_ARRAY_BIO:
         context->length_offset_array--;
-        PRINTF("CREATE__OFFSET_ARRAY_BATCHINPUTORDER, index: %d\n",
+        PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n",
                context->length_offset_array);
         if (context->length_offset_array < 2)
         {
@@ -156,8 +156,8 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         }
         return;
         break;
-    case CREATE__BATCH_INPUT_ORDERS:
-        PRINTF("NOP NOP CREATE__BATCH_INPUT_ORDERS\n");
+    case CREATE__BIO:
+        PRINTF("NOP NOP CREATE__BIO\n");
         return;
         break;
     default:
@@ -180,6 +180,7 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
     case RELEASE_LEN_TOKENS:
         PRINTF("RELEASE_LEN_TOKENS\n");
         context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->number_of_tokens = context->current_length;
         context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:

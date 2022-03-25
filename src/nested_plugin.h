@@ -75,32 +75,35 @@ typedef enum
 
 typedef enum
 {
-    CREATE__A_NOOP,
     CREATE__TOKEN_ID,
-    CREATE__OFFSET_BATCHINPUTORDER,
-    CREATE__LEN_BATCHINPUTORDER,
-    CREATE__OFFSET_ARRAY_BATCHINPUTORDER,
-    CREATE__BATCH_INPUT_ORDERS, // will not be reached
+    CREATE__OFFSET_BIO,
+    CREATE__LEN_BIO,
+    CREATE__OFFSET_ARRAY_BIO,
+    CREATE__BIO, // will not be reached
 } create_parameter;
 
 typedef enum
 {
-    PROCESS_INPUT_ORDERS_NOOP,
-    PROCESS_INPUT_NFTID,
-    PROCESS_INPUT_BATCHED_ORDERS,
+    PIO__TOKEN_ID,
+    PIO__OFFSET_BIO,
+    PIO__LEN_BIO,
+    PIO__OFFSET_ARRAY_BIO,
+    PIO__BIO, // will not be reached
 } process_input_orders_parameter;
 
 typedef enum
 {
-    PROCESS_OUTPUT_NFTID,
-    PROCESS_OUTPUT_BATCHED_ORDERS,
+    POO__TOKEN_ID,
+    POO__OFFSET_BIO,
+    POO__LEN_BIO,
+    POO__OFFSET_ARRAY_BIO,
+    POO__BIO, // will not be reached
 } process_output_orders_parameter;
 
 /* FeeSplitter Functions */
 
 typedef enum
 {
-    RELEASE_NOOP,
     RELEASE_OFFSET_TOKENS,
     RELEASE_LEN_TOKENS,
     RELEASE_ARRAY_TOKENS,
