@@ -22,6 +22,9 @@ void handle_finalize(void *parameters)
     context->screen_array |= PLACEHOLDER_UI;
 
     // Look for payment token info
+
+    //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
+    //// token addresses you will info for (such as decimals, ticker...)
     msg->tokenLookup1 = context->payment_token_address;
 
     // set the first screen to display.
@@ -29,7 +32,6 @@ void handle_finalize(void *parameters)
     context->payment_token_decimals = DEFAULT_DECIMAL;
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
-    msg->tokenLookup1 = context->token_received;
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
     msg->numScreens = count_screens(context->screen_array);

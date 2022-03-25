@@ -31,3 +31,7 @@
 #define MSG_PROCESS_OUTPUT_ORDERS "PROCESS_OUTPUT_ORDERS"
 #define MSG_DESTROY "Sell All"
 #define MSG_TRANSFER_FROM "Send Portfolio"
+
+// Warning strings
+#define TITLE_UNKNOWN_PAYMENT_TOKEN "Unknown"
+#define MSG_UNKNOWN_PAYMENT_TOKEN "payment token"

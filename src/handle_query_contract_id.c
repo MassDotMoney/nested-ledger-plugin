@@ -30,30 +30,6 @@ void handle_query_contract_id(void *parameters)
         strlcpy(msg->version, MSG_DESTROY, msg->versionLength);
         break;
     case RELEASE_TOKENS:
-    }
-
-    if (context->selectorIndex == CREATE)
-    {
-        PRINTF("context->booleans & IS_COPY: %d\n", context->booleans & IS_COPY);
-        if (context->booleans & IS_COPY)
-            strlcpy(msg->version, MSG_COPY, msg->versionLength);
-        else
-            strlcpy(msg->version, MSG_CREATE, msg->versionLength);
-    }
-    else if (context->selectorIndex == PROCESS_INPUT_ORDERS)
-    {
-        strlcpy(msg->version, PROCESS_INPUT_ORDERS, msg->versionLength);
-    }
-    else if (context->selectorIndex == PROCESS_OUTPUT_ORDERS)
-    {
-        strlcpy(msg->version, PROCESS_OUTPUT_ORDERS, msg->versionLength);
-    }
-    else if (context->selectorIndex == DESTROY)
-    {
-        strlcpy(msg->version, MSG_DESTROY, msg->versionLength);
-    }
-    else if (context->selectorIndex == RELEASE_TOKENS)
-    {
         if (context->current_length > 1)
         {
             strlcpy(msg->version, MSG_CLAIM_ALL, msg->versionLength);
@@ -62,15 +38,14 @@ void handle_query_contract_id(void *parameters)
         {
             strlcpy(msg->version, MSG_CLAIM_SINGLE, msg->versionLength);
         }
-    }
-    else if (context->selectorIndex == TRANSFER_FROM)
-    {
+        break;
+    case TRANSFER_FROM:
         strlcpy(msg->version, MSG_TRANSFER_FROM, msg->versionLength);
-    }
-    else
-    {
+        break;
+    default:
         PRINTF("Selector index: %d not supported\n", context->selectorIndex);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
+        break;
     }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }

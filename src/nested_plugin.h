@@ -4,6 +4,10 @@
 #include "eth_plugin_interface.h"
 #include <string.h>
 
+// Number of decimals used when the token wasn't found in the Crypto Asset List.
+#define DEFAULT_DECIMAL WEI_TO_ETHER
+#define ETH_DECIMAL WEI_TO_ETHE
+
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
 #define NUM_SELECTORS 6
 
@@ -116,40 +120,40 @@ typedef enum
 #define TX_TYPE_UI 1 // Must remain first screen in screen array and always up.
 #define PLACEHOLDER_UI (1 << 1)
 #define UNKNOWN_PAYMENT_TOKEN_UI (1 << 2)
-#define SCREEN_4 (1 << 3)
-#define SCREEN_5 (1 << 4)
-#define SCREEN_6 (1 << 5)
-#define SCREEN_7 (1 << 6)
+#define SCREEN_UI_4 (1 << 3)
+#define SCREEN_UI_5 (1 << 4)
+#define SCREEN_UI_6 (1 << 5)
+#define SCREEN_UI_7 (1 << 6)
 #define LAST_UI (1 << 7) // Must remain last screen in screen array.
 
 #define RIGHT_SCROLL 1
 #define LEFT_SCROLL 0
 
-#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-
-// Ticker used when the token wasn't found in the Crypto Asset List.
-#define DEFAULT_TICKER "? "
-
-#define ETH_TICKER "ETH 
-
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-typedef struct context_t
+typedef struct __attribute__((__packed__)) context_t
 {
     uint8_t on_struct;
 
     // For display.
-    uint8_t amount_received[INT256_LENGTH];
     uint8_t beneficiary[ADDRESS_LENGTH];
-    uint8_t token_received[ADDRESS_LENGTH]; // keep
-    char ticker[MAX_TICKER_LEN];            // keep
-    uint8_t decimals;                       // keep
-    uint8_t token_found;                    // keep
+
+    // Payment token info
+    uint8_t payment_token_address[ADDRESS_LENGTH]; // keep
+    uint8_t payment_token_amount[INT256_LENGTH];   // 32
+    uint8_t payment_token_decimals;
+    char ticker[MAX_TICKER_LEN]; // keep
+    uint8_t token_found;         // keep
 
     // For parsing data.
     uint8_t next_param; // Set to be the next param we expect to parse.
     uint32_t offset;    // Offset at which the array or struct starts.
     bool go_to_offset;  // If set, will force the parsing to iterate through parameters until
                         // `offset` is reached.
+
+    // screen utils
+    uint8_t screen_array;
+    uint8_t previous_screen_index;
+    uint8_t plugin_screen_index;
 
     uint32_t current_tuple_offset;
 

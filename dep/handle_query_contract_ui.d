@@ -68,4 +68,4 @@ obj/handle_query_contract_ui.o: src/handle_query_contract_ui.c \
   /opt/nanos-secure-sdk/lib_cxng/include/lcx_ecschnorr.h \
   /opt/nanos-secure-sdk/lib_cxng/include/lcx_ecdh.h \
   /opt/nanos-secure-sdk/lib_cxng/include/lcx_crc.h \
-  ethereum-plugin-sdk/include/eth_plugin_interface.h
+  ethereum-plugin-sdk/include/eth_plugin_interface.h src/text.h
