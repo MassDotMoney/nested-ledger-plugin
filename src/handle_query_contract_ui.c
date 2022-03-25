@@ -17,8 +17,8 @@ void handle_query_contract_ui(void *parameters)
     switch (msg->screenIndex)
     {
     case 0:
-        strlcpy(msg->title, "placeholder", msg->titleLength);
-        strlcpy(msg->msg, "placeholder", msg->msgLength);
+        strlcpy(msg->title, TITLE_PLACEHOLDER, msg->titleLength);
+        strlcpy(msg->msg, MSG_PLACEHOLDER, msg->msgLength);
         break;
     // Keep this
     default:

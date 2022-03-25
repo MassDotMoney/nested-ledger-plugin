@@ -104,13 +104,33 @@ typedef enum
 
 // Booleans
 #define IS_COPY (1)
-#define BOOL2 (1 << 2)
+#define PAYMENT_TOKEN_FOUND (1 << 2)
 #define BOOL3 (1 << 3)
 #define BOOL4 (1 << 4)
 #define BOOL5 (1 << 5)
 #define BOOL6 (1 << 6)
 #define BOOL7 (1 << 7)
 #define BOOL8 (1 << 8)
+
+// screen array correspondance
+#define TX_TYPE_UI 1 // Must remain first screen in screen array and always up.
+#define PLACEHOLDER_UI (1 << 1)
+#define UNKNOWN_PAYMENT_TOKEN_UI (1 << 2)
+#define SCREEN_4 (1 << 3)
+#define SCREEN_5 (1 << 4)
+#define SCREEN_6 (1 << 5)
+#define SCREEN_7 (1 << 6)
+#define LAST_UI (1 << 7) // Must remain last screen in screen array.
+
+#define RIGHT_SCROLL 1
+#define LEFT_SCROLL 0
+
+#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+
+// Ticker used when the token wasn't found in the Crypto Asset List.
+#define DEFAULT_TICKER "? "
+
+#define ETH_TICKER "ETH 
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct context_t

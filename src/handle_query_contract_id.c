@@ -12,45 +12,65 @@ void handle_query_contract_id(void *parameters)
     // For the first screen, display the plugin name.
     strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
 
+    switch (context->selectorIndex)
+    {
+    case CREATE:
+        if (context->booleans & IS_COPY)
+            strlcpy(msg->version, MSG_COPY, msg->versionLength);
+        else
+            strlcpy(msg->version, MSG_CREATE, msg->versionLength);
+        break;
+    case PROCESS_INPUT_ORDERS:
+        strlcpy(msg->version, PROCESS_INPUT_ORDERS, msg->versionLength);
+        break;
+    case PROCESS_OUTPUT_ORDERS:
+        strlcpy(msg->version, PROCESS_OUTPUT_ORDERS, msg->versionLength);
+        break;
+    case DESTROY:
+        strlcpy(msg->version, MSG_DESTROY, msg->versionLength);
+        break;
+    case RELEASE_TOKENS:
+    }
+
     if (context->selectorIndex == CREATE)
     {
         PRINTF("context->booleans & IS_COPY: %d\n", context->booleans & IS_COPY);
         if (context->booleans & IS_COPY)
-            strlcpy(msg->version, "Copy", msg->versionLength);
+            strlcpy(msg->version, MSG_COPY, msg->versionLength);
         else
-            strlcpy(msg->version, "Create", msg->versionLength);
-        msg->result = ETH_PLUGIN_RESULT_OK;
+            strlcpy(msg->version, MSG_CREATE, msg->versionLength);
     }
     else if (context->selectorIndex == PROCESS_INPUT_ORDERS)
     {
-        strlcpy(msg->version, "PROCESS_INPUT_ORDERS", msg->versionLength);
+        strlcpy(msg->version, PROCESS_INPUT_ORDERS, msg->versionLength);
     }
     else if (context->selectorIndex == PROCESS_OUTPUT_ORDERS)
     {
-        strlcpy(msg->version, "PROCESS_OUTPUT_ORDERS", msg->versionLength);
+        strlcpy(msg->version, PROCESS_OUTPUT_ORDERS, msg->versionLength);
     }
     else if (context->selectorIndex == DESTROY)
     {
-        strlcpy(msg->version, "Sell Portfolio", msg->versionLength);
+        strlcpy(msg->version, MSG_DESTROY, msg->versionLength);
     }
     else if (context->selectorIndex == RELEASE_TOKENS)
     {
         if (context->current_length > 1)
         {
-            strlcpy(msg->version, TITLE_CLAIM_ALL, msg->versionLength);
+            strlcpy(msg->version, MSG_CLAIM_ALL, msg->versionLength);
         }
         else
         {
-            strlcpy(msg->version, TITLE_CLAIM_SINGLE, msg->versionLength);
+            strlcpy(msg->version, MSG_CLAIM_SINGLE, msg->versionLength);
         }
     }
     else if (context->selectorIndex == TRANSFER_FROM)
     {
-        strlcpy(msg->version, "Send", msg->versionLength);
+        strlcpy(msg->version, MSG_TRANSFER_FROM, msg->versionLength);
     }
     else
     {
         PRINTF("Selector index: %d not supported\n", context->selectorIndex);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
     }
+    msg->result = ETH_PLUGIN_RESULT_OK;
 }

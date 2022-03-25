@@ -11,9 +11,13 @@ void handle_provide_token(void *parameters)
     if (msg->item1)
     {
         PRINTF("handle_provide_token item1\n");
+
         // The Ethereum App found the information for the requested token!
+        context->booleans |= PAYMENT_TOKEN_FOUND;
+
         // Store its decimals.
         context->decimals = msg->item1->token.decimals;
+
         // Store its ticker.
         strlcpy(context->ticker, (char *)msg->item1->token.ticker, sizeof(context->ticker));
 
@@ -29,7 +33,8 @@ void handle_provide_token(void *parameters)
         // If we wanted to add a screen, say a warning screen for example, we could instruct the
         // ethereum app to add an additional screen by setting `msg->additionalScreens` here, just
         // like so:
-        // msg->additionalScreens = 1;
+        context->screenArray |= UNKNOWN_PAYMENT_TOKEN_UI;
+        msg->additionalScreens++
     }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
