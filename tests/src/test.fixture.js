@@ -2,6 +2,8 @@ import Zemu, { DEFAULT_START_OPTIONS, DeviceModel } from '@zondax/zemu';
 import Eth from '@ledgerhq/hw-app-eth';
 import { generate_plugin_config } from './generate_plugin_config';
 import { parseEther, parseUnits, RLP } from "ethers/lib/utils";
+import { ethers } from "ethers";
+import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger"
 
 const transactionUploadDelay = 60000;
 
@@ -91,19 +93,46 @@ function txFromEtherscan(rawTx) {
     return txType + encoded;
 }
 
+async function resolveTxFromData(data, contractAddr) {
+    let unsignedTx = genericTx;
+
+    unsignedTx.to = contractAddr;
+    unsignedTx.data = data;
+    unsignedTx.value = parseEther("1");
+
+    const serializedTx = ethers.utils.serializeTransaction(unsignedTx).slice(2);
+
+    const resolution = await ledgerService.resolveTransaction(
+        serializedTx,
+        loadConfig,
+        resolutionConfig
+    );
+
+    return [resolution, serializedTx];
+}
+
+function signTransaction(serializedTx, resolution, signTransaction) {
+    const tx = signTransaction(
+        "44'/60'/0'/0",
+        serializedTx,
+        resolution
+    );
+    return tx;
+}
+
 function zemu(device, func) {
     return async () => {
         jest.setTimeout(TIMEOUT);
         let elf_path;
         let lib_elf;
         elf_path = device.eth_path;
-        // Edit this: replace `Boilerplate` by your plugin name
         lib_elf = { 'Nested': device.path };
 
         const sim = new Zemu(elf_path, lib_elf);
         try {
             await sim.start({ ...sim_options_nano, model: device.name });
-            const transport = await sim.getTransport();
+            const transport = sim.getTransport();
+            // const transport = await sim.getTransport();
             const eth = new Eth(transport);
             eth.setLoadConfig({
                 baseURL: null,
@@ -124,6 +153,8 @@ module.exports = {
     SPECULOS_ADDRESS,
     RANDOM_ADDRESS,
     txFromEtherscan,
+    resolveTxFromData,
+    signTransaction,
     resolutionConfig,
     loadConfig,
 }
