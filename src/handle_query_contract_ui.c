@@ -42,8 +42,12 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
         }
         break;
     case DESTROY:
-        strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
-        strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
+        strlcpy(msg->title, TITLE_DESTROY_RECEIVED_TOKEN, msg->titleLength);
+        amountToString(context->payment_token_amount, sizeof(context->payment_token_amount),
+                       context->payment_token_decimals,
+                       context->ticker,
+                       msg->msg,
+                       msg->msgLength);
         break;
     default:
         break;

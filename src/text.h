@@ -41,7 +41,7 @@
 #define MSG_DESTROY_SENT_TOKEN "%s tokens TBD"
 
 #define TITLE_DESTROY_RECEIVED_TOKEN "Receiving:"
-#define MSG_DESTROY_RECEIVED_TOKEN "%s tokens TBD"
+// Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 
 /// CLAIM SINGLE///
 
