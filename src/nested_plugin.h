@@ -11,6 +11,8 @@
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
 #define NUM_SELECTORS 6
 
+#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum
@@ -122,7 +124,7 @@ typedef enum
 // screen array correspondance
 #define SENT_TOKEN_UI 1 // Must remain first screen in screen array and always up.
 #define RECEIVED_TOKEN_UI (1 << 1)
-#define UNKNOWN_PAYMENT_TOKEN_UI (1 << 2)
+#define SCREEN_UI_3 (1 << 2)
 #define SCREEN_UI_4 (1 << 3)
 #define SCREEN_UI_5 (1 << 4)
 #define SCREEN_UI_6 (1 << 5)
@@ -137,7 +139,6 @@ typedef struct __attribute__((__packed__)) context_t
 {
     uint8_t on_struct;                      // 1
     uint8_t beneficiary[ADDRESS_LENGTH];    // 20
-    uint8_t token_found;                    // 1
     uint8_t next_param;                     // 1
     uint8_t screen_array;                   // 1
     uint8_t previous_screen_index;          // 1
@@ -150,18 +151,16 @@ typedef struct __attribute__((__packed__)) context_t
     uint8_t token1_decimals;                // 1
     char token1_ticker[MAX_TICKER_LEN];     // 12
     uint8_t token2_address[ADDRESS_LENGTH]; // 20
-    // uint8_t token2_amount[INT256_LENGTH];   // 32
-    // uint8_t token2_decimals;                // 1
-    char token2_ticker[MAX_TICKER_LEN]; // 12
-    uint16_t offsets_lvl0[2];           // 4
-    uint16_t offsets_lvl1[2];           // 4
-    uint8_t length_offset_array;        // 1
-    uint8_t booleans;                   // 1
-    uint8_t number_of_tokens;           // 1
-    selector_t selectorIndex;           // 1
+    char token2_ticker[MAX_TICKER_LEN];     // 12
+    uint16_t offsets_lvl0[2];               // 4
+    uint16_t offsets_lvl1[2];               // 4
+    uint8_t length_offset_array;            // 1
+    uint8_t booleans;                       // 1
+    uint8_t number_of_tokens;               // 1
+    selector_t selectorIndex;               // 1
 } context_t;
 // 160
-// 13 + 16 + 60 + 32 + 24 = 145
+// 12 + 16 + 60 + 32 + 24 = 144
 
 // Piece of code that will check that the above structure is not bigger than 5 * 32. Do not remove
 // this check.

@@ -30,14 +30,10 @@ void handle_query_contract_id(void *parameters)
         strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
         break;
     case RELEASE_TOKENS:
-        if (context->current_length > 1)
-        {
+        if (context->number_of_tokens > 1)
             strlcpy(msg->version, MSG_CLAIM_ALL_ID, msg->versionLength);
-        }
         else
-        {
             strlcpy(msg->version, MSG_CLAIM_SINGLE_ID, msg->versionLength);
-        }
         break;
     case TRANSFER_FROM:
         strlcpy(msg->version, MSG_TRANSFER_FROM_ID, msg->versionLength);

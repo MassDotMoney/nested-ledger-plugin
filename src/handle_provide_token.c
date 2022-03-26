@@ -20,21 +20,27 @@ void handle_provide_token(void *parameters)
 
         // Store its ticker.
         strlcpy(context->token1_ticker, (char *)msg->item1->token.ticker, sizeof(context->token1_ticker));
-
-        // Keep track that we found the token.
-        context->token_found = true;
     }
     else
     {
         PRINTF("handle_provide_token no item1\n");
-        // The Ethereum App did not manage to find the info for the requested token.
-        context->token_found = false;
 
         // If we wanted to add a screen, say a warning screen for example, we could instruct the
         // ethereum app to add an additional screen by setting `msg->additionalScreens` here, just
         // like so:
-        context->screen_array |= UNKNOWN_PAYMENT_TOKEN_UI;
+        context->screen_array |= SCREEN_UI_3; // nop
         msg->additionalScreens++;
+    }
+    if (msg->item2)
+    {
+        PRINTF("handle_provide_token item2\n");
+        context->booleans |= TOKEN2_FOUND;
+        // context->token2_decimals = msg->item2->token.decimals;
+        strlcpy(context->token2_ticker, (char *)msg->item2->token.ticker, sizeof(context->token2_ticker));
+    }
+    else
+    {
+        PRINTF("handle_provide_token no item2\n");
     }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }

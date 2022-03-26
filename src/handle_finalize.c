@@ -13,23 +13,40 @@ static uint8_t count_screens(uint8_t screen_array)
     return total;
 }
 
+static void set_screens(context_t *context)
+{
+    switch (context->selectorIndex)
+    {
+    case RELEASE_TOKENS:
+        if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+            context->screen_array |= SENT_TOKEN_UI;
+        if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+            context->screen_array |= RECEIVED_TOKEN_UI;
+        if (context->number_of_tokens > 2)
+            context->screen_array |= SCREEN_UI_3;
+        break;
+    default:
+        PRINTF("set_screens ERROR\n");
+    }
+}
+
 void handle_finalize(void *parameters)
 {
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
-    context->screen_array |= SENT_TOKEN_UI;
-    context->screen_array |= RECEIVED_TOKEN_UI;
+    set_screens(context);
 
     // set the first screen to display.
     context->plugin_screen_index = SENT_TOKEN_UI;
 
-    //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
-    //// token addresses you will info for (such as decimals, ticker...)
-    msg->tokenLookup1 = context->token1_address;
+    if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+        msg->tokenLookup1 = context->token1_address;
+    if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+        msg->tokenLookup2 = context->token2_address;
 
     // set the first screen to display.
-    context->plugin_screen_index = TX_TYPE_UI;
+    context->plugin_screen_index = SENT_TOKEN_UI;
     context->token1_decimals = DEFAULT_DECIMAL;
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).

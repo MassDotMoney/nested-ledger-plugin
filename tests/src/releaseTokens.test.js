@@ -10,7 +10,7 @@ nano_models.forEach(function (model) {
     const data = "0x6d9634b7000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000002791bca1f2de4661ed88a30c99a7a9449aa84174";
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 5 : 3;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
@@ -27,7 +27,7 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 6 : 4;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
@@ -44,11 +44,28 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 6 : 4;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
     await sim.navigateAndCompareSnapshots('.', model.name + '_release_2_okens', [right_clicks, 0]);
+
+    await tx;
+  }));
+});
+
+// fake
+nano_models.forEach(function (model) {
+  test('[Nano ' + model.letter + '] Release 3 tokens', zemu(model, async (sim, eth) => {
+    const data = "0x6d9634b7000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000030000000000000000000000000d500b1d8e8ef31e21c99d1db9a6444d3adf12700000000000000000000000002791bca1f2de4661ed88a30c99a7a9449aa841740000000000000000000000002791bca1f2de4661ed88a30c99a7a9449aa84174";
+    const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
+    const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
+
+    const right_clicks = model.letter === 'S' ? 7 : 5;
+
+    // Wait for the application to actually load and parse the transaction
+    await waitForAppScreen(sim);
+    await sim.navigateAndCompareSnapshots('.', model.name + '_release_3_okens', [right_clicks, 0]);
 
     await tx;
   }));

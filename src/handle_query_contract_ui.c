@@ -1,8 +1,21 @@
 #include "nested_plugin.h"
 #include "text.h"
 
+static void print_screen_array(context_t *context)
+{
+    PRINTF("SENT_TOKEN_UI %d\n", context->screen_array & SENT_TOKEN_UI);
+    PRINTF("RECEIVED_TOKEN_UI %d\n", context->screen_array & RECEIVED_TOKEN_UI);
+    PRINTF("SCREEN_UI_3 %d\n", context->screen_array & SCREEN_UI_3);
+    PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
+    PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
+    PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
+    PRINTF("SCREEN_UI_7 %d\n", context->screen_array & SCREEN_UI_7);
+    PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
+}
+
 static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("PENZO in set_sent_token_ui, on %d selector\n", context->selectorIndex);
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -10,19 +23,14 @@ static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
             strlcpy(msg->title, TITLE_COPY_SENT_TOKEN, msg->titleLength);
         else
             strlcpy(msg->title, TITLE_CREATE_SENT_TOKEN, msg->titleLength);
-        amountToString(context->payment_token_amount, sizeof(context->payment_token_amount),
-                       context->payment_token_decimals,
-                       context->ticker,
-                       msg->msg,
-                       msg->msgLength);
         break;
     case DESTROY:
         strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
         strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
         break;
     case RELEASE_TOKENS:
-        strlcpy(msg->title, TITLE_RELEASE_TOKENS_SINGLE, msg->titleLength);
-        strlcpy(msg->msg, MSG_RELEASE_TOKENS_SINGLE, msg->msgLength);
+        strlcpy(msg->title, "in", msg->titleLength);
+        strlcpy(msg->msg, context->token1_ticker, msg->msgLength);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -49,11 +57,15 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case DESTROY:
         strlcpy(msg->title, TITLE_DESTROY_RECEIVED_TOKEN, msg->titleLength);
-        amountToString(context->payment_token_amount, sizeof(context->payment_token_amount),
-                       context->payment_token_decimals,
-                       context->ticker,
+        amountToString(context->token1_amount, sizeof(context->token1_amount),
+                       context->token1_decimals,
+                       context->token1_ticker,
                        msg->msg,
                        msg->msgLength);
+        break;
+    case RELEASE_TOKENS:
+        strlcpy(msg->title, "and", msg->titleLength);
+        strlcpy(msg->msg, context->token2_ticker, msg->msgLength);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -62,13 +74,20 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-//// Set UI for "Warning" screen.
-// static void set_token_warning_ui(ethQueryContractUI_t *msg,
-//                                  context_t *context __attribute__((unused)))
-//{
-//     strlcpy(msg->title, TITLE_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-//     strlcpy(msg->msg, MSG_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-// }
+static void set_screen3(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (context->selectorIndex)
+    {
+    case RELEASE_TOKENS:
+        strlcpy(msg->title, "and", msg->titleLength);
+        snprintf(msg->msg, msg->msgLength, "%d more tokens", context->number_of_tokens - 2);
+        break;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
 
 static void skip_right(context_t *context)
 {
@@ -128,27 +147,20 @@ void handle_query_contract_ui(void *parameters)
     memset(msg->msg, 0, msg->msgLength);
 
     get_screen_array(msg, context);
+    print_screen_array(context);
 
     msg->result = ETH_PLUGIN_RESULT_OK;
     switch (context->plugin_screen_index)
     {
     case SENT_TOKEN_UI:
         set_sent_token_ui(msg, context);
-    case TX_TYPE_UI:
-        set_tx_type_ui(msg, context);
-        break;
-    case PLACEHOLDER_UI:
-        // test
-        if (context->booleans & TOKEN1_FOUND)
-            // test
-            set_placeholder_ui(msg, context);
         break;
     case RECEIVED_TOKEN_UI:
         set_received_token_ui(msg, context);
         break;
-    // case UNKNOWN_PAYMENT_TOKEN_UI:
-    //     set_token_warning_ui(msg, context);
-    //     break;
+    case SCREEN_UI_3:
+        set_screen3(msg, context);
+        break;
     default:
         PRINTF("AN ERROR OCCURED IN UI\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;

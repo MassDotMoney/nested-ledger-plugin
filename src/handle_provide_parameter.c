@@ -235,7 +235,7 @@ void handle_provide_parameter(void *parameters)
     default:
         PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
         // msg->result = ETH_PLUGIN_RESULT_ERROR;
-        msg->result = ETH_PLUGIN_RESULT_OK;
+        msg->result = ETH_PLUGIN_RESULT_OK; // !!!
         break;
     }
 }
