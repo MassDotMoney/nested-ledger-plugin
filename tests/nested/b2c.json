@@ -38,7 +38,10 @@
             "contractName": "FeeSplitter",
             "selectors": {
                 "0x6d9634b7": {
-                    "erc20OfInterest" : ["_tokens.0"],
+                    "erc20OfInterest": [
+                        "_tokens.0",
+                        "_tokens.-1"
+                    ],
                     "method": "releaseTokens",
                     "plugin": "Nested"
                 }
@@ -52,10 +55,9 @@
                     "erc20OfInterest": [],
                     "method": "transferFrom",
                     "plugin": "Nested"
-
+                }
             }
         }
-    }
     ],
     "name": "Nested"
 }

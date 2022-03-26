@@ -111,8 +111,8 @@ typedef enum
 
 // Booleans
 #define IS_COPY (1)
-#define PAYMENT_TOKEN_FOUND (1 << 2)
-#define BOOL3 (1 << 3)
+#define TOKEN1_FOUND (1 << 2)
+#define TOKEN2_FOUND (1 << 3)
 #define BOOL4 (1 << 4)
 #define BOOL5 (1 << 5)
 #define BOOL6 (1 << 6)
@@ -135,42 +135,33 @@ typedef enum
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct __attribute__((__packed__)) context_t
 {
-    uint8_t on_struct;
-
-    // For display.
-    uint8_t beneficiary[ADDRESS_LENGTH];
-
-    // Payment token info
-    uint8_t payment_token_address[ADDRESS_LENGTH]; // keep
-    uint8_t payment_token_amount[INT256_LENGTH];   // 32
-    uint8_t payment_token_decimals;
-    char ticker[MAX_TICKER_LEN]; // keep
-    uint8_t token_found;         // keep
-
-    // For parsing data.
-    uint8_t next_param; // Set to be the next param we expect to parse.
-    uint32_t offset;    // Offset at which the array or struct starts.
-    bool go_to_offset;  // If set, will force the parsing to iterate through parameters until
-                        // `offset` is reached.
-
-    // screen utils
-    uint8_t screen_array;
-    uint8_t previous_screen_index;
-    uint8_t plugin_screen_index;
-
-    uint32_t current_tuple_offset;
-
-    uint32_t next_offset;
-    uint16_t current_length;
-
-    uint16_t offsets_lvl0[2];
-    uint16_t offsets_lvl1[2];
-    uint8_t length_offset_array;
-    uint8_t booleans;
-    uint8_t number_of_tokens;
-    // For both parsing and display.
-    selector_t selectorIndex;
+    uint8_t on_struct;                      // 1
+    uint8_t beneficiary[ADDRESS_LENGTH];    // 20
+    uint8_t token_found;                    // 1
+    uint8_t next_param;                     // 1
+    uint8_t screen_array;                   // 1
+    uint8_t previous_screen_index;          // 1
+    uint8_t plugin_screen_index;            // 1
+    uint32_t current_tuple_offset;          // 4
+    uint32_t next_offset;                   // 4
+    uint16_t current_length;                // 2
+    uint8_t token1_address[ADDRESS_LENGTH]; // 20
+    uint8_t token1_amount[INT256_LENGTH];   // 32
+    uint8_t token1_decimals;                // 1
+    char token1_ticker[MAX_TICKER_LEN];     // 12
+    uint8_t token2_address[ADDRESS_LENGTH]; // 20
+    // uint8_t token2_amount[INT256_LENGTH];   // 32
+    // uint8_t token2_decimals;                // 1
+    char token2_ticker[MAX_TICKER_LEN]; // 12
+    uint16_t offsets_lvl0[2];           // 4
+    uint16_t offsets_lvl1[2];           // 4
+    uint8_t length_offset_array;        // 1
+    uint8_t booleans;                   // 1
+    uint8_t number_of_tokens;           // 1
+    selector_t selectorIndex;           // 1
 } context_t;
+// 160
+// 13 + 16 + 60 + 32 + 24 = 145
 
 // Piece of code that will check that the above structure is not bigger than 5 * 32. Do not remove
 // this check.

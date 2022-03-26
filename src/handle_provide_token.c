@@ -13,13 +13,13 @@ void handle_provide_token(void *parameters)
         PRINTF("handle_provide_token item1\n");
 
         // The Ethereum App found the information for the requested token!
-        context->booleans |= PAYMENT_TOKEN_FOUND;
+        context->booleans |= TOKEN1_FOUND;
 
         // Store its decimals.
-        context->payment_token_decimals = msg->item1->token.decimals;
+        context->token1_decimals = msg->item1->token.decimals;
 
         // Store its ticker.
-        strlcpy(context->ticker, (char *)msg->item1->token.ticker, sizeof(context->ticker));
+        strlcpy(context->token1_ticker, (char *)msg->item1->token.ticker, sizeof(context->token1_ticker));
 
         // Keep track that we found the token.
         context->token_found = true;

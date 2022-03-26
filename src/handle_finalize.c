@@ -24,10 +24,13 @@ void handle_finalize(void *parameters)
     // set the first screen to display.
     context->plugin_screen_index = SENT_TOKEN_UI;
 
-    // Look for payment token info
-    msg->tokenLookup1 = context->payment_token_address;
+    //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
+    //// token addresses you will info for (such as decimals, ticker...)
+    msg->tokenLookup1 = context->token1_address;
 
-    context->payment_token_decimals = DEFAULT_DECIMAL;
+    // set the first screen to display.
+    context->plugin_screen_index = TX_TYPE_UI;
+    context->token1_decimals = DEFAULT_DECIMAL;
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
 

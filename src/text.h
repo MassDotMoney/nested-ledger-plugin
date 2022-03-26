@@ -47,6 +47,8 @@
 
 #define TITLE_CLAIM_SINGLE_SENT_TOKEN "Claiming:"
 #define MSG_CLAIM_SINGLE_SENT_TOKEN "%s tokens TBD"
+#define MSG_RELEASE_TOKENS_SINGLE "XXX NAME"
+#define MSG_RELEASE_TOKEN_MULTIPLE "X tokens"
 
 /// CLAIM ALL///
 

@@ -20,6 +20,10 @@ static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
         strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
         strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
         break;
+    case RELEASE_TOKENS:
+        strlcpy(msg->title, TITLE_RELEASE_TOKENS_SINGLE, msg->titleLength);
+        strlcpy(msg->msg, MSG_RELEASE_TOKENS_SINGLE, msg->msgLength);
+        break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
         strlcpy(msg->msg, "ERROR", msg->msgLength);
@@ -59,12 +63,12 @@ static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
 }
 
 //// Set UI for "Warning" screen.
-//static void set_token_warning_ui(ethQueryContractUI_t *msg,
-//                                 context_t *context __attribute__((unused)))
+// static void set_token_warning_ui(ethQueryContractUI_t *msg,
+//                                  context_t *context __attribute__((unused)))
 //{
-//    strlcpy(msg->title, TITLE_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-//    strlcpy(msg->msg, MSG_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
-//}
+//     strlcpy(msg->title, TITLE_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
+//     strlcpy(msg->msg, MSG_UNKNOWN_PAYMENT_TOKEN, msg->titleLength);
+// }
 
 static void skip_right(context_t *context)
 {
@@ -130,13 +134,21 @@ void handle_query_contract_ui(void *parameters)
     {
     case SENT_TOKEN_UI:
         set_sent_token_ui(msg, context);
+    case TX_TYPE_UI:
+        set_tx_type_ui(msg, context);
+        break;
+    case PLACEHOLDER_UI:
+        // test
+        if (context->booleans & TOKEN1_FOUND)
+            // test
+            set_placeholder_ui(msg, context);
         break;
     case RECEIVED_TOKEN_UI:
         set_received_token_ui(msg, context);
         break;
-    //case UNKNOWN_PAYMENT_TOKEN_UI:
-    //    set_token_warning_ui(msg, context);
-    //    break;
+    // case UNKNOWN_PAYMENT_TOKEN_UI:
+    //     set_token_warning_ui(msg, context);
+    //     break;
     default:
         PRINTF("AN ERROR OCCURED IN UI\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;

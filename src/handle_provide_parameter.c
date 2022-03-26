@@ -184,7 +184,19 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:
+        // is first elem
+        if (context->number_of_tokens == context->current_length)
+        {
+            PRINTF("RELEASE copy first\n");
+            copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+        }
         context->current_length--;
+        // is last elem && multiple tokens
+        if (context->number_of_tokens > 1 && context->current_length == 0)
+        {
+            PRINTF("RELEASE copy last\n");
+            copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+        }
         PRINTF("RELEASE_TOKENS %d\n", context->current_length);
         break;
     }
