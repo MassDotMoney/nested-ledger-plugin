@@ -3,9 +3,9 @@
 
 //static void print_screen_array(context_t *context)
 //{
-//    PRINTF("SENT_TOKEN_UI %d\n", context->screen_array & SENT_TOKEN_UI);
-//    PRINTF("RECEIVED_TOKEN_UI %d\n", context->screen_array & RECEIVED_TOKEN_UI);
-//    PRINTF("SCREEN_UI_3 %d\n", context->screen_array & SCREEN_UI_3);
+//    PRINTF("FIRST_SCREEN_UI %d\n", context->screen_array & FIRST_SCREEN_UI);
+//    PRINTF("SCREEN_2_UI %d\n", context->screen_array & SCREEN_2_UI);
+//    PRINTF("SCREEN_3_UI %d\n", context->screen_array & SCREEN_3_UI);
 //    PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
 //    PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
 //    PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
@@ -13,9 +13,9 @@
 //    PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
 //}
 
-static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
+static void set_FIRST_SCREEN_UI(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("PENZO in set_sent_token_ui, on %d selector\n", context->selectorIndex);
+    PRINTF("PENZO in set_FIRST_SCREEN_UI, on %d selector\n", context->selectorIndex);
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -39,7 +39,7 @@ static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void set_received_token_ui(ethQueryContractUI_t *msg, context_t *context)
+static void set_SCREEN_2_UI(ethQueryContractUI_t *msg, context_t *context)
 {
     switch (context->selectorIndex)
     {
@@ -115,7 +115,7 @@ static void get_screen_array(ethQueryContractUI_t *msg, context_t *context)
 {
     if (msg->screenIndex == 0)
     {
-        context->plugin_screen_index = SENT_TOKEN_UI;
+        context->plugin_screen_index = FIRST_SCREEN_UI;
         context->previous_screen_index = 0;
         return;
     }
@@ -152,13 +152,13 @@ void handle_query_contract_ui(void *parameters)
     msg->result = ETH_PLUGIN_RESULT_OK;
     switch (context->plugin_screen_index)
     {
-    case SENT_TOKEN_UI:
-        set_sent_token_ui(msg, context);
+    case FIRST_SCREEN_UI:
+        set_FIRST_SCREEN_UI(msg, context);
         break;
-    case RECEIVED_TOKEN_UI:
-        set_received_token_ui(msg, context);
+    case SCREEN_2_UI:
+        set_SCREEN_2_UI(msg, context);
         break;
-    case SCREEN_UI_3:
+    case SCREEN_3_UI:
         set_screen3(msg, context);
         break;
     default:
