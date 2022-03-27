@@ -27,19 +27,31 @@ static uint8_t count_screens(uint8_t screen_array)
 
 static void set_screens(context_t *context)
 {
-    switch (context->selectorIndex)
+    if ((memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH) && (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
     {
-    case RELEASE_TOKENS:
-        if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
-            context->screen_array |= SENT_TOKEN_UI;
-        if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
-            context->screen_array |= RECEIVED_TOKEN_UI;
-        if (context->number_of_tokens > 2)
-            context->screen_array |= SCREEN_UI_3;
-        break;
-    default:
-        PRINTF("set_screens ERROR\n");
     }
+    else if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    {
+        switch (context->selectorIndex)
+        {
+        case CREATE:
+            break;
+        case RELEASE_TOKENS:
+            if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+                context->screen_array |= SENT_TOKEN_UI;
+            if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+                context->screen_array |= RECEIVED_TOKEN_UI;
+            if (context->number_of_tokens > 2)
+                context->screen_array |= SCREEN_UI_3;
+            break;
+        default:
+            PRINTF("set_screens ERROR\n");
+        }
+    }
+    else if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    {
+    }
+    else if ()
 }
 
 void handle_finalize(void *parameters)

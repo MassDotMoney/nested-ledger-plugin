@@ -105,13 +105,14 @@ typedef enum
 #define BOOL8 (1 << 8)
 
 // screen array correspondance
-#define SENT_TOKEN_UI 1 // Must remain first screen in screen array and always up.
-#define RECEIVED_TOKEN_UI (1 << 1)
-#define SCREEN_UI_3 (1 << 2)
-#define SCREEN_UI_4 (1 << 3)
-#define SCREEN_UI_5 (1 << 4)
-#define SCREEN_UI_6 (1 << 5)
-#define SCREEN_UI_7 (1 << 6)
+#define FIRST_SCREEN_UI 1 // Must remain first screen in screen array and always up. Comes after ID screen in handle_query_contract_ui.c
+#define SCREEN_2_UI (1 << 1)
+#define SCREEN_3_UI (1 << 2)
+#define SCREEN_4_UI (1 << 3)
+#define SCREEN_5_UI (1 << 4)
+#define SCREEN_6_UI (1 << 5)
+#define SCREEN_7_UI (1 << 6)
+#define SCREEN_8_UI (1 << 7)
 #define LAST_UI (1 << 7) // Must remain last screen in screen array.
 
 #define RIGHT_SCROLL 1

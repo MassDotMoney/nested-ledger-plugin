@@ -1,17 +1,17 @@
 #include "nested_plugin.h"
 #include "text.h"
 
-static void print_screen_array(context_t *context)
-{
-    PRINTF("SENT_TOKEN_UI %d\n", context->screen_array & SENT_TOKEN_UI);
-    PRINTF("RECEIVED_TOKEN_UI %d\n", context->screen_array & RECEIVED_TOKEN_UI);
-    PRINTF("SCREEN_UI_3 %d\n", context->screen_array & SCREEN_UI_3);
-    PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
-    PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
-    PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
-    PRINTF("SCREEN_UI_7 %d\n", context->screen_array & SCREEN_UI_7);
-    PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
-}
+//static void print_screen_array(context_t *context)
+//{
+//    PRINTF("SENT_TOKEN_UI %d\n", context->screen_array & SENT_TOKEN_UI);
+//    PRINTF("RECEIVED_TOKEN_UI %d\n", context->screen_array & RECEIVED_TOKEN_UI);
+//    PRINTF("SCREEN_UI_3 %d\n", context->screen_array & SCREEN_UI_3);
+//    PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
+//    PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
+//    PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
+//    PRINTF("SCREEN_UI_7 %d\n", context->screen_array & SCREEN_UI_7);
+//    PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
+//}
 
 static void set_sent_token_ui(ethQueryContractUI_t *msg, context_t *context)
 {
