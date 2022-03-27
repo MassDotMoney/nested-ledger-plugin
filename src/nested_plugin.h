@@ -84,24 +84,6 @@ typedef enum
     CREATE__BIO, // will not be reached
 } create_parameter;
 
-typedef enum
-{
-    PIO__TOKEN_ID,
-    PIO__OFFSET_BIO,
-    PIO__LEN_BIO,
-    PIO__OFFSET_ARRAY_BIO,
-    PIO__BIO, // will not be reached
-} process_input_orders_parameter;
-
-typedef enum
-{
-    POO__TOKEN_ID,
-    POO__OFFSET_BOO,
-    POO__LEN_BOO,
-    POO__OFFSET_ARRAY_BOO,
-    POO__BOO, // will not be reached
-} process_output_orders_parameter;
-
 /* FeeSplitter Functions */
 
 typedef enum
