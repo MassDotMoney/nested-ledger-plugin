@@ -53,7 +53,7 @@ typedef enum
 
 typedef enum
 {
-    BOO__INPUTTOKEN,
+    BOO__OUTPUTTOKEN,
     BOO__OFFSET_AMOUNTS,
     BOO__OFFSET_ORDERS,
     BOO__FROM_RESERVE,
@@ -96,10 +96,10 @@ typedef enum
 typedef enum
 {
     POO__TOKEN_ID,
-    POO__OFFSET_BIO,
-    POO__LEN_BIO,
-    POO__OFFSET_ARRAY_BIO,
-    POO__BIO, // will not be reached
+    POO__OFFSET_BOO,
+    POO__LEN_BOO,
+    POO__OFFSET_ARRAY_BOO,
+    POO__BOO, // will not be reached
 } process_output_orders_parameter;
 
 /* FeeSplitter Functions */
@@ -172,3 +172,9 @@ void handle_init_contract(void *parameters);
 void handle_finalize(void *parameters);
 void handle_provide_token(void *parameters);
 void handle_query_contract_id(void *parameters);
+
+void parse_order(ethPluginProvideParameter_t *msg, context_t *context);
+void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *context);
+void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context);
+
+void copy_offset(ethPluginProvideParameter_t *msg, context_t *context);

@@ -1,95 +1,74 @@
 #include "nested_plugin.h"
 
-void copy_offset(ethPluginProvideParameter_t *msg, context_t *context)
+static void handle_process_output_orders(ethPluginProvideParameter_t *msg, context_t *context)
 {
-    PRINTF("msg->parameterOffset: %d\n", msg->parameterOffset);
-    uint32_t test = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-    PRINTF("U4BE msg->parameter: %d\n", test);
-    context->next_offset = test + context->current_tuple_offset;
-    PRINTF("copied offset: %d\n", context->next_offset);
-}
-
-static void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
-{
-    if (context->offsets_lvl1[0] == msg->parameterOffset)
+    if (context->on_struct)
     {
-        PRINTF("PENZO START LAST ORDER\n");
-        context->next_param = (order)ORDER__OPERATOR;
+        switch (context->on_struct)
+        {
+        case S_BATCHED_INPUT_ORDERS:
+            parse_batched_input_orders(msg, context);
+            break;
+        case S_BATCHED_OUTPUT_ORDERS:
+            parse_batched_output_orders(msg, context);
+            break;
+        case S_ORDER:
+            parse_order(msg, context);
+            break;
+        }
+        return;
     }
-    PRINTF("PARSING ORDER\n");
-    switch ((order)context->next_param)
+    PRINTF("PARSING POO\n");
+    switch ((process_output_orders_parameter)context->next_param)
     {
-    case ORDER__OPERATOR:
-        PRINTF("parse ORDER__OPERATOR\n");
-        context->current_tuple_offset = msg->parameterOffset;
-        PRINTF("NEW current_tuple_offset: %d\n", context->current_tuple_offset);
+    case POO__TOKEN_ID:
+        PRINTF("POO__TOKEN_ID\n");
+        for (uint8_t i = 0; i < PARAMETER_LENGTH; i++)
+        {
+            if (msg->parameter[i] != 0)
+            {
+                PRINTF("IS NOT 0\n");
+                context->booleans |= IS_COPY;
+                break;
+            }
+        }
         break;
-    case ORDER__TOKEN_ADDRESS:
-        PRINTF("parse ORDER__TOKEN_ADDRESS\n");
+    case POO__OFFSET_BOO:
+        PRINTF("POO__OFFSET_BOO\n");
+        copy_offset(msg, context); // osef
         break;
-    case ORDER__OFFSET_CALLDATA:
-        PRINTF("parse ORDER__OFFSET_CALLDATA\n");
-        copy_offset(msg, context);
-        break;
-    case ORDER__LEN_CALLDATA:
-        PRINTF("parse ORDER__LEN_CALLDATA\n");
-        break;
-    case ORDER__CALLDATA:
-        PRINTF("parse ORDER__CALLDATA\n");
-        break;
-    }
-    context->next_param++;
-}
-
-static void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *context)
-{
-    PRINTF("PARSING BIO step; %d\n", context->next_param);
-    switch ((batch_input_orders)context->next_param)
-    {
-    case BIO__INPUTTOKEN:
-        PRINTF("parse BIO__INPUTTOKEN\n");
-        context->current_tuple_offset = msg->parameterOffset;
-        PRINTF("parse BIO__INPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
-        break;
-    case BIO__AMOUNT:
-        PRINTF("parse BIO__AMOUNT\n");
-        break;
-    case BIO__OFFSET_ORDERS:
-        PRINTF("parse BIO__OFFSET_ORDERS\n");
-        copy_offset(msg, context);
-        break;
-    case BIO__FROM_RESERVE:
-        PRINTF("parse BIO__FROM_RESERVE\n");
-        break;
-    case BIO__LEN_ORDERS:
-        PRINTF("parse BIO__LEN_ORDERS\n");
+    case POO__LEN_BOO:
+        PRINTF("POO__LEN_BOO\n");
         context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         PRINTF("current_length: %d\n", context->current_length);
-        // test
-        context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
-        PRINTF("parse BIO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
         break;
-    case BIO__OFFSET_ARRAY_ORDERS:
+    case POO__OFFSET_ARRAY_BOO:
         context->length_offset_array--;
-        PRINTF("parse BIO__OFFSET_ARRAY_ORDERS, index: %d\n", context->length_offset_array);
+        PRINTF("POO__OFFSET_ARRAY_BOO, index: %d\n",
+               context->length_offset_array);
         if (context->length_offset_array < 2)
         {
-            context->offsets_lvl1[context->length_offset_array] =
-                U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-            PRINTF("offsets_lvl1[%d]: %d\n",
+            context->offsets_lvl0[context->length_offset_array] =
+                U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+            PRINTF("offsets_lvl0[%d]: %d\n",
                    context->length_offset_array,
-                   context->offsets_lvl1[context->length_offset_array]);
+                   context->offsets_lvl0[context->length_offset_array]);
         }
         if (context->length_offset_array == 0)
         {
-            PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
-            context->on_struct = (on_struct)S_ORDER;
-            context->next_param = (batch_input_orders)ORDER__OPERATOR;
+            context->on_struct = (on_struct)S_BATCHED_OUTPUT_ORDERS;
+            context->next_param = (batch_input_orders)BOO__OUTPUTTOKEN;
         }
         return;
         break;
+    case POO__BOO:
+        PRINTF("NOP NOP POO__BOO\n");
+        return;
+        break;
     default:
+        PRINTF("Param not supported: %d\n", context->next_param);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
     context->next_param++;
@@ -209,7 +188,7 @@ void handle_provide_parameter(void *parameters)
     // We use `%.*H`: it's a utility function to print bytes. You first give
     // the number of bytes you wish to print (in this case, `PARAMETER_LENGTH`) and then
     // the address (here `msg->parameter`).
-    PRINTF("plugin provide parameter: offset %d\nBytes: \033[0;31m %.*H \033[0m \n",
+    PRINTF("___\nplugin provide parameter: offset %d\nBytes: \033[0;31m %.*H \033[0m \n",
            msg->parameterOffset,
            PARAMETER_LENGTH,
            msg->parameter);
@@ -219,15 +198,14 @@ void handle_provide_parameter(void *parameters)
     switch (context->selectorIndex)
     {
     case CREATE:
-        handle_create(msg, context);
-        break;
     case PROCESS_INPUT_ORDERS:
-        PRINTF("handle_provide_parameter IN PBIO\n");
         handle_create(msg, context);
         break;
     case PROCESS_OUTPUT_ORDERS:
+        handle_process_output_orders(msg, context);
         break;
     case DESTROY:
+        // handle_destroy(msg, context);
         break;
     case RELEASE_TOKENS:
         handle_release_tokens(msg, context);
