@@ -40,8 +40,8 @@ void handle_provide_token(void *parameters)
     if (!(context->booleans & TOKEN1_FOUND))
     {
         context->screen_array |= SCREEN_3_UI;
-        ad
-    }
+        additionalScreens++
+        }
     if (!(context->booleans & TOKEN1_FOUND))
     {
         context->screen_array |= SCREEN_4_UI;
