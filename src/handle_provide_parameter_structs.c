@@ -55,12 +55,21 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__LEN_AMOUNTS:
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
+		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("with current_length_lvl1 = %d\n", context->current_length);
+		PRINTF("with current_length = %d\n", context->current_length);
+		break;
+	case BOO__AMOUNT:
+		PRINTF("parse BOO__AMOUNT\n");
+		context->current_length_lvl1--;
+		if (context->current_length_lvl1)
+			return;
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
-		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
 		context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("current_length: %d\n", context->current_length);
+		PRINTF("current_length_lvl1: %d\n", context->current_length_lvl1);
 		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);

@@ -23,15 +23,15 @@ static void handle_process_output_orders(ethPluginProvideParameter_t *msg, conte
     {
     case POO__TOKEN_ID:
         PRINTF("POO__TOKEN_ID\n");
-        for (uint8_t i = 0; i < PARAMETER_LENGTH; i++)
-        {
-            if (msg->parameter[i] != 0)
-            {
-                PRINTF("IS NOT 0\n");
-                context->booleans |= IS_COPY;
-                break;
-            }
-        }
+        // for (uint8_t i = 0; i < PARAMETER_LENGTH; i++)
+        // {
+        //     if (msg->parameter[i] != 0)
+        //     {
+        //         PRINTF("IS NOT 0\n");
+        //         context->booleans |= IS_COPY;
+        //         break;
+        //     }
+        // }
         break;
     case POO__OFFSET_BOO:
         PRINTF("POO__OFFSET_BOO\n");
@@ -74,6 +74,7 @@ static void handle_process_output_orders(ethPluginProvideParameter_t *msg, conte
     context->next_param++;
 }
 
+// processInputOrder as the same signature
 static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 {
     if (context->on_struct)

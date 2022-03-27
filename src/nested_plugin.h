@@ -146,6 +146,7 @@ typedef struct __attribute__((__packed__)) context_t
     uint32_t current_tuple_offset;          // 4
     uint32_t next_offset;                   // 4
     uint16_t current_length;                // 2
+    uint16_t current_length_lvl1;           // 2
     uint8_t token1_address[ADDRESS_LENGTH]; // 20
     uint8_t token1_amount[INT256_LENGTH];   // 32
     uint8_t token1_decimals;                // 1
