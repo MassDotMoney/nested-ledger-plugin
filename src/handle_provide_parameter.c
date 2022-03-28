@@ -18,17 +18,16 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 {
     if (context->on_struct)
     {
-        switch (context->on_struct)
-        {
-        case S_BATCHED_INPUT_ORDERS:
+        if (context->on_struct == S_BATCHED_INPUT_ORDERS)
             parse_batched_input_orders(msg, context);
-            break;
-        case S_BATCHED_OUTPUT_ORDERS:
+        else if (context->on_struct == S_BATCHED_OUTPUT_ORDERS)
             parse_batched_output_orders(msg, context);
-            break;
-        case S_ORDER:
+        else if (context->on_struct == S_ORDER)
             parse_order(msg, context);
-            break;
+        else
+        {
+            PRINTF("handle_create on_struct ERROR\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
         }
         return;
     }
