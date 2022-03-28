@@ -18,17 +18,11 @@ void handle_finalize(void *parameters)
     context_t *context = (context_t *)msg->pluginContext;
 
     context->token1_decimals = DEFAULT_DECIMAL;
-    msg->numScreens = 2;
+    msg->numScreens = 1;
 
-    switch (context->selectorIndex)
-    {
-    case RELEASE_TOKENS:
-        if (context->number_of_tokens <= 1)
-            msg->numScreens = 1;
-        break;
-    default:
-        break;
-    }
+    // context->plugin_screen_index |= FIRST_SCREEN_UI;
+    if (context->selectorIndex != RELEASE_TOKENS)
+        msg->numScreens = 2;
 
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
