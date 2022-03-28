@@ -104,19 +104,19 @@ typedef enum
 #define BOOL7 (1 << 7)
 #define BOOL8 (1 << 8)
 
-// screen array correspondance
-#define FIRST_SCREEN_UI 1 // Must remain first screen in screen array and always up. Comes after ID screen in handle_query_contract_ui.c
-#define SCREEN_2_UI (1 << 1)
-#define SCREEN_3_UI (1 << 2)
-#define SCREEN_4_UI (1 << 3)
-#define SCREEN_5_UI (1 << 4)
-#define SCREEN_6_UI (1 << 5)
-#define SCREEN_7_UI (1 << 6)
-#define SCREEN_8_UI (1 << 7)
-#define LAST_UI (1 << 7) // Must remain last screen in screen array.
-
-#define RIGHT_SCROLL 1
-#define LEFT_SCROLL 0
+//screen array correspondance
+//#define FIRST_SCREEN_UI 1 // Must remain first screen in screen array and always up. Comes after ID screen in handle_query_contract_ui.c
+//#define SCREEN_2_UI (1 << 1)
+//#define SCREEN_3_UI (1 << 2)
+//#define SCREEN_4_UI (1 << 3)
+//#define SCREEN_5_UI (1 << 4)
+//#define SCREEN_6_UI (1 << 5)
+//#define SCREEN_7_UI (1 << 6)
+//#define SCREEN_8_UI (1 << 7)
+//#define LAST_UI (1 << 7) // Must remain last screen in screen array.
+//
+//#define RIGHT_SCROLL 1
+//#define LEFT_SCROLL 0
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct __attribute__((__packed__)) context_t

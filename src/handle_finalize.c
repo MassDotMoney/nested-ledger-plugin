@@ -12,57 +12,23 @@ static void print_booleans(context_t *context)
     PRINTF("BOOL8 %d\n", context->screen_array & BOOL8);
 }
 
-static uint8_t count_screens(uint8_t screen_array)
-{
-    uint8_t total = 0;
-    uint8_t scout = 1;
-    for (uint8_t i = 0; i < 8; i++)
-    {
-        if (scout & screen_array)
-            total++;
-        scout <<= 1;
-    }
-    return total;
-}
-
-//static void set_screens(context_t *context)
-//{
-//    context->screen_array |= FIRST_SCREEN_UI;
-//    switch (context->selectorIndex)
-//    {
-//    case CREATE:
-//    case DESTROY:
-//    case RELEASE_TOKENS:
-//        if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
-//            context->screen_array |= SCREEN_2_UI;
-//        break;
-//    default:
-//        PRINTF("set_screens ERROR\n");
-//    }
-//}
-
 void handle_finalize(void *parameters)
 {
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
     context->token1_decimals = DEFAULT_DECIMAL;
-    context->screen_array |= FIRST_SCREEN_UI;
+    msg->numScreens = 2;
 
     switch (context->selectorIndex)
     {
-    case CREATE:
-    case DESTROY:
-        context->screen_array |= SCREEN_2_UI;
-        break;
     case RELEASE_TOKENS:
-        if (context->number_of_tokens > 1)
-            context->screen_array |= SCREEN_2_UI;
+        if (context->number_of_tokens <= 1)
+            msg->numScreens = 1;
+        break;
+    default:
         break;
     }
-
-    // set the first screen to display.
-    context->plugin_screen_index = FIRST_SCREEN_UI;
 
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
@@ -87,6 +53,5 @@ void handle_finalize(void *parameters)
            msg->pluginSharedRO->txContent->chainID.value);
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
-    msg->numScreens = count_screens(context->screen_array);
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
