@@ -97,7 +97,7 @@ typedef enum
 #define IS_COPY (1)
 #define TOKEN1_FOUND (1 << 2)
 #define TOKEN2_FOUND (1 << 3)
-#define BOOL4 (1 << 4)
+#define IS_FROM_RESERVE (1 << 4)
 #define BOOL5 (1 << 5)
 #define BOOL6 (1 << 6)
 #define BOOL7 (1 << 7)

@@ -89,7 +89,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		{
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
-			context->next_param = (batch_input_orders)ORDER__OPERATOR;
+			context->next_param = (order)ORDER__OPERATOR;
 		}
 		return;
 		break;
@@ -119,6 +119,8 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		break;
 	case BIO__FROM_RESERVE:
 		PRINTF("parse BIO__FROM_RESERVE\n");
+		if (U4BE(msg->parameter, PARAMETER_LENGTH - 4))
+			context->booleans |= IS_FROM_RESERVE;
 		break;
 	case BIO__LEN_ORDERS:
 		PRINTF("parse BIO__LEN_ORDERS\n");
