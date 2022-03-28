@@ -1,5 +1,17 @@
 #include "nested_plugin.h"
 
+static void print_booleans(context_t *context)
+{
+    PRINTF("IS_COPY %d\n", context->screen_array & IS_COPY);
+    PRINTF("TOKEN1_FOUND %d\n", context->screen_array & TOKEN1_FOUND);
+    PRINTF("TOKEN2_FOUND %d\n", context->screen_array & TOKEN2_FOUND);
+    PRINTF("IS_FROM_RESERVE %d\n", context->screen_array & IS_FROM_RESERVE);
+    PRINTF("BOOL5 %d\n", context->screen_array & BOOL5);
+    PRINTF("BOOL6 %d\n", context->screen_array & BOOL6);
+    PRINTF("BOOL7 %d\n", context->screen_array & BOOL7);
+    PRINTF("BOOL8 %d\n", context->screen_array & BOOL8);
+}
+
 static uint8_t count_screens(uint8_t screen_array)
 {
     uint8_t total = 0;
@@ -50,6 +62,8 @@ void handle_finalize(void *parameters)
     context->token1_decimals = DEFAULT_DECIMAL;
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
+
+    print_booleans(context);
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
     msg->numScreens = count_screens(context->screen_array);
