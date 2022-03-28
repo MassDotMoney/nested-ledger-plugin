@@ -58,6 +58,7 @@ void dispatch_plugin_calls(int message, void *parameters)
         handle_finalize(parameters);
         break;
     case ETH_PLUGIN_PROVIDE_INFO:
+        PRINTF("GPIRIOU MAIN\n");
         handle_provide_token(parameters);
         break;
     case ETH_PLUGIN_QUERY_CONTRACT_ID:

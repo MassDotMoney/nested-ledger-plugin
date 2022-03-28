@@ -25,21 +25,21 @@ static uint8_t count_screens(uint8_t screen_array)
     return total;
 }
 
-static void set_screens(context_t *context)
-{
-    context->screen_array |= FIRST_SCREEN_UI;
-    switch (context->selectorIndex)
-    {
-    case CREATE:
-    case DESTROY:
-    case RELEASE_TOKENS:
-        if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
-            context->screen_array |= SCREEN_2_UI;
-        break;
-    default:
-        PRINTF("set_screens ERROR\n");
-    }
-}
+//static void set_screens(context_t *context)
+//{
+//    context->screen_array |= FIRST_SCREEN_UI;
+//    switch (context->selectorIndex)
+//    {
+//    case CREATE:
+//    case DESTROY:
+//    case RELEASE_TOKENS:
+//        if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+//            context->screen_array |= SCREEN_2_UI;
+//        break;
+//    default:
+//        PRINTF("set_screens ERROR\n");
+//    }
+//}
 
 void handle_finalize(void *parameters)
 {
@@ -47,7 +47,19 @@ void handle_finalize(void *parameters)
     context_t *context = (context_t *)msg->pluginContext;
 
     context->token1_decimals = DEFAULT_DECIMAL;
-    set_screens(context);
+    context->screen_array |= FIRST_SCREEN_UI;
+
+    switch (context->selectorIndex)
+    {
+    case CREATE:
+    case DESTROY:
+        context->screen_array |= SCREEN_2_UI;
+        break;
+    case RELEASE_TOKENS:
+        if (context->number_of_tokens > 1)
+            context->screen_array |= SCREEN_2_UI;
+        break;
+    }
 
     // set the first screen to display.
     context->plugin_screen_index = FIRST_SCREEN_UI;

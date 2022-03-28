@@ -1,21 +1,28 @@
 #include "nested_plugin.h"
 #include "text.h"
 
-//static void print_screen_array(context_t *context)
+static void print_screen_array(context_t *context)
+{
+    PRINTF("FIRST_SCREEN_UI %d\n", context->screen_array & FIRST_SCREEN_UI);
+    PRINTF("SCREEN_2_UI %d\n", context->screen_array & SCREEN_2_UI);
+    PRINTF("SCREEN_3_UI %d\n", context->screen_array & SCREEN_3_UI);
+    // PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
+    // PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
+    // PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
+    // PRINTF("SCREEN_UI_7 %d\n", context->screen_array & SCREEN_UI_7);
+    // PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
+}
+
+//static void set_warning_ui(ethQueryContractUI_t *msg, context_t *context)
 //{
-//    PRINTF("FIRST_SCREEN_UI %d\n", context->screen_array & FIRST_SCREEN_UI);
-//    PRINTF("SCREEN_2_UI %d\n", context->screen_array & SCREEN_2_UI);
-//    PRINTF("SCREEN_3_UI %d\n", context->screen_array & SCREEN_3_UI);
-//    PRINTF("SCREEN_UI_4 %d\n", context->screen_array & SCREEN_UI_4);
-//    PRINTF("SCREEN_UI_5 %d\n", context->screen_array & SCREEN_UI_5);
-//    PRINTF("SCREEN_UI_6 %d\n", context->screen_array & SCREEN_UI_6);
-//    PRINTF("SCREEN_UI_7 %d\n", context->screen_array & SCREEN_UI_7);
-//    PRINTF("LAST_UI %d\n", context->screen_array & LAST_UI);
+//    PRINTF("GPIRIOU WARNING DEBUG\n");
+//    strlcpy(msg->title, UNKNOWN_TOKEN_TITLE, msg->titleLength);
+//    strlcpy(msg->msg, UNKNOWN_TOKEN_MSG, msg->msgLength);
 //}
 
-static void set_FIRST_SCREEN_UI(ethQueryContractUI_t *msg, context_t *context)
+static void set_sent_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("PENZO in set_FIRST_SCREEN_UI, on %d selector\n", context->selectorIndex);
+    PRINTF("GPIRIOU in set_sent_tokens_ui, on %d selector\n", context->selectorIndex);
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -23,10 +30,30 @@ static void set_FIRST_SCREEN_UI(ethQueryContractUI_t *msg, context_t *context)
             strlcpy(msg->title, TITLE_COPY_SENT_TOKEN, msg->titleLength);
         else
             strlcpy(msg->title, TITLE_CREATE_SENT_TOKEN, msg->titleLength);
+        if (context->booleans & TOKEN1_FOUND)
+        {
+            amountToString(context->token1_amount, sizeof(context->token1_amount),
+                           context->token1_decimals,
+                           context->token1_ticker,
+                           msg->msg,
+                           msg->msgLength);
+        }
+        else
+        {
+            msg->msg[0] = '0';
+            msg->msg[1] = 'x';
+            getEthAddressStringFromBinary((uint8_t *)context->token1_address,
+                                          (uint8_t *)msg->msg + 2,
+                                          msg->pluginSharedRW->sha3,
+                                          0);
+        }
         break;
     case DESTROY:
         strlcpy(msg->title, TITLE_DESTROY_SENT_TOKEN, msg->titleLength);
-        strlcpy(msg->msg, MSG_DESTROY_SENT_TOKEN, msg->msgLength);
+        if (context->number_of_tokens <= 1)
+            MSG_NUMBER_OF_TOKENS_SINGLE;
+        else
+            MSG_NUMBER_OF_TOKENS_PLURAL;
         break;
     case RELEASE_TOKENS:
         strlcpy(msg->title, "in", msg->titleLength);
@@ -39,23 +66,23 @@ static void set_FIRST_SCREEN_UI(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void set_SCREEN_2_UI(ethQueryContractUI_t *msg, context_t *context)
+static void set_received_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("GPIRIOU in set_received_tokens_ui, on %d selector\n", context->selectorIndex);
     switch (context->selectorIndex)
     {
     case CREATE:
-        if (context->booleans)
-        {
+        if (context->booleans & IS_COPY)
             strlcpy(msg->title, TITLE_COPY_RECEIVED_TOKEN, msg->titleLength);
-            strlcpy(msg->msg, MSG_COPY_RECEIVED_TOKEN, msg->msgLength);
-        }
         else
-        {
             strlcpy(msg->title, TITLE_CREATE_RECEIVED_TOKEN, msg->titleLength);
-            strlcpy(msg->msg, MSG_CREATE_RECEIVED_TOKEN, msg->msgLength);
-        }
+        if (context->number_of_tokens <= 1)
+            MSG_NUMBER_OF_TOKENS_SINGLE;
+        else
+            MSG_NUMBER_OF_TOKENS_PLURAL;
         break;
     case DESTROY:
+        PRINTF("GPIRIOU token2: %d\n", TOKEN2_FOUND);
         strlcpy(msg->title, TITLE_DESTROY_RECEIVED_TOKEN, msg->titleLength);
         amountToString(context->token1_amount, sizeof(context->token1_amount),
                        context->token1_decimals,
@@ -153,14 +180,14 @@ void handle_query_contract_ui(void *parameters)
     switch (context->plugin_screen_index)
     {
     case FIRST_SCREEN_UI:
-        set_FIRST_SCREEN_UI(msg, context);
+        set_sent_tokens_ui(msg, context);
         break;
     case SCREEN_2_UI:
-        set_SCREEN_2_UI(msg, context);
+        set_received_tokens_ui(msg, context);
         break;
-    case SCREEN_3_UI:
-        set_screen3(msg, context);
-        break;
+    // case SCREEN_4_UI:
+    // set_screen_4_ui(msg, context);
+    // break;
     default:
         PRINTF("AN ERROR OCCURED IN UI\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;
