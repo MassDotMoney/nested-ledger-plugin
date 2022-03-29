@@ -26,37 +26,27 @@
 #define TITLE_CREATE_SCREEN_1_UI "Budget token:"
 // Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 #define TITLE_CREATE_SCREEN_2_UI "Adding"
-// Msg string is displayed by MSG_NUMBER_OF_TOKENS_*
+// Msg string is displayed by MSG_NUMBER_OF_TOKENS_UI
 
 /// COPY ///
 
 #define TITLE_COPY_SCREEN_1_UI "Budget token:"
-// Msg string is displayed by MSG_NUMBER_OF_TOKENS_*
 #define TITLE_COPY_SCREEN_2_UI "Copying"
 
 /// SELL PORTFOLIO ///
 
 #define TITLE_SELL_PORTFOLIO_SCREEN_1_UI "Selling"
-// Msg string is displayed by MSG_NUMBER_OF_TOKENS_*.
 #define TITLE_SELL_PORTFOLIO_SCREEN_2_UI "Receiving"
-// Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
+//
 
 /// CLAIM ///
 
 #define TITLE_CLAIM_SCREEN_1_UI "Claiming"
-// Msg string is displayed by MSG_NUMBER_OF_TOKENS_*.
-
-#define TITLE_CLAIM_SCREEN_2_UI (                                    \
-    {                                                                \
-        char *str;                                                   \
-        str = (context->number_of_tokens == 1) ? "token" : "tokens"; \
-        snprintf(msg->title, msg->titleLength, "Claimed %s:", str);  \
-    })
-#define MSG_CLAIM_2_TOKENS_SCREEN_2_UI snprintf(msg->msg, msg->msgLength, "%s and %s.", context->token1_ticker, context->token2_ticker)
+#define TITLE_CLAIM_SCREEN_2_UI "Claimed Tokens:"
 
 /// UTILS ///
 
-#define MSG_NUMBER_OF_TOKENS (                                                                 \
+#define MSG_NUMBER_OF_TOKENS_UI (                                                              \
     {                                                                                          \
         if (context->number_of_tokens > 1)                                                     \
             snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens."); \
@@ -64,5 +54,15 @@
             snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token.");  \
     })
 
+#define MSG_TOKEN_FOUND_UI snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker)
+#define MSG_2_TOKENS_FOUND_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
+
 #define UNKNOWN_TOKEN_TITLE "Unknown"
 #define UNKNOWN_TOKEN_MSG "token:"
+
+//#define TITLE_CLAIM_SCREEN_2_UI (                                    \
+//    {                                                                \
+//        char *str;                                                   \
+//        str = (context->number_of_tokens == 1) ? "token" : "tokens"; \
+//        snprintf(msg->title, msg->titleLength, "Claimed %s:", str);  \
+//    })
