@@ -7,8 +7,8 @@
 // TITLE and MSG strings are respectively used for the top and bottom text displays in the UI screens.
 
 // Title string for 1st UI is always PLUGIN_NAME in src/handle_query_contract_id.c.
-#define MSG_CREATE_ID "Create"
-#define MSG_COPY_ID "Copy"
+#define MSG_CREATE_ID "Create Portfolio"
+#define MSG_COPY_ID "Copy Portfolio"
 #define MSG_CLAIM_ID "Claim Royalties"
 #define MSG_PROCESS_INPUT_ORDERS_ID "PROCESS_INPUT_ORDERS"
 #define MSG_PROCESS_OUTPUT_ORDERS_ID "PROCESS_OUTPUT_ORDERS"
@@ -19,7 +19,7 @@
 
 ///////////////////////
 
-// Titles and messages are divided by actions.
+// Titles and messages are listed by order of appearance.
 
 /// CREATE ///
 
@@ -45,22 +45,24 @@
 
 #define TITLE_CLAIM_SCREEN_1_UI "Claiming"
 // Msg string is displayed by MSG_NUMBER_OF_TOKENS_*.
-#define TITLE_CLAIM_SCREEN_2_UI_SINGLE "Claimed Token:"
-#define TITLE_CLAIM_SCREEN_2_UI_PLURAL "Claimed Tokens:"
+
+#define TITLE_CLAIM_SCREEN_2_UI (                                    \
+    {                                                                \
+        char *str;                                                   \
+        str = (context->number_of_tokens == 1) ? "token" : "tokens"; \
+        snprintf(msg->title, msg->titleLength, "Claimed %s:", str);  \
+    })
 #define MSG_CLAIM_2_TOKENS_SCREEN_2_UI snprintf(msg->msg, msg->msgLength, "%s and %s.", context->token1_ticker, context->token2_ticker)
 
 /// UTILS ///
 
-//#define MSG_NUMBER_OF_TOKENS ({
-//char *str;
-//if (context->number_of_tokens > 1)
-//    snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens");
-//else
-//    snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token");
-//})
-
-#define MSG_NUMBER_OF_TOKENS_SINGLE snprintf(msg->msg, msg->msgLength, "%d token.", context->number_of_tokens + 1)
-#define MSG_NUMBER_OF_TOKENS_PLURAL snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens)
+#define MSG_NUMBER_OF_TOKENS (                                                                 \
+    {                                                                                          \
+        if (context->number_of_tokens > 1)                                                     \
+            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens."); \
+        else                                                                                   \
+            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token.");  \
+    })
 
 #define UNKNOWN_TOKEN_TITLE "Unknown"
 #define UNKNOWN_TOKEN_MSG "token:"

@@ -48,19 +48,16 @@ static void set_screen_1_ui(ethQueryContractUI_t *msg, context_t *context)
                                           0);
         }
         break;
+    // case PROCESS_INPUT_ORDERS:
+
+    //     break;
     case DESTROY:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_1_UI, msg->titleLength);
-        if (context->number_of_tokens <= 1)
-            MSG_NUMBER_OF_TOKENS_SINGLE;
-        else
-            MSG_NUMBER_OF_TOKENS_PLURAL;
+        MSG_NUMBER_OF_TOKENS;
         break;
     case RELEASE_TOKENS: ///////// WIP
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        if (context->number_of_tokens >= 2)
-            MSG_NUMBER_OF_TOKENS_PLURAL;
-        else
-            MSG_NUMBER_OF_TOKENS_SINGLE;
+        MSG_NUMBER_OF_TOKENS;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -72,6 +69,7 @@ static void set_screen_1_ui(ethQueryContractUI_t *msg, context_t *context)
 static void set_screen_2_ui(ethQueryContractUI_t *msg, context_t *context)
 {
     PRINTF("GPIRIOU in set_screen_2_ui, on %d selector\n", context->selectorIndex);
+    PRINTF("GPIRIOU %d\n", context->number_of_tokens);
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -79,10 +77,7 @@ static void set_screen_2_ui(ethQueryContractUI_t *msg, context_t *context)
             strlcpy(msg->title, TITLE_COPY_SCREEN_2_UI, msg->titleLength);
         else
             strlcpy(msg->title, TITLE_CREATE_SCREEN_2_UI, msg->titleLength);
-        if (context->number_of_tokens <= 1)
-            MSG_NUMBER_OF_TOKENS_SINGLE;
-        else
-            MSG_NUMBER_OF_TOKENS_PLURAL;
+        MSG_NUMBER_OF_TOKENS;
         break;
     case DESTROY:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
@@ -93,11 +88,16 @@ static void set_screen_2_ui(ethQueryContractUI_t *msg, context_t *context)
                        msg->msgLength);
         break;
     case RELEASE_TOKENS:
-        if (context->number_of_tokens > 1)
-            strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI_PLURAL, msg->titleLength);
+        PRINTF("GPIRIOU RELEASE NUMBER OF TOKENS: %d\n", context->number_of_tokens);
+        TITLE_CLAIM_SCREEN_2_UI;
+        if (context->booleans & TOKEN1_FOUND && context->booleans & TOKEN2_FOUND)
+        {
+            print_bytes(context->token1_address, sizeof(context->token1_address));
+            PRINTF("GPIRIOU ADDRESS1: %s\n", context->token2_ticker);
+            MSG_CLAIM_2_TOKENS_SCREEN_2_UI;
+        }
         else
-            strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI_SINGLE, msg->titleLength);
-        MSG_CLAIM_2_TOKENS_SCREEN_2_UI;
+            MSG_NUMBER_OF_TOKENS;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -126,8 +126,7 @@ void handle_query_contract_ui(void *parameters)
         set_screen_2_ui(msg, context);
         break;
     case 2:
-        set_screen_2_ui(msg, context);
-        // set_screen_4_ui(msg, context);
+        // set_screen_3_ui(msg, context);
         break;
     default:
         PRINTF("AN ERROR OCCURED IN UI\n");
