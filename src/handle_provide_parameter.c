@@ -46,6 +46,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
         context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->number_of_tokens = context->current_length;
         context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         PRINTF("current_length: %d\n", context->current_length);
         break;

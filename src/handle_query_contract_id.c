@@ -22,10 +22,22 @@ void handle_query_contract_id(void *parameters)
         break;
     case PROCESS_INPUT_ORDERS:
         strlcpy(msg->version, MSG_PROCESS_INPUT_ORDERS_ID, msg->versionLength);
+        //        if (synchronization)
+        // strlcpy(msg->version, MSG_SYNCRHONIZATION_ID, msg->versionLength);
+        //          else if (deposit)
+        // strlcpy(msg->version, MSG_DEPOSIT_ID, msg->versionLength);
+        // else
+        // strlcpy(msg->version, MSG_ADD_TOKENS_ID, msg->versionLength);
         break;
     case PROCESS_OUTPUT_ORDERS:
         strlcpy(msg->version, MSG_PROCESS_OUTPUT_ORDERS_ID, msg->versionLength);
-        break;
+        //if (withdraw)
+        // strlcpy(msg->version, MSG_WITHDRAW_ID, msg->versionLength);
+        //  else if (swap)
+        // strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
+        // else if (sell_tokens)
+        // strlcpy(msg->version, MSG_SELL_TOKENS_ID, msg->versionLength);
+        //    break;
     case DESTROY:
         strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
         break;

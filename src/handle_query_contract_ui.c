@@ -44,23 +44,7 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_COPY_SCREEN_1_UI, msg->titleLength);
-        if (context->booleans & TOKEN1_FOUND)
-        {
-            amountToString(context->token1_amount, sizeof(context->token1_amount),
-                           context->token1_decimals,
-                           context->token1_ticker,
-                           msg->msg,
-                           msg->msgLength);
-        }
-        else
-        {
-            msg->msg[0] = '0';
-            msg->msg[1] = 'x';
-            getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                          (uint8_t *)msg->msg + 2,
-                                          msg->pluginSharedRW->sha3,
-                                          0);
-        }
+        MSG_TICKER_OR_ADDRESS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_COPY_SCREEN_2_UI, msg->titleLength);
@@ -83,21 +67,57 @@ static void handle_sell_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
-        if (context->booleans & TOKEN1_FOUND)
-            MSG_TOKEN_FOUND_UI;
-        else
-        {
-            msg->msg[0] = '0';
-            msg->msg[1] = 'x';
-            getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                          (uint8_t *)msg->msg + 2,
-                                          msg->pluginSharedRW->sha3,
-                                          0);
-        }
+        MSG_TICKER_OR_ADDRESS_UI;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_1_UI, msg->titleLength);
+        MSG_TICKER_OR_ADDRESS_UI;
+        break;
+    case 1:
+        strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_2_UI, msg->titleLength);
+        MSG_NUMBER_OF_TOKENS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
         strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_synchronization_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_SYNCHRONIZATION_SCREEN_1_UI, msg->titleLength);
+        strlcpy(msg->msg, MSG_SYNCHRONIZATION_SCREEN_1_UI, msg->msgLength);
+        break;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_deposit_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_SYNCHRONIZATION_SCREEN_1_UI, msg->titleLength);
+        MSG_TICKER_OR_ADDRESS_UI;
+        break;
+    default:
         break;
     }
 }
@@ -108,18 +128,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        if (context->booleans & TOKEN1_FOUND)
-            MSG_TOKEN_FOUND_UI;
-        else
-        {
-            msg->msg[0] = '0';
-            msg->msg[1] = 'x';
-            getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                          (uint8_t *)msg->msg + 2,
-                                          msg->pluginSharedRW->sha3,
-                                          0);
-            // Or MSG_NUMBER_OF_TOKENS ?
-        }
+        MSG_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -166,6 +175,7 @@ void handle_query_contract_ui(void *parameters)
         else
             handle_create_ui(msg, context);
     case PROCESS_INPUT_ORDERS:
+        // handle_add_tokens_ui(msg, context);
         break;
     case PROCESS_OUTPUT_ORDERS:
         break;
