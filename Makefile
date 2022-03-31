@@ -24,6 +24,10 @@ include $(BOLOS_SDK)/Makefile.defines
 # EDIT THIS: Put your plugin name
 APPNAME = "Nested"
 
+ifeq ($(ETHEREUM_PLUGIN_SDK),)
+ETHEREUM_PLUGIN_SDK=ethereum-plugin-sdk
+endif
+
 APP_LOAD_PARAMS += --appFlags 0x800 --path "44'/60'" --curve secp256k1
 
 APP_LOAD_PARAMS += $(COMMON_LOAD_PARAMS)
@@ -35,9 +39,9 @@ APPVERSION       = "$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)"
 
 # EDIT THIS: Change the name of the gif, and generate you own GIFs!
 ifeq ($(TARGET_NAME), TARGET_NANOS)
-ICONNAME=icons/nanos_app_boilerplate.gif
+ICONNAME=icons/nanos_app_nested.gif
 else
-ICONNAME=icons/nanox_app_boilerplate.gif
+ICONNAME=icons/nanox_app_nested.gif
 endif
 
 ################
@@ -79,10 +83,10 @@ endif
 # Enabling debug PRINTF
 DEBUG:= 0
 ifneq ($(DEBUG),0)
-        DEFINES += PRINTF=semihosted_printf
-        CFLAGS    += -include src/dbg/debug.h
+        DEFINES += HAVE_SEMIHOSTED_PRINTF PRINTF=semihosted_printf
+        CFLAGS  += -include src/dbg/debug.h
 else
-        DEFINES   += PRINTF\(...\)=
+        DEFINES += PRINTF\(...\)=
 endif
 
 ##############
@@ -104,7 +108,7 @@ endif
 
 CC       := $(CLANGPATH)clang
 
-CFLAGS   += -O3 -Os
+CFLAGS   += -Oz -Wno-format-invalid-specifier -Wno-format-extra-args
 
 AS     := $(GCCPATH)arm-none-eabi-gcc
 
@@ -116,7 +120,7 @@ LDLIBS   += -lm -lgcc -lc
 include $(BOLOS_SDK)/Makefile.glyphs
 
 ### variables processed by the common makefile.rules of the SDK to grab source files and include dirs
-APP_SOURCE_PATH  += src ethereum-plugin-sdk
+APP_SOURCE_PATH  += src $(ETHEREUM_PLUGIN_SDK)
 SDK_SOURCE_PATH  += lib_ux
 ifneq (,$(findstring HAVE_BLE,$(DEFINES)))
 SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
@@ -145,5 +149,5 @@ include $(BOLOS_SDK)/Makefile.rules
 dep/%.d: %.c Makefile
 
 listvariants:
-        # EDIT THIS: replace `boilerplate` by the lowercase name of your plugin
+        # EDIT THIS: replace `nested` by the lowercase name of your plugin
 	@echo VARIANTS NONE nested
