@@ -22,8 +22,16 @@ APP_ETHEREUM="/plugin_dev/app-ethereum"
 function build_nanos_plugin() {
 	echo "**Building app-plugin for Nano S..."
 	make clean BOLOS_SDK=$NANOS_SDK
-	make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK ALLOW_DATA=1
+	make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK
+	# make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK ALLOW_DATA=1
 	cp bin/app.elf "tests/elfs/plugin_nanos.elf"
+	echo PENZO
+	echo $NANOS_SDK
+	echo $BOLOS_SDK
+# 	TARGET_ID:=$(shell cat $BOLOS_SDK/include/bolos_target.h | grep TARGET_ID | cut -f3 -d' ')
+# TARGET_NAME:=$(shell cat $BOLOS_SDK/include/bolos_target.h | grep TARGET_ | grep -v TARGET_ID | cut -f2 -d' ')
+# TARGET_VERSION:=$(shell cat $BOLOS_SDK/include/bolos_version.h | grep define | cut -f2 -d'"')
+# $(info TARGET_NAME=$TARGET_NAME TARGET_ID=$TARGET_ID TARGET_VERSION=$TARGET_VERSION)
 }
 
 function build_nanos_appeth() {

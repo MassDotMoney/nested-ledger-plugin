@@ -2,6 +2,7 @@
 
 #include "eth_internals.h"
 #include "eth_plugin_interface.h"
+#include "debug.h"
 #include <string.h>
 
 // Number of decimals used when the token wasn't found in the Crypto Asset List.

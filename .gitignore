@@ -1,7 +1,7 @@
 .vscode/
 bin/
 debug/
-dep/
+dep/**
 obj/
 src/glyphs.c
 src/glyphs.h
@@ -10,3 +10,4 @@ opensea_code.sol
 DS_Store/
 **/.DS_Store
 **.swp
+Save*

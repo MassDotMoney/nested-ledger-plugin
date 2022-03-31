@@ -65,6 +65,19 @@ void handle_finalize(void *parameters)
 
     print_booleans(context);
 
+    // msg->pluginSharedRO->txContent->chainID;
+    // uint8_t test[INT256_LENGTH];
+    char test[12] = {0};
+    txInt256_t chainID = msg->pluginSharedRO->txContent->chainID;
+    // uint256_to_decimal(chainID.value, chainID.length, test, INT256_LENGTH);
+    uint256_to_decimal(chainID.value, chainID.length, test, 12);
+    PRINTF("CHAINID: %d\n", test);
+    PRINTF("with len: %d\n", chainID.length);
+
+    PRINTF("Bytes: \033[0;31m %.*H \033[0m \n",
+           INT256_LENGTH,
+           msg->pluginSharedRO->txContent->chainID.value);
+
     msg->uiType = ETH_UI_TYPE_GENERIC;
     msg->numScreens = count_screens(context->screen_array);
     msg->result = ETH_PLUGIN_RESULT_OK;
