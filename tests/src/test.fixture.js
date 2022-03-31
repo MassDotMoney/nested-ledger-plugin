@@ -29,7 +29,7 @@ const NANOX_PLUGIN_PATH = Resolve('elfs/plugin_nanox.elf');
 
 const nano_models: DeviceModel[] = [
     { name: 'nanos', letter: 'S', path: NANOS_PLUGIN_PATH, eth_path: NANOS_ETH_PATH },
-    // { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
+    { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
 ];
 
 
@@ -99,6 +99,7 @@ async function resolveTxFromData(data, contractAddr) {
     unsignedTx.to = contractAddr;
     unsignedTx.data = data;
     unsignedTx.value = parseEther("1");
+    console.log(`PENZOICI chainid: ${unsignedTx.chainId}`)
 
     const serializedTx = ethers.utils.serializeTransaction(unsignedTx).slice(2);
 
