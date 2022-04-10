@@ -51,6 +51,7 @@ static void handle_sell_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
         MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
         strlcpy(msg->msg, "ERROR", msg->msgLength);
