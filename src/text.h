@@ -31,9 +31,7 @@
 /// CREATE ///
 
 #define TITLE_CREATE_SCREEN_1_UI "Budget token:"
-// Msg string is displayed by AmountToString in src/handle_query_contract_ui.c
 #define TITLE_CREATE_SCREEN_2_UI "Adding to portfolio:"
-// Msg string is displayed by MSG_NUMBER_OF_TOKENS_UI
 
 /// COPY ///
 
@@ -45,10 +43,20 @@
 #define TITLE_SELL_PORTFOLIO_SCREEN_1_UI "Selling"
 #define TITLE_SELL_PORTFOLIO_SCREEN_2_UI "Receiving"
 
+/// SWAP ///
+
+#define TITLE_SWAP_SCREEN_1_UI "Swapping:"
+#define TITLE_SWAP_SCREEN_2_UI "Receiving:"
+
 /// ADD TOKENS ///
 
 #define TITLE_ADD_TOKENS_SCREEN_1_UI "Budget Token:"
 #define TITLE_ADD_TOKENS_SCREEN_2_UI "Adding"
+
+/// SELL TOKENS ///
+
+#define TITLE_SELL_TOKENS_SCREEN_1_UI "Selling"
+#define TITLE_SELL_TOKENS_SCREEN_2_UI "Receiving"
 
 /// SYNCHRONIZATION ///
 
@@ -60,12 +68,25 @@
 #define TITLE_DEPOSIT_SCREEN_1_UI "Depositing"
 #define MSG_DEPOSIT_SCREEN_1_UI ""
 
+/// WITHDRAW ///
+
+#define TITLE_WITHDRAW_SCREEN_1_UI "Withdrawing"
+#define MSG_WITHDRAW_SCREEN_1_UI ""
+
 /// CLAIM ///
 
 #define TITLE_CLAIM_SCREEN_1_UI "Claiming"
 #define TITLE_CLAIM_SCREEN_2_UI "Claimed Tokens:"
 
+/// SEND ///
+
+#define TITLE_SEND_SCREEN_1_UI "Sending to:"
+
 /// UTILS ///
+
+#define MSG_TICKER1_UI snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker)
+#define MSG_TICKER2_UI snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker)
+#define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
 
 #define MSG_NUMBER_OF_TOKENS_UI (                                                             \
     {                                                                                         \
@@ -75,7 +96,43 @@
             snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token."); \
     })
 
-#define MSG_TICKER_OR_ADDRESS_UI (                                                 \
+#define MSG_DISPLAY_TOKEN1_ADDRESS (                                      \
+    {                                                                     \
+        msg->msg[1] = '0';                                                \
+        msg->msg[2] = 'x';                                                \
+        getEthAddressStringFromBinary((uint8_t *)context->token1_address, \
+                                      (uint8_t *)msg->msg + 2,            \
+                                      msg->pluginSharedRW->sha3,          \
+                                      0);                                 \
+    })
+
+#define MSG_DISPLAY_TOKEN2_ADDRESS (                                      \
+    {                                                                     \
+        msg->msg[1] = '0';                                                \
+        msg->msg[2] = 'x';                                                \
+        getEthAddressStringFromBinary((uint8_t *)context->token2_address, \
+                                      (uint8_t *)msg->msg + 2,            \
+                                      msg->pluginSharedRW->sha3,          \
+                                      0);                                 \
+    })
+
+#define MSG_TOKEN1_TICKER_OR_ADDRESS_UI (     \
+    {                                         \
+        if (context->booleans & TOKEN1_FOUND) \
+            MSG_TICKER1_UI;                   \
+        else                                  \
+            MSG_DISPLAY_TOKEN1_ADDRESS;       \
+    })
+
+#define MSG_TOKEN2_TICKER_OR_ADDRESS_UI (     \
+    {                                         \
+        if (context->booleans & TOKEN2_FOUND) \
+            MSG_TICKER2_UI;                   \
+        else                                  \
+            MSG_DISPLAY_TOKEN2_ADDRESS;       \
+    })
+
+#define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                          \
     {                                                                              \
         if (context->booleans & TOKEN1_FOUND)                                      \
         {                                                                          \
@@ -86,25 +143,8 @@
                            msg->msgLength);                                        \
         }                                                                          \
         else                                                                       \
-        {                                                                          \
-            msg->msg[0] = '0';                                                     \
-            msg->msg[1] = 'x';                                                     \
-            getEthAddressStringFromBinary((uint8_t *)context->token1_address,      \
-                                          (uint8_t *)msg->msg + 2,                 \
-                                          msg->pluginSharedRW->sha3,               \
-                                          0);                                      \
-        }                                                                          \
+            MSG_DISPLAY_TOKEN1_ADDRESS;                                            \
     })
 
-#define MSG_TOKEN_FOUND_UI snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker)
-#define MSG_2_TOKENS_FOUND_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
-
-#define UNKNOWN_TOKEN_TITLE "Unknown"
-#define UNKNOWN_TOKEN_MSG "token:"
-
-//#define TITLE_CLAIM_SCREEN_2_UI (                                    \
-//    {                                                                \
-//        char *str;                                                   \
-//        str = (context->number_of_tokens == 1) ? "token" : "tokens"; \
-//        snprintf(msg->title, msg->titleLength, "Claimed %s:", str);  \
-//    })
+//#define UNKNOWN_TOKEN_TITLE "Unknown"
+//#define UNKNOWN_TOKEN_MSG "token:"

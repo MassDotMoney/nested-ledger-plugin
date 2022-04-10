@@ -5,27 +5,20 @@ static void handle_create_ui(ethQueryContractUI_t *msg, context_t *context)
 {
     switch (msg->screenIndex)
     {
-    case 0: // Edit these to change screens.
+    case 0:
+        // Edit these to change screens.
         strlcpy(msg->title, TITLE_CREATE_SCREEN_1_UI, msg->titleLength);
-        if (context->booleans & TOKEN1_FOUND)
-        {
-            // This converts to a number with the appropriate decimal and ticker.
-            amountToString(context->token1_amount, sizeof(context->token1_amount),
-                           context->token1_decimals,
-                           context->token1_ticker,
-                           msg->msg,
-                           msg->msgLength);
-        }
-        else
-        {
-            // This displays the address of token1;
-            msg->msg[0] = '0';
-            msg->msg[1] = 'x';
-            getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                          (uint8_t *)msg->msg + 2,
-                                          msg->pluginSharedRW->sha3,
-                                          0);
-        }
+        // strlcpy(msg->msg, TITLE_CREATE_SCREEN_1_UI, msg->msgLength);
+
+        PRINTF("GPIRIOU DEBUG\n");
+        print_bytes(&context->token1_address, sizeof(context->token1_address));
+        msg->msg[1] = '0';
+        msg->msg[2] = 'x';
+        getEthAddressStringFromBinary((uint8_t *)context->token1_address,
+                                      (uint8_t *)msg->msg + 2,
+                                      msg->pluginSharedRW->sha3,
+                                      0);
+        // MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_CREATE_SCREEN_2_UI, msg->titleLength);
@@ -44,7 +37,7 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_COPY_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_COPY_SCREEN_2_UI, msg->titleLength);
@@ -67,7 +60,26 @@ static void handle_sell_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_SWAP_SCREEN_1_UI, msg->titleLength);
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        break;
+    case 1:
+        strlcpy(msg->title, TITLE_SWAP_SCREEN_2_UI, msg->titleLength);
+        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
+        break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
         strlcpy(msg->msg, "ERROR", msg->msgLength);
@@ -81,11 +93,30 @@ static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_2_UI, msg->titleLength);
         MSG_NUMBER_OF_TOKENS_UI;
+        break;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_1_UI, msg->titleLength);
+        MSG_NUMBER_OF_TOKENS_UI;
+        break;
+    case 1:
+        strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -114,10 +145,27 @@ static void handle_deposit_ui(ethQueryContractUI_t *msg, context_t *context)
     switch (msg->screenIndex)
     {
     case 0:
-        strlcpy(msg->title, TITLE_SYNCHRONIZATION_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER_OR_ADDRESS_UI;
+        strlcpy(msg->title, TITLE_DEPOSIT_SCREEN_1_UI, msg->titleLength);
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_withdraw_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_WITHDRAW_SCREEN_1_UI, msg->titleLength);
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        break;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
         break;
     }
 }
@@ -128,7 +176,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -147,7 +195,27 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1: // Only if 2 tokens found by app.
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI, msg->titleLength);
-        MSG_2_TOKENS_FOUND_UI;
+        MSG_2_TICKERS_UI;
+        break;
+    default:
+        strlcpy(msg->title, "ERROR", msg->titleLength);
+        strlcpy(msg->msg, "ERROR", msg->msgLength);
+        break;
+    }
+}
+
+static void handle_send_ui(ethQueryContractUI_t *msg, context_t *context)
+{
+    switch (msg->screenIndex)
+    {
+    case 0:
+        strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
+        msg->msg[0] = '0';
+        msg->msg[1] = 'x';
+        getEthAddressStringFromBinary((uint8_t *)context->token1_address,
+                                      (uint8_t *)msg->msg + 2,
+                                      msg->pluginSharedRW->sha3,
+                                      0);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
