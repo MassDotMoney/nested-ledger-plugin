@@ -68,7 +68,7 @@ void handle_init_contract(void *parameters)
         break;
     case DESTROY:
         PRINTF("IN DESTROY\n");
-        context->next_param = CREATE__TOKEN_ID; /// ? PARAMS TO BE MODIFIED
+        context->next_param = DESTROY__TOKEN_ID; /// ? PARAMS TO BE MODIFIED
         break;
     case RELEASE_TOKENS:
         PRINTF("IN RELEASE TOKENS\n");

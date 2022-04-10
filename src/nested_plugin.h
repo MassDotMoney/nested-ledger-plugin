@@ -78,6 +78,15 @@ typedef enum
 
 typedef enum
 {
+    DESTROY__TOKEN_ID,
+    DESTROY__BUY_TOKEN,
+    DESTROY__OFFSET_ORDERS,
+    DESTROY__LEN_ORDERS,
+    DESTROY__ORDERS, // will not be reached
+} destroy_parameter;
+
+typedef enum
+{
     CREATE__TOKEN_ID,
     CREATE__OFFSET_BIO,
     CREATE__LEN_BIO,

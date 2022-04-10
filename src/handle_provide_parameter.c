@@ -93,6 +93,31 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     context->next_param++;
 }
 
+static void handle_sell_portfolio(ethPluginProvideParameter_t *msg, context_t *context)
+{
+    PRINTF("GPIRIOU HANDLE SELL PORTFOLIO\n");
+    switch ((destroy_parameter)context->next_param)
+    {
+    case DESTROY__TOKEN_ID:
+        break;
+    case DESTROY__BUY_TOKEN:
+        copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+        break;
+    case DESTROY__OFFSET_ORDERS:
+        break;
+    case DESTROY__LEN_ORDERS:
+        context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        break;
+    case DESTROY__ORDERS:
+        break;
+    default:
+        PRINTF("Param not supported: %d\n", context->next_param);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
+        break;
+    }
+    context->next_param++;
+}
+
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
 {
     PRINTF("HANDLE_RELEASE_TOKENS\n");
@@ -149,7 +174,7 @@ void handle_provide_parameter(void *parameters)
         handle_create(msg, context);
         break;
     case DESTROY:
-        // handle_destroy(msg, context);
+        handle_sell_portfolio(msg, context);
         break;
     case RELEASE_TOKENS:
         handle_release_tokens(msg, context);
