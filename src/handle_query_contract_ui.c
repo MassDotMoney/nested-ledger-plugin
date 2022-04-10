@@ -8,17 +8,7 @@ static void handle_create_ui(ethQueryContractUI_t *msg, context_t *context)
     case 0:
         // Edit these to change screens.
         strlcpy(msg->title, TITLE_CREATE_SCREEN_1_UI, msg->titleLength);
-        // strlcpy(msg->msg, TITLE_CREATE_SCREEN_1_UI, msg->msgLength);
-
-        PRINTF("GPIRIOU DEBUG\n");
-        print_bytes(&context->token1_address, sizeof(context->token1_address));
-        msg->msg[1] = '0';
-        msg->msg[2] = 'x';
-        getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                      (uint8_t *)msg->msg + 2,
-                                      msg->pluginSharedRW->sha3,
-                                      0);
-        // MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_CREATE_SCREEN_2_UI, msg->titleLength);
@@ -204,7 +194,7 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void handle_send_ui(ethQueryContractUI_t *msg, context_t *context)
+static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *context)
 {
     switch (msg->screenIndex)
     {
@@ -212,10 +202,10 @@ static void handle_send_ui(ethQueryContractUI_t *msg, context_t *context)
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
         msg->msg[0] = '0';
         msg->msg[1] = 'x';
-        getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-                                      (uint8_t *)msg->msg + 2,
-                                      msg->pluginSharedRW->sha3,
-                                      0);
+        //getEthAddressStringFromBinary((uint8_t *)context->token1_address,
+        //                              (uint8_t *)msg->msg + 2,
+        //                              msg->pluginSharedRW->sha3,
+        //                              0);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
