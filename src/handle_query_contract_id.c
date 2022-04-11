@@ -21,13 +21,12 @@ void handle_query_contract_id(void *parameters)
             strlcpy(msg->version, MSG_CREATE_ID, msg->versionLength);
         break;
     case PROCESS_INPUT_ORDERS:
-        strlcpy(msg->version, MSG_PROCESS_INPUT_ORDERS_ID, msg->versionLength);
-        //        if (synchronization)
+        if (context->ui_selector == ADD_TOKENS)
+            strlcpy(msg->version, MSG_ADD_TOKEN_ID, msg->versionLength);
         // strlcpy(msg->version, MSG_SYNCRHONIZATION_ID, msg->versionLength);
         //          else if (deposit)
         // strlcpy(msg->version, MSG_DEPOSIT_ID, msg->versionLength);
         // else
-        // strlcpy(msg->version, MSG_ADD_TOKENS_ID, msg->versionLength);
         break;
     case PROCESS_OUTPUT_ORDERS:
         strlcpy(msg->version, MSG_PROCESS_OUTPUT_ORDERS_ID, msg->versionLength);

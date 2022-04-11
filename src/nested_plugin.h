@@ -94,6 +94,17 @@ typedef enum
     CREATE__BIO, // will not be reached
 } create_parameter;
 
+typedef enum
+{
+    NONE,
+    ADD_TOKENS,
+    DEPOSIT,
+    SYNCHRONIZATION,
+    SELL_TOKENS,
+    WITHDRAW,
+    SWAP,
+} ui_selector;
+
 /* FeeSplitter Functions */
 
 typedef enum
@@ -101,7 +112,7 @@ typedef enum
     RELEASE_OFFSET_TOKENS,
     RELEASE_LEN_TOKENS,
     RELEASE_ARRAY_TOKENS,
-} release_tokens_paramter;
+} release_tokens_parameter;
 
 // Booleans
 #define IS_COPY (1)
@@ -149,6 +160,8 @@ typedef struct __attribute__((__packed__)) context_t
     uint16_t offsets_lvl0[2];               // 4
     uint16_t offsets_lvl1[2];               // 4
     uint8_t length_offset_array;            // 1
+    uint8_t ui_selector;                    // 1
+    uint32_t last_calldata_offset;          // 4
     uint8_t booleans;                       // 1
     uint8_t number_of_tokens;               // 1
     selector_t selectorIndex;               // 1

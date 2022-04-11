@@ -13,7 +13,7 @@ static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context)
     }
 }
 
-// processInputOrder as the same signature
+// processInputOrder has the same signature
 static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 {
     if (context->on_struct)
@@ -73,7 +73,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
                 break;
             case PROCESS_OUTPUT_ORDERS:
                 context->on_struct = (on_struct)S_BATCHED_OUTPUT_ORDERS;
-                context->next_param = (batch_input_orders)BOO__OUTPUTTOKEN;
+                context->next_param = (batch_output_orders)BOO__OUTPUTTOKEN;
                 break;
             default:
                 PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
@@ -133,7 +133,7 @@ static void handle_sell_portfolio(ethPluginProvideParameter_t *msg, context_t *c
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
 {
     PRINTF("HANDLE_RELEASE_TOKENS\n");
-    switch ((release_tokens_paramter)context->next_param)
+    switch ((release_tokens_parameter)context->next_param)
     {
     case RELEASE_OFFSET_TOKENS:
         PRINTF("RELEASE_OFFSET_TOKENS\n");

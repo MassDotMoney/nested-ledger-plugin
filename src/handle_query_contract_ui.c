@@ -238,9 +238,20 @@ void handle_query_contract_ui(void *parameters)
         else
             handle_create_ui(msg, context);
     case PROCESS_INPUT_ORDERS:
-        // handle_add_tokens_ui(msg, context);
+        if (context->ui_selector == ADD_TOKENS)
+            handle_add_tokens_ui(msg, context);
+        else if (context->ui_selector == DEPOSIT)
+            handle_deposit_ui(msg, context);
+        else if (context->ui_selector == SYNCHRONIZATION)
+            handle_synchronization_ui(msg, context);
         break;
     case PROCESS_OUTPUT_ORDERS:
+        if (context->ui_selector == SELL_TOKENS)
+            handle_sell_tokens_ui(msg, context);
+        else if (context->ui_selector == WITHDRAW)
+            handle_withdraw_ui(msg, context);
+        else if (context->ui_selector == SWAP)
+            handle_swap_ui(msg, context);
         break;
     case DESTROY:
         handle_sell_portfolio_ui(msg, context);

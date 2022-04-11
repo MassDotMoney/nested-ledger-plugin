@@ -1,7 +1,21 @@
 #include "nested_plugin.h"
 
+static uint8_t get_ui_selector(uint8_t *parameter)
+{
+	uint8_t i = 0;
+	while (parameter[i] == 0 && i < PARAMETER_LENGTH)
+		i++;
+	return parameter[i];
+}
+
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
+	if (context->last_calldata_offset == msg->parameterOffset)
+	{
+		// PRINTF("GPIRIOU TRIGGER: %d\n", get_ui_selector(msg->parameter);
+		context->ui_selector = get_ui_selector(msg->parameter);
+		return;
+	}
 	if (context->offsets_lvl1[0] == msg->parameterOffset)
 	{
 		PRINTF("GPIRIOU START LAST ORDER\n");
@@ -24,9 +38,16 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
+		PRINTF("GPIRIOU msgparameterOffset: %d\n", msg->parameterOffset);
+		PRINTF("GPIRIOU LEN CALLDATA: %d\n", U4BE(msg->parameter, PARAMETER_LENGTH - 4));
+		context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("GPIRIOU LAST ORDER LEN: %d\n", context->last_calldata_offset);
 		break;
 	case ORDER__CALLDATA:
 		PRINTF("parse ORDER__CALLDATA start\n");
+		break;
+	default:
+		PRINTF("GPIRIOU DEFAULT\n");
 		break;
 	}
 	context->next_param++;
