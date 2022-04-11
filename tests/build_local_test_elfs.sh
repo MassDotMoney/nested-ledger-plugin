@@ -22,7 +22,7 @@ APP_ETHEREUM="/plugin_dev/app-ethereum"
 function build_nanos_plugin() {
 	echo "**Building app-plugin for Nano S..."
 	make clean BOLOS_SDK=$NANOS_SDK
-	make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK
+	make -j DEBUG=1 HAVE_PRINTF=1 BOLOS_SDK=$NANOS_SDK
 	# make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK ALLOW_DATA=1
 	cp bin/app.elf "tests/elfs/plugin_nanos.elf"
 	echo PENZO

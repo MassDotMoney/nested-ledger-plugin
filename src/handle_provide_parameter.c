@@ -100,17 +100,24 @@ static void handle_sell_portfolio(ethPluginProvideParameter_t *msg, context_t *c
     {
     case DESTROY__TOKEN_ID:
         PRINTF("GPIRIOU TOKEN ID\n");
+        context->next_param++;
         break;
     case DESTROY__BUY_TOKEN:
         PRINTF("GPIRIOU BUY TOKEN\n");
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+        PRINTF("GPIRIOU ADDRESS1:\n");
+        print_bytes(context->token1_address, ADDRESS_LENGTH);
+        context->next_param++;
         break;
     case DESTROY__OFFSET_ORDERS:
         PRINTF("GPIRIOU OFFSET ORDERS\n");
+        context->next_param++;
         break;
     case DESTROY__LEN_ORDERS:
         PRINTF("GPIRIOU LEN ORDERS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->next_param++;
+        PRINTF("GPIRIOU NUMBER OF TOKENS:%d\n", context->number_of_tokens);
         break;
     case DESTROY__ORDERS:
         PRINTF("GPIRIOU ORDERS\n");
@@ -121,7 +128,6 @@ static void handle_sell_portfolio(ethPluginProvideParameter_t *msg, context_t *c
         break;
     }
     PRINTF("GPIRIOU END SELL PORTFOLIO\n");
-    context->next_param++;
 }
 
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
@@ -180,7 +186,6 @@ void handle_provide_parameter(void *parameters)
         handle_create(msg, context);
         break;
     case DESTROY:
-        // PRINTF("GPIRIOU HANDLE SELL PORTFOLIO\n");
         handle_sell_portfolio(msg, context);
         break;
     case RELEASE_TOKENS:

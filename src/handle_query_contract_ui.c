@@ -42,6 +42,10 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_sell_portfolio_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("GPIRIOU SELL PORTFOLIO UI\n");
+    PRINTF("GPIRIOU #oftokens: %d\n", context->number_of_tokens);
+    PRINTF("GPIRIOU ADDRESS2: \n");
+    print_bytes(context->token1_address, ADDRESS_LENGTH);
     switch (msg->screenIndex)
     {
     case 0:
