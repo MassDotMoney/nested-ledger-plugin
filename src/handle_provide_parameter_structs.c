@@ -35,8 +35,8 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		PRINTF("number of tokens ? %d\n", context->number_of_tokens);
 		if (context->number_of_tokens == 1 && context->selectorIndex == PROCESS_OUTPUT_ORDERS)
 		{
-			PRINTF("copie token2 address\n");
-			copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+			PRINTF("copie token1 address\n");
+			copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
 		}
 		break;
 	case ORDER__OFFSET_CALLDATA:
@@ -69,7 +69,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	{
 	case BOO__OUTPUTTOKEN:
 		PRINTF("parse BOO__OUTPUTTOKEN\n");
-		copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+		copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
 		context->current_tuple_offset = msg->parameterOffset;
 		PRINTF("parse BOO__OUTPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
@@ -91,9 +91,15 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__AMOUNT:
 		PRINTF("parse BOO__AMOUNT\n");
+		if (context->number_of_tokens == 1)
+		{
+			PRINTF("copie token1 amount\n");
+			copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
+		}
 		context->current_length_lvl1--;
 		if (context->current_length_lvl1)
 			return;
+
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");

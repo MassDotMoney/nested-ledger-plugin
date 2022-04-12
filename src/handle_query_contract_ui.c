@@ -155,7 +155,7 @@ static void handle_withdraw_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_WITHDRAW_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
