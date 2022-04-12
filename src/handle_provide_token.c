@@ -22,6 +22,10 @@ void handle_provide_token(void *parameters)
         // Store its ticker.
         strlcpy(context->token1_ticker, (char *)msg->item1->token.ticker, sizeof(context->token1_ticker));
     }
+    else
+    {
+        PRINTF("handle_provide_token NO item1\n");
+    }
     if (msg->item2)
     {
         PRINTF("GPIRIOU handle_provide_token item2\n");
@@ -34,13 +38,13 @@ void handle_provide_token(void *parameters)
         if (context->number_of_tokens == 2 && context->booleans & TOKEN1_FOUND && context->booleans & TOKEN2_FOUND)
             msg->additionalScreens++;
     }
-    if (!(context->booleans & TOKEN1_FOUND))
-    {
-        PRINTF("GPIRIOU handle_provide_token no item1\n");
-    }
-    if (!(context->booleans & TOKEN2_FOUND))
-    {
-        PRINTF("GPIRIOU handle_provide_token no item2\n");
-    }
+    // if (!(context->booleans & TOKEN1_FOUND))
+    // {
+    //     PRINTF("GPIRIOU handle_provide_token no item1\n");
+    // }
+    // if (!(context->booleans & TOKEN2_FOUND))
+    // {
+    //     PRINTF("GPIRIOU handle_provide_token no item2\n");
+    // }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
