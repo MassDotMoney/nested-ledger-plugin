@@ -125,7 +125,7 @@ typedef enum
 #define BOOL7 (1 << 7)
 #define BOOL8 (1 << 8)
 
-//screen array correspondance
+// screen array correspondance
 //#define FIRST_SCREEN_UI 1 // Must remain first screen in screen array and always up. Comes after ID screen in handle_query_contract_ui.c
 //#define SCREEN_2_UI (1 << 1)
 //#define SCREEN_3_UI (1 << 2)
@@ -142,13 +142,15 @@ typedef enum
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct __attribute__((__packed__)) context_t
 {
-    uint8_t on_struct;                      // 1
-    uint8_t beneficiary[ADDRESS_LENGTH];    // 20
-    uint8_t next_param;                     // 1
-    uint8_t screen_array;                   // 1
-    uint8_t previous_screen_index;          // 1
-    uint8_t plugin_screen_index;            // 1
-    uint32_t current_tuple_offset;          // 4
+    uint8_t on_struct;                   // 1
+    uint8_t beneficiary[ADDRESS_LENGTH]; // 20
+    uint8_t next_param;                  // 1
+    uint8_t screen_array;                // 1
+    uint8_t previous_screen_index;       // 1
+    uint8_t plugin_screen_index;         // 1
+    /** is the value from which a given offset is calculated */
+    uint32_t current_tuple_offset; // 4
+    /** is the value of the next target offset */
     uint32_t next_offset;                   // 4
     uint16_t current_length;                // 2
     uint16_t current_length_lvl1;           // 2
@@ -160,12 +162,13 @@ typedef struct __attribute__((__packed__)) context_t
     char token2_ticker[MAX_TICKER_LEN];     // 12
     uint16_t offsets_lvl0[2];               // 4
     uint16_t offsets_lvl1[2];               // 4
-    uint8_t length_offset_array;            // 1
-    uint8_t ui_selector;                    // 1
-    uint32_t last_calldata_offset;          // 4
-    uint8_t booleans;                       // 1
-    uint8_t number_of_tokens;               // 1
-    selector_t selectorIndex;               // 1
+    /** is the length/currentIndex of the offset array */
+    uint8_t length_offset_array;
+    uint8_t ui_selector;           // 1
+    uint32_t last_calldata_offset; // 4
+    uint8_t booleans;              // 1
+    uint8_t number_of_tokens;      // 1
+    selector_t selectorIndex;      // 1
 } context_t;
 // 160
 // 12 + 16 + 60 + 32 + 24 = 144
