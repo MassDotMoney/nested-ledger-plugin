@@ -47,7 +47,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		PRINTF("parse ORDER__CALLDATA start\n");
 		break;
 	default:
-		PRINTF("GPIRIOU DEFAULT\n");
+		PRINTF("GPIRIOU PARSE ORDER DEFAULT\n");
 		break;
 	}
 	context->next_param++;

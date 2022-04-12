@@ -18,11 +18,33 @@ void handle_finalize(void *parameters)
     context_t *context = (context_t *)msg->pluginContext;
 
     context->token1_decimals = DEFAULT_DECIMAL;
-    msg->numScreens = 1;
+    msg->numScreens = 2;
 
     // context->plugin_screen_index |= FIRST_SCREEN_UI;
-    if (context->selectorIndex != RELEASE_TOKENS)
-        msg->numScreens = 2;
+    switch (context->selectorIndex)
+    {
+    case RELEASE_TOKENS:
+        if (context->number_of_tokens < 2)
+            msg->numScreens = 1;
+        break;
+    case TRANSFER_FROM:
+        msg->numScreens = 1;
+    case PROCESS_INPUT_ORDERS:
+    case PROCESS_OUTPUT_ORDERS:
+        switch (context->ui_selector)
+        {
+        case DEPOSIT:
+        case WITHDRAW:
+        case SYNCHRONIZATION:
+            msg->numScreens = 1;
+            PRINTF("GPIRIOU NUMSCREEN: %d\n", msg->numScreens);
+            break;
+        default:
+            PRINTF("GPIRIOU DEFAULT FINALIZE\n");
+            break;
+        }
+        break;
+    }
 
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).

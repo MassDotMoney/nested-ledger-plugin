@@ -230,6 +230,8 @@ void handle_query_contract_ui(void *parameters)
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 
+    PRINTF("GPIRIOU METHOD SELECTOR: %d\n", context->selectorIndex);
+    PRINTF("GPIRIOU UI SELECTOR: %d\n", context->ui_selector);
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -237,6 +239,7 @@ void handle_query_contract_ui(void *parameters)
             handle_copy_ui(msg, context);
         else
             handle_create_ui(msg, context);
+        break;
     case PROCESS_INPUT_ORDERS:
         if (context->ui_selector == ADD_TOKENS)
             handle_add_tokens_ui(msg, context);
@@ -249,7 +252,10 @@ void handle_query_contract_ui(void *parameters)
         if (context->ui_selector == SELL_TOKENS)
             handle_sell_tokens_ui(msg, context);
         else if (context->ui_selector == WITHDRAW)
+        {
+            PRINTF("GPIRIOU WITHDRAW\n");
             handle_withdraw_ui(msg, context);
+        }
         else if (context->ui_selector == SWAP)
             handle_swap_ui(msg, context);
         break;
