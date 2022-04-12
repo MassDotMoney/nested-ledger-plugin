@@ -93,7 +93,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     context->next_param++;
 }
 
-static void handle_sell_portfolio(ethPluginProvideParameter_t *msg, context_t *context)
+static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
 {
     PRINTF("GPIRIOU HANDLE SELL PORTFOLIO\n");
     switch ((destroy_parameter)context->next_param)
@@ -186,7 +186,7 @@ void handle_provide_parameter(void *parameters)
         handle_create(msg, context);
         break;
     case DESTROY:
-        handle_sell_portfolio(msg, context);
+        handle_destroy(msg, context);
         break;
     case RELEASE_TOKENS:
         handle_release_tokens(msg, context);

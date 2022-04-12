@@ -32,11 +32,11 @@ void handle_query_contract_id(void *parameters)
         strlcpy(msg->version, MSG_PROCESS_OUTPUT_ORDERS_ID, msg->versionLength);
         //if (withdraw)
         // strlcpy(msg->version, MSG_WITHDRAW_ID, msg->versionLength);
-        //  else if (swap)
-        // strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
+        if (context->ui_selector == SWAP)
+            strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
         // else if (sell_tokens)
         // strlcpy(msg->version, MSG_SELL_TOKENS_ID, msg->versionLength);
-        //    break;
+        break;
     case DESTROY:
         strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
         break;
