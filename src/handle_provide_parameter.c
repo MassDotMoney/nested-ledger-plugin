@@ -23,7 +23,10 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         else if (context->on_struct == S_BATCHED_OUTPUT_ORDERS)
             parse_batched_output_orders(msg, context);
         else if (context->on_struct == S_ORDER)
+        {
+            PRINTF("GPIRIOU S_ORDER\n");
             parse_order(msg, context);
+        }
         else
         {
             PRINTF("handle_create on_struct ERROR\n");
@@ -95,7 +98,6 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 
 static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU HANDLE SELL PORTFOLIO\n");
     switch ((destroy_parameter)context->next_param)
     {
     case DESTROY__TOKEN_ID:
@@ -127,7 +129,6 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         // msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
-    PRINTF("GPIRIOU END SELL PORTFOLIO\n");
 }
 
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)

@@ -10,15 +10,14 @@ static uint8_t get_ui_selector(uint8_t *parameter)
 
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
+	PRINTF("GPIRIOU LAST CALLDATA OFFSET: %d\n", context->last_calldata_offset);
 	if (context->last_calldata_offset == msg->parameterOffset)
 	{
-		// PRINTF("GPIRIOU TRIGGER: %d\n", get_ui_selector(msg->parameter);
 		context->ui_selector = get_ui_selector(msg->parameter);
 		return;
 	}
 	if (context->offsets_lvl1[0] == msg->parameterOffset)
 	{
-		PRINTF("GPIRIOU START LAST ORDER\n");
 		context->next_param = (order)ORDER__OPERATOR;
 	}
 	PRINTF("PARSING ORDER\n");
@@ -38,10 +37,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
-		PRINTF("GPIRIOU msgparameterOffset: %d\n", msg->parameterOffset);
-		PRINTF("GPIRIOU LEN CALLDATA: %d\n", U4BE(msg->parameter, PARAMETER_LENGTH - 4));
 		context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("GPIRIOU LAST ORDER LEN: %d\n", context->last_calldata_offset);
 		break;
 	case ORDER__CALLDATA:
 		PRINTF("parse ORDER__CALLDATA start\n");

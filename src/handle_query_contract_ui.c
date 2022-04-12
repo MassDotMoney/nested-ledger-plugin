@@ -42,9 +42,6 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU SELL PORTFOLIO UI\n");
-    PRINTF("GPIRIOU #oftokens: %d\n", context->number_of_tokens);
-    PRINTF("GPIRIOU ADDRESS2: \n");
     print_bytes(context->token1_address, ADDRESS_LENGTH);
     switch (msg->screenIndex)
     {
@@ -84,6 +81,8 @@ static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("GPIRIOU TICKER1: %s\n", context->token1_ticker);
+    // PRINTF("GPIRIOU TICKER2: %s\n", context->token2_ticker);
     switch (msg->screenIndex)
     {
     case 0:
@@ -230,8 +229,10 @@ void handle_query_contract_ui(void *parameters)
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 
-    PRINTF("GPIRIOU METHOD SELECTOR: %d\n", context->selectorIndex);
-    PRINTF("GPIRIOU UI SELECTOR: %d\n", context->ui_selector);
+    if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
+        strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
+    if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
+        strlcpy(context->token2_ticker, msg->network_ticker, sizeof(context->token2_ticker));
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -253,7 +254,6 @@ void handle_query_contract_ui(void *parameters)
             handle_sell_tokens_ui(msg, context);
         else if (context->ui_selector == WITHDRAW)
         {
-            PRINTF("GPIRIOU WITHDRAW\n");
             handle_withdraw_ui(msg, context);
         }
         else if (context->ui_selector == SWAP)

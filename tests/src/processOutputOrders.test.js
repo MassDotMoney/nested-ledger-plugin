@@ -13,7 +13,7 @@ nano_models.forEach(function (model) {
     const right_clicks = model.letter === 'S' ? 7 : 5;
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
-    await sim.navigateAndCompareSnapshots('.', model.name + '_sell_tokens_processOutputOrders', [right_clicks, 0]);
+    await sim.navigateAndCompareSnapshots('.', model.name + '_sellTokens_processOutputOrders', [right_clicks, 0]);
     await tx;
   }));
 });

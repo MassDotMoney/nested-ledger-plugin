@@ -32,10 +32,7 @@ void handle_provide_token(void *parameters)
     if (context->selectorIndex == RELEASE_TOKENS)
     {
         if (context->number_of_tokens == 2 && context->booleans & TOKEN1_FOUND && context->booleans & TOKEN2_FOUND)
-        {
             msg->additionalScreens++;
-            PRINTF("GPIRIOU SCREENS: %d\n", context->number_of_tokens);
-        }
     }
     if (!(context->booleans & TOKEN1_FOUND))
     {

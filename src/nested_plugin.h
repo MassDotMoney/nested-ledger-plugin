@@ -9,11 +9,12 @@
 #define DEFAULT_DECIMAL WEI_TO_ETHER
 #define ETH_DECIMAL WEI_TO_ETHE
 
+#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+#define ADDRESS_IS_NETWORK_TOKEN(_addr) (!memcmp(_addr, NETWORK_TOKEN_ADDRESS, ADDRESS_LENGTH))
+extern const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH];
+
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
 #define NUM_SELECTORS 6
-
-#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
-
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum

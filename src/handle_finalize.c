@@ -29,6 +29,7 @@ void handle_finalize(void *parameters)
         break;
     case TRANSFER_FROM:
         msg->numScreens = 1;
+        break;
     case PROCESS_INPUT_ORDERS:
     case PROCESS_OUTPUT_ORDERS:
         switch (context->ui_selector)
@@ -37,7 +38,6 @@ void handle_finalize(void *parameters)
         case WITHDRAW:
         case SYNCHRONIZATION:
             msg->numScreens = 1;
-            PRINTF("GPIRIOU NUMSCREEN: %d\n", msg->numScreens);
             break;
         default:
             PRINTF("GPIRIOU DEFAULT FINALIZE\n");
@@ -45,13 +45,50 @@ void handle_finalize(void *parameters)
         }
         break;
     }
-
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
-    if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    if (!ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
+    {
+        // Address is not network token (0xeee...) so we will need to look up the token in the
+        // CAL.
+        PRINTF("Setting address to: %.*H\n",
+               ADDRESS_LENGTH,
+               context->token1_address);
         msg->tokenLookup1 = context->token1_address;
-    if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+
+        // The user is not swapping ETH, so make sure there's no ETH being sent in this tx.
+        if (!allzeroes(msg->pluginSharedRO->txContent->value.value,
+                       msg->pluginSharedRO->txContent->value.length))
+        {
+            PRINTF("ETH attached to tx when token being swapped is %.*H\n",
+                   sizeof(context->token1_address),
+                   context->token1_address);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+        }
+    }
+    else
+    {
+        context->booleans |= TOKEN1_FOUND;
+        msg->tokenLookup2 = NULL;
+    }
+    if (!ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
+    {
+        // Address is not network token (0xeee...) so we will need to look up the token in the
+        // CAL.
+        PRINTF("Setting token2 address to: %.*H\n",
+               ADDRESS_LENGTH,
+               context->token2_address);
         msg->tokenLookup2 = context->token2_address;
+    }
+    else
+    {
+        context->booleans |= TOKEN2_FOUND;
+        msg->tokenLookup2 = NULL;
+    }
+    //if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    //    msg->tokenLookup1 = context->token1_address;
+    //if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    //    msg->tokenLookup2 = context->token2_address;
 
     print_booleans(context);
 

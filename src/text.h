@@ -61,7 +61,7 @@
 /// SYNCHRONIZATION ///
 
 #define TITLE_SYNCHRONIZATION_SCREEN_1_UI "Synchronizing"
-#define MSG_SYNCHRONIZATION_SCREEN_1_UI "with portfolio"
+#define MSG_SYNCHRONIZATION_SCREEN_1_UI "with portfolio."
 
 /// DEPOSIT ///
 
