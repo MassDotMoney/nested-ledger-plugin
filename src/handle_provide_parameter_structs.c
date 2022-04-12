@@ -14,13 +14,15 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	if (context->last_calldata_offset == msg->parameterOffset)
 	{
 		context->ui_selector = get_ui_selector(msg->parameter);
+		PRINTF("copied ui_selectr: %d\n", context->ui_selector);
 		return;
 	}
 	if (context->offsets_lvl1[0] == msg->parameterOffset)
 	{
+		PRINTF("START LAST ORDER\n");
 		context->next_param = (order)ORDER__OPERATOR;
 	}
-	PRINTF("PARSING ORDER\n");
+	PRINTF("PARSING ORDER with next->param: %d\n", context->next_param);
 	switch ((order)context->next_param)
 	{
 	case ORDER__OPERATOR:
@@ -30,6 +32,12 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__TOKEN_ADDRESS:
 		PRINTF("parse ORDER__TOKEN_ADDRESS\n");
+		PRINTF("number of tokens ? %d\n", context->number_of_tokens);
+		if (context->number_of_tokens == 1 && context->selectorIndex == PROCESS_OUTPUT_ORDERS)
+		{
+			PRINTF("copie token2 address\n");
+			copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+		}
 		break;
 	case ORDER__OFFSET_CALLDATA:
 		PRINTF("parse ORDER__OFFSET_CALLDATA\n");
@@ -37,7 +45,12 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
-		context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("GPIRIOU LEN CALLDATA: %d\n", U4BE(msg->parameter, PARAMETER_LENGTH - 4));
+		if (msg->parameterOffset > context->offsets_lvl1[0])
+		{
+			context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+			PRINTF("LAST ORDER offset: %d\n", context->last_calldata_offset);
+		}
 		break;
 	case ORDER__CALLDATA:
 		PRINTF("parse ORDER__CALLDATA start\n");
@@ -97,10 +110,10 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->length_offset_array,
+						 context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{
@@ -109,7 +122,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 			context->next_param = (order)ORDER__OPERATOR;
 		}
 		return;
-		break;
 	default:
 		break;
 	}
@@ -154,10 +166,10 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->length_offset_array,
+						 context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{
