@@ -48,7 +48,7 @@ function build_nanos_appeth() {
 function build_nanox_plugin() {
 	echo "**Building plugin for Nano X..."
 	make clean BOLOS_SDK=$NANOX_SDK
-	make -j DEBUG=1 BOLOS_SDK=$NANOX_SDK
+	make -j DEBUG=1 HAVE_PRINTF=1 BOLOS_SDK=$NANOX_SDK
 	cp bin/app.elf "tests/elfs/plugin_nanox.elf"
 }
 
