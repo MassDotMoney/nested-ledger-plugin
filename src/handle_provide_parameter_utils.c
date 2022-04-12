@@ -1,5 +1,9 @@
 #include "nested_plugin.h"
 
+/**
+ * copy target offset into context->next_offset using context->current_tuple_offset.
+ * @brief copy target offset into context->next_offset.
+ */
 void copy_offset(ethPluginProvideParameter_t *msg, context_t *context)
 {
 	PRINTF("msg->parameterOffset: %d\n", msg->parameterOffset);
