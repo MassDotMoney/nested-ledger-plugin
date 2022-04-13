@@ -42,7 +42,7 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 9 : 5;
+    const right_clicks = model.letter === 'S' ? 8 : 5;
 
     await waitForAppScreen(sim);
     await sim.navigateAndCompareSnapshots('.', model.name + '_destroy_1fordai_unknownToken', [right_clicks, 0]);

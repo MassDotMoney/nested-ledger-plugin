@@ -6,7 +6,7 @@ const contractAddr = "0x449d088c9f184af598fe72d26742a58a11c5200f";
 
 // https://polygonscan.com/tx/0xb543d05c24a54203b7b712629d4abb8276d4727f581a8b395f8bbedb3c5a40b1
 nano_models.forEach(function (model) {
-  test('[Nano ' + model.letter + '] Release Tokens Single USDC', zemu(model, async (sim, eth) => {
+  test('[Nano ' + model.letter + '] Release Single USDC', zemu(model, async (sim, eth) => {
     const data = "0x6d9634b7000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000002791bca1f2de4661ed88a30c99a7a9449aa84174";
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
@@ -22,7 +22,7 @@ nano_models.forEach(function (model) {
 
 // https://polygonscan.com/tx/0xb543d05c24a54203b7b712629d4abb8276d4727f581a8b395f8bbedb3c5a40b1 // but wrong token address (2791 -> 2792)
 nano_models.forEach(function (model) {
-  test('[Nano ' + model.letter + '] Release Address Tokens Single', zemu(model, async (sim, eth) => {
+  test('[Nano ' + model.letter + '] Release Single unknownToken', zemu(model, async (sim, eth) => {
     const data = "0x6d9634b7000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000002792bca1f2de4661ed88a30c99a7a9449aa84174";
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
