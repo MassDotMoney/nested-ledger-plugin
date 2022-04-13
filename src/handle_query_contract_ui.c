@@ -110,7 +110,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER1_UI;
+        MSG_TOKEN1_TICKER_OR_ADDRESS_UI
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -119,7 +119,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void handle_synchronization_ui(ethQueryContractUI_t *msg)
+static void handle_synchronization_ui(ethQueryContractUI_t *msg, context_t *context)
 {
     switch (msg->screenIndex)
     {
@@ -207,12 +207,7 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     case 0:
         PRINTF("GPIRIOU CASE 0\n");
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
-        msg->msg[0] = '0';
-        msg->msg[1] = 'x';
-        getEthAddressStringFromBinary((uint8_t *)context->token1_address, // token1 is used due to size limitations in context
-                                      (char *)msg->msg + 2,
-                                      msg->pluginSharedRW->sha3,
-                                      0);
+        MSG_DISPLAY_TOKEN1_ADDRESS; // token1 is used to store 'to' address due to size limitations in context
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -250,7 +245,7 @@ void handle_query_contract_ui(void *parameters)
         else if (context->ui_selector == DEPOSIT)
             handle_deposit_ui(msg, context);
         else if (context->ui_selector == SYNCHRONIZATION)
-            handle_synchronization_ui(msg);
+            handle_synchronization_ui(msg, context);
         break;
     case PROCESS_OUTPUT_ORDERS:
         if (context->ui_selector == SELL_TOKENS)
