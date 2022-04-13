@@ -213,26 +213,26 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     }
 }
 
-static void convert_ticker(char *token1_ticker, char *network_ticker)
+static void convert_ticker(char token1_ticker[MAX_TICKER_LEN], char network_ticker[MAX_TICKER_LEN])
 {
-    if (!(memcmp(ETH, network_ticker, MIN(sizeof(ETH), sizeof(network_ticker))))) // Check chain ID
+    if (!(memcmp(ETH, network_ticker, sizeof(ETH)))) // Check chain ID
     {
-        if (!(memcmp(token1_ticker, WETH, MIN(sizeof(token1_ticker), sizeof(ETH)))))
+        if (!(memcmp(token1_ticker, WETH, sizeof(WETH))))
             strlcpy(token1_ticker, ETH, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(MATIC, network_ticker, MIN(sizeof(MATIC), sizeof(network_ticker)))))
+    else if (!(memcmp(MATIC, network_ticker, sizeof(MATIC)))) // Check chain ID
     {
-        if (!(memcmp(token1_ticker, WMATIC, MIN(sizeof(token1_ticker), sizeof(WMATIC)))))
+        if (!(memcmp(token1_ticker, WMATIC, sizeof(WMATIC))))
             strlcpy(token1_ticker, MATIC, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(AVAX, network_ticker, MIN(sizeof(AVAX), sizeof(network_ticker)))))
+    else if (!(memcmp(AVAX, network_ticker, sizeof(AVAX)))) // Check chain ID
     {
-        if (!(memcmp(token1_ticker, WAVAX, MIN(sizeof(token1_ticker), sizeof(WAVAX)))))
+        if (!(memcmp(token1_ticker, WAVAX, sizeof(WAVAX))))
             strlcpy(token1_ticker, AVAX, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(BNB, network_ticker, MIN(sizeof(BNB), sizeof(network_ticker)))))
+    else if (!(memcmp(BNB, network_ticker, sizeof(BNB)))) // Check chain ID
     {
-        if (!(memcmp(token1_ticker, WBNB, MIN(sizeof(token1_ticker), sizeof(WBNB)))))
+        if (!(memcmp(token1_ticker, WBNB, sizeof(WBNB))))
             strlcpy(token1_ticker, BNB, MAX_TICKER_LEN);
     }
 }
