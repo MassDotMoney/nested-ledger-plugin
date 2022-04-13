@@ -48,7 +48,7 @@ nano_models.forEach(function (model) {
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
-    await sim.navigateAndCompareSnapshots('.', model.name + '_release_2_okens', [right_clicks, 0]);
+    await sim.navigateAndCompareSnapshots('.', model.name + '_release_2_tokens', [right_clicks, 0]);
 
     await tx;
   }));
@@ -61,11 +61,11 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 5 : 5;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
-    await sim.navigateAndCompareSnapshots('.', model.name + '_release_3_okens', [right_clicks, 0]);
+    await sim.navigateAndCompareSnapshots('.', model.name + '_release_3_tokens', [right_clicks, 0]);
 
     await tx;
   }));

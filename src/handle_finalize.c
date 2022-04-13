@@ -23,8 +23,7 @@ void handle_finalize(void *parameters)
     switch (context->selectorIndex)
     {
     case RELEASE_TOKENS:
-        if (context->number_of_tokens != 2)
-            msg->numScreens = 1;
+        msg->numScreens = 1;
         break;
     case TRANSFER_FROM:
         msg->numScreens = 1;

@@ -170,7 +170,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -181,6 +181,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
 
 static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("GPIRIOU CLAIM ALL INDEX: %d\n", msg->screenIndex);
     switch (msg->screenIndex)
     {
     case 0:
