@@ -125,10 +125,10 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-						 context->length_offset_array,
-						 context->offsets_lvl1[context->length_offset_array]);
+				   context->length_offset_array,
+				   context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{
@@ -171,6 +171,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		PRINTF("parse BIO__LEN_ORDERS\n");
 		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		PRINTF("current_length: %d\n", context->current_length);
 		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
@@ -182,10 +183,10 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-						 context->length_offset_array,
-						 context->offsets_lvl1[context->length_offset_array]);
+				   context->length_offset_array,
+				   context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{

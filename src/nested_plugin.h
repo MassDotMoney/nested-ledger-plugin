@@ -208,5 +208,3 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context);
 
 void copy_offset(ethPluginProvideParameter_t *msg, context_t *context);
-
-void print_bytes(const uint8_t *bytes, uint16_t len);
