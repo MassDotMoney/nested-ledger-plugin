@@ -38,7 +38,6 @@ void handle_finalize(void *parameters)
             msg->numScreens = 1;
             break;
         default:
-            PRINTF("GPIRIOU DEFAULT FINALIZE\n");
             break;
         }
         break;

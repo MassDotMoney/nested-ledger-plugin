@@ -166,7 +166,6 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
 
 static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU HANDLE TRANSFER FROM\n");
     switch ((transfer_from_parameter)context->next_param)
     {
     case FROM:

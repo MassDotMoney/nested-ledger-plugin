@@ -52,7 +52,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
-		PRINTF("GPIRIOU LEN CALLDATA: %d\n", U4BE(msg->parameter, PARAMETER_LENGTH - 4));
 		// is on last order ???
 		if (msg->parameterOffset > context->offsets_lvl1[0])
 		{
@@ -65,7 +64,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		PRINTF("parse ORDER__CALLDATA start\n");
 		break;
 	default:
-		PRINTF("GPIRIOU PARSE ORDER DEFAULT\n");
 		break;
 	}
 	context->next_param++;

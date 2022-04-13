@@ -11,8 +11,6 @@ void handle_provide_token(void *parameters)
 
     if (msg->item1)
     {
-        PRINTF("GPIRIOU handle_provide_token item1\n");
-
         // The Ethereum App found the information for the requested token!
         context->booleans |= TOKEN1_FOUND;
 
@@ -28,7 +26,6 @@ void handle_provide_token(void *parameters)
     }
     if (msg->item2)
     {
-        PRINTF("GPIRIOU handle_provide_token item2\n");
         context->booleans |= TOKEN2_FOUND;
         // Only the ticker is stored.
         strlcpy(context->token2_ticker, (char *)msg->item2->token.ticker, sizeof(context->token2_ticker));
@@ -40,13 +37,5 @@ void handle_provide_token(void *parameters)
             msg->additionalScreens++;
         }
     }
-    // if (!(context->booleans & TOKEN1_FOUND))
-    // {
-    //     PRINTF("GPIRIOU handle_provide_token no item1\n");
-    // }
-    // if (!(context->booleans & TOKEN2_FOUND))
-    // {
-    //     PRINTF("GPIRIOU handle_provide_token no item2\n");
-    // }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }

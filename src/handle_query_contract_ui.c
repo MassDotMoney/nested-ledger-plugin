@@ -178,7 +178,6 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
 
 static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU CLAIM ALL INDEX: %d\n", msg->screenIndex);
     switch (msg->screenIndex)
     {
     case 0:
@@ -198,11 +197,9 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU HANDLE SEND PORTFOLIO\n");
     switch (msg->screenIndex)
     {
     case 0:
-        PRINTF("GPIRIOU CASE 0\n");
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
         MSG_DISPLAY_TOKEN1_ADDRESS; // token1 is used to store 'to' address due to size limitations in context
         break;
