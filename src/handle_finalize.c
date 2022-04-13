@@ -20,11 +20,10 @@ void handle_finalize(void *parameters)
     context->token1_decimals = DEFAULT_DECIMAL;
     msg->numScreens = 2;
 
-    // context->plugin_screen_index |= FIRST_SCREEN_UI;
     switch (context->selectorIndex)
     {
     case RELEASE_TOKENS:
-        if (context->number_of_tokens < 2)
+        if (context->number_of_tokens != 2)
             msg->numScreens = 1;
         break;
     case TRANSFER_FROM:
