@@ -84,7 +84,6 @@
 
 /// UTILS ///
 
-#define MSG_TICKER1_UI snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker)
 #define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
 
 #define MSG_NUMBER_OF_TOKENS_UI (                                                              \
@@ -123,12 +122,12 @@
             MSG_DISPLAY_TOKEN1_ADDRESS;                                       \
     })
 
-#define MSG_TOKEN2_TICKER_OR_ADDRESS_UI (                                                    \
-    {                                                                                        \
-        if (context->booleans & TOKEN2_FOUND)                                                \
-            MSG_TICKER2_UI snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker); \
-        else                                                                                 \
-            MSG_DISPLAY_TOKEN2_ADDRESS;                                                      \
+#define MSG_TOKEN2_TICKER_OR_ADDRESS_UI (                                     \
+    {                                                                         \
+        if (context->booleans & TOKEN2_FOUND)                                 \
+            snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker); \
+        else                                                                  \
+            MSG_DISPLAY_TOKEN2_ADDRESS;                                       \
     })
 
 #define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                          \

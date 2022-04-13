@@ -110,7 +110,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_TICKER_OR_ADDRESS_UI
+        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -119,7 +119,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void handle_synchronization_ui(ethQueryContractUI_t *msg, context_t *context)
+static void handle_synchronization_ui(ethQueryContractUI_t *msg)
 {
     switch (msg->screenIndex)
     {
@@ -245,7 +245,7 @@ void handle_query_contract_ui(void *parameters)
         else if (context->ui_selector == DEPOSIT)
             handle_deposit_ui(msg, context);
         else if (context->ui_selector == SYNCHRONIZATION)
-            handle_synchronization_ui(msg, context);
+            handle_synchronization_ui(msg);
         break;
     case PROCESS_OUTPUT_ORDERS:
         if (context->ui_selector == SELL_TOKENS)
