@@ -13,9 +13,10 @@ static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context)
     }
 }
 
-// processInputOrder has the same signature
+// create, processInputOrder and processOutputOrder have similar prototype
 static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 {
+    // Switch to current struct parsing function.
     if (context->on_struct)
     {
         if (context->on_struct == S_BATCHED_INPUT_ORDERS)
@@ -23,10 +24,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         else if (context->on_struct == S_BATCHED_OUTPUT_ORDERS)
             parse_batched_output_orders(msg, context);
         else if (context->on_struct == S_ORDER)
-        {
-            PRINTF("GPIRIOU S_ORDER\n");
             parse_order(msg, context);
-        }
         else
         {
             PRINTF("handle_create on_struct ERROR\n");
@@ -39,12 +37,13 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     {
     case CREATE__TOKEN_ID:
         PRINTF("CREATE__TOKEN_ID\n");
+        // Check if it's copy or create
         if (context->selectorIndex == CREATE)
             check_token_id(msg, context);
         break;
     case CREATE__OFFSET_BIO:
         PRINTF("CREATE__OFFSET_BIO\n");
-        copy_offset(msg, context); // osef
+        copy_offset(msg, context); // osef, because it's always the next param
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
@@ -65,6 +64,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
                    context->length_offset_array,
                    context->offsets_lvl0[context->length_offset_array]);
         }
+        // is on last offset.
         if (context->length_offset_array == 0)
         {
             switch (context->selectorIndex)
@@ -101,28 +101,26 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     switch ((destroy_parameter)context->next_param)
     {
     case DESTROY__TOKEN_ID:
-        PRINTF("GPIRIOU TOKEN ID\n");
+        PRINTF("DESTROY TOKEN ID\n");
         context->next_param++;
         break;
     case DESTROY__BUY_TOKEN:
-        PRINTF("GPIRIOU BUY TOKEN\n");
+        PRINTF("DESTROY BUY TOKEN\n");
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
-        // PRINTF("GPIRIOU ADDRESS1:\n");
-        // print_bytes(context->token1_address, ADDRESS_LENGTH);
         context->next_param++;
         break;
     case DESTROY__OFFSET_ORDERS:
-        PRINTF("GPIRIOU OFFSET ORDERS\n");
+        PRINTF("DESTROY OFFSET ORDERS\n");
         context->next_param++;
         break;
     case DESTROY__LEN_ORDERS:
-        PRINTF("GPIRIOU LEN ORDERS\n");
+        PRINTF("DESTROY LEN ORDERS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        PRINTF("DESTROY NUMBER OF TOKENS:%d\n", context->number_of_tokens);
         context->next_param++;
-        PRINTF("GPIRIOU NUMBER OF TOKENS:%d\n", context->number_of_tokens);
         break;
     case DESTROY__ORDERS:
-        PRINTF("GPIRIOU ORDERS\n");
+        PRINTF("DESTROY ORDERS\n");
         break;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
@@ -147,20 +145,24 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:
-        // is first elem
+        // is first array element
         if (context->number_of_tokens == context->current_length)
         {
-            PRINTF("RELEASE copy first\n");
+            PRINTF("RELEASE copy first token address.\n");
             copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
         }
         context->current_length--;
-        // is last elem && multiple tokens
+        // is last array element && multiple tokens
         if (context->number_of_tokens > 1 && context->current_length == 0)
         {
-            PRINTF("RELEASE copy last\n");
+            PRINTF("RELEASE copy last token address.\n");
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
         }
-        PRINTF("RELEASE_TOKENS %d\n", context->current_length);
+        PRINTF("RELEASE_TOKENS token index: %d\n", context->current_length);
+        break;
+    default:
+        PRINTF("Param not supported: %d\n", context->next_param);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
@@ -205,6 +207,7 @@ void handle_provide_parameter(void *parameters)
 
     switch (context->selectorIndex)
     {
+        // create, processInputOrders and processOutputOrders have similar prototype, so we use the same parsing method.
     case CREATE:
     case PROCESS_INPUT_ORDERS:
     case PROCESS_OUTPUT_ORDERS:
@@ -221,8 +224,7 @@ void handle_provide_parameter(void *parameters)
         break;
     default:
         PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
-        // msg->result = ETH_PLUGIN_RESULT_ERROR;
-        msg->result = ETH_PLUGIN_RESULT_OK; // !!! TODO should be error.
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
 }

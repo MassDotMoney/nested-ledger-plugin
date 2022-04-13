@@ -2,14 +2,14 @@
 
 static void print_booleans(context_t *context)
 {
-    PRINTF("IS_COPY %d\n", context->screen_array & IS_COPY);
-    PRINTF("TOKEN1_FOUND %d\n", context->screen_array & TOKEN1_FOUND);
-    PRINTF("TOKEN2_FOUND %d\n", context->screen_array & TOKEN2_FOUND);
-    PRINTF("IS_FROM_RESERVE %d\n", context->screen_array & IS_FROM_RESERVE);
-    PRINTF("BOOL5 %d\n", context->screen_array & BOOL5);
-    PRINTF("BOOL6 %d\n", context->screen_array & BOOL6);
-    PRINTF("BOOL7 %d\n", context->screen_array & BOOL7);
-    PRINTF("BOOL8 %d\n", context->screen_array & BOOL8);
+    PRINTF("IS_COPY %d\n", context->booleans & IS_COPY);
+    PRINTF("TOKEN1_FOUND %d\n", context->booleans & TOKEN1_FOUND);
+    PRINTF("TOKEN2_FOUND %d\n", context->booleans & TOKEN2_FOUND);
+    PRINTF("IS_FROM_RESERVE %d\n", context->booleans & IS_FROM_RESERVE);
+    PRINTF("BOOL5 %d\n", context->booleans & BOOL5);
+    PRINTF("BOOL6 %d\n", context->booleans & BOOL6);
+    PRINTF("BOOL7 %d\n", context->booleans & BOOL7);
+    PRINTF("BOOL8 %d\n", context->booleans & BOOL8);
 }
 
 void handle_finalize(void *parameters)
@@ -73,10 +73,10 @@ void handle_finalize(void *parameters)
         context->booleans |= TOKEN2_FOUND;
         msg->tokenLookup2 = NULL;
     }
-    //if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
-    //    msg->tokenLookup1 = context->token1_address;
-    //if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
-    //    msg->tokenLookup2 = context->token2_address;
+    // if (memcmp(context->token1_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    //     msg->tokenLookup1 = context->token1_address;
+    // if (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH))
+    //     msg->tokenLookup2 = context->token2_address;
 
     print_booleans(context);
 

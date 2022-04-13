@@ -41,8 +41,10 @@ void handle_init_contract(void *parameters)
 
     // Initialize the context (to 0).
     memset(context, 0, sizeof(*context));
+    // Set current offset to the method id size
     context->current_tuple_offset = SELECTOR_SIZE;
 
+    // Find tx selector
     uint32_t selector = U4BE(msg->selector, 0);
     if (find_selector(selector, NESTED_SELECTORS, NUM_SELECTORS, &context->selectorIndex))
     {
@@ -68,7 +70,7 @@ void handle_init_contract(void *parameters)
         break;
     case DESTROY:
         PRINTF("IN DESTROY\n");
-        context->next_param = DESTROY__TOKEN_ID; /// ? PARAMS TO BE MODIFIED
+        context->next_param = DESTROY__TOKEN_ID;
         break;
     case RELEASE_TOKENS:
         PRINTF("IN RELEASE TOKENS\n");
@@ -78,7 +80,6 @@ void handle_init_contract(void *parameters)
         PRINTF("IN TRANSFER FROM\n");
         context->next_param = FROM;
         break;
-    // Keep this
     default:
         PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
         msg->result = ETH_PLUGIN_RESULT_ERROR;

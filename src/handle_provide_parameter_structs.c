@@ -1,5 +1,10 @@
 #include "nested_plugin.h"
 
+/**
+ * @brief Get the ui selector added by Nested front-end
+ *
+ * @return parsed byte
+ */
 static uint8_t get_ui_selector(uint8_t *parameter)
 {
 	uint8_t i = 0;
@@ -10,13 +15,15 @@ static uint8_t get_ui_selector(uint8_t *parameter)
 
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
-	PRINTF("GPIRIOU LAST CALLDATA OFFSET: %d\n", context->last_calldata_offset);
+	PRINTF("LAST CALLDATA OFFSET: %d\n", context->last_calldata_offset);
+	// is on last tx param.
 	if (context->last_calldata_offset == msg->parameterOffset)
 	{
 		context->ui_selector = get_ui_selector(msg->parameter);
 		PRINTF("copied ui_selector: %d\n", context->ui_selector);
 		return;
 	}
+	// is on the last order, reset next_param for parsing purposes.
 	if (context->offsets_lvl1[0] == msg->parameterOffset)
 	{
 		PRINTF("START LAST ORDER\n");
@@ -46,8 +53,10 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
 		PRINTF("GPIRIOU LEN CALLDATA: %d\n", U4BE(msg->parameter, PARAMETER_LENGTH - 4));
+		// is on last order ???
 		if (msg->parameterOffset > context->offsets_lvl1[0])
 		{
+			// get last_calldata_offset to parse last Tx's byte
 			context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 			PRINTF("LAST ORDER offset: %d\n", context->last_calldata_offset);
 		}
@@ -86,7 +95,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	case BOO__LEN_AMOUNTS:
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
 		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("with current_length_lvl1 = %d\n", context->current_length);
+		PRINTF("with current_length_lvl1 = %d\n", context->current_length_lvl1);
 		PRINTF("with current_length = %d\n", context->current_length);
 		break;
 	case BOO__AMOUNT:
@@ -116,10 +125,10 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->length_offset_array,
+						 context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{
@@ -173,10 +182,10 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->length_offset_array < 2)
 		{
 			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->length_offset_array,
+						 context->offsets_lvl1[context->length_offset_array]);
 		}
 		if (context->length_offset_array == 0)
 		{

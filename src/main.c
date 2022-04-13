@@ -24,7 +24,7 @@
 
 #include "nested_plugin.h"
 
-// Paraswap uses `0xeeeee` as a dummy address to represent ETH.
+// Nested uses `0xeeeee` as a dummy address to represent network ticker.
 const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH] = {0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
                                                        0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
                                                        0xee, 0xee, 0xee, 0xee, 0xee, 0xee};
@@ -63,7 +63,6 @@ void dispatch_plugin_calls(int message, void *parameters)
         handle_finalize(parameters);
         break;
     case ETH_PLUGIN_PROVIDE_INFO:
-        PRINTF("GPIRIOU MAIN\n");
         handle_provide_token(parameters);
         break;
     case ETH_PLUGIN_QUERY_CONTRACT_ID:
