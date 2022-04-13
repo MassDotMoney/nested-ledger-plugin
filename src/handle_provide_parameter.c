@@ -85,9 +85,6 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
             }
         }
         return;
-    case CREATE__BIO:
-        PRINTF("NOP NOP CREATE__BIO\n");
-        return;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
         msg->result = ETH_PLUGIN_RESULT_ERROR;

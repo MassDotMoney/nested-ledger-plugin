@@ -99,7 +99,6 @@ async function resolveTxFromData(data, contractAddr) {
     unsignedTx.to = contractAddr;
     unsignedTx.data = data;
     unsignedTx.value = parseEther("1");
-    console.log(`PENZOICI chainid: ${unsignedTx.chainId}`)
 
     const serializedTx = ethers.utils.serializeTransaction(unsignedTx).slice(2);
 

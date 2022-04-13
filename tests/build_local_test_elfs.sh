@@ -25,7 +25,6 @@ function build_nanos_plugin() {
 	make -j DEBUG=1 HAVE_PRINTF=1 BOLOS_SDK=$NANOS_SDK
 	# make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK ALLOW_DATA=1
 	cp bin/app.elf "tests/elfs/plugin_nanos.elf"
-	echo PENZO
 	echo $NANOS_SDK
 	echo $BOLOS_SDK
 # 	TARGET_ID:=$(shell cat $BOLOS_SDK/include/bolos_target.h | grep TARGET_ID | cut -f3 -d' ')
