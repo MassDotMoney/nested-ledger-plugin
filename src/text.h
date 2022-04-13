@@ -76,7 +76,7 @@
 /// CLAIM ///
 
 #define TITLE_CLAIM_SCREEN_1_UI "Claiming"
-#define TITLE_CLAIM_SCREEN_2_UI "Claimed Tokens:"
+#define TITLE_CLAIM_SCREEN_2_UI "PROUT"
 
 /// SEND ///
 
@@ -88,12 +88,12 @@
 #define MSG_TICKER2_UI snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker)
 #define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
 
-#define MSG_NUMBER_OF_TOKENS_UI (                                                             \
-    {                                                                                         \
-        if (context->number_of_tokens > 1)                                                    \
-            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens"); \
-        else                                                                                  \
-            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token."); \
+#define MSG_NUMBER_OF_TOKENS_UI (                                                              \
+    {                                                                                          \
+        if (context->number_of_tokens > 1)                                                     \
+            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens."); \
+        else                                                                                   \
+            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token.");  \
     })
 
 #define MSG_DISPLAY_TOKEN1_ADDRESS (                                      \

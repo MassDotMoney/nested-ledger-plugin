@@ -30,7 +30,9 @@
                     "plugin": "Nested"
                 },
                 "0xbba9b10c": {
-                    "erc20OfInterest": [],
+                    "erc20OfInterest": [
+                        "_buyToken"
+                    ],
                     "method": "destroy",
                     "plugin": "Nested"
                 }

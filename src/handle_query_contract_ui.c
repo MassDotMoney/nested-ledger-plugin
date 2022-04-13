@@ -51,7 +51,7 @@ static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -110,7 +110,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        MSG_TICKER1_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);

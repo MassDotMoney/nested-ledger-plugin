@@ -14,7 +14,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	if (context->last_calldata_offset == msg->parameterOffset)
 	{
 		context->ui_selector = get_ui_selector(msg->parameter);
-		PRINTF("copied ui_selectr: %d\n", context->ui_selector);
+		PRINTF("copied ui_selector: %d\n", context->ui_selector);
 		return;
 	}
 	if (context->offsets_lvl1[0] == msg->parameterOffset)

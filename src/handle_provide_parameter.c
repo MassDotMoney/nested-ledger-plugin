@@ -107,8 +107,8 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     case DESTROY__BUY_TOKEN:
         PRINTF("GPIRIOU BUY TOKEN\n");
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
-        PRINTF("GPIRIOU ADDRESS1:\n");
-        print_bytes(context->token1_address, ADDRESS_LENGTH);
+        // PRINTF("GPIRIOU ADDRESS1:\n");
+        // print_bytes(context->token1_address, ADDRESS_LENGTH);
         context->next_param++;
         break;
     case DESTROY__OFFSET_ORDERS:
@@ -126,7 +126,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
-        // msg->result = ETH_PLUGIN_RESULT_ERROR;
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
 }
