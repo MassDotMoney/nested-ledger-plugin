@@ -200,16 +200,18 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *context)
 {
+    PRINTF("GPIRIOU HANDLE SEND PORTFOLIO\n");
     switch (msg->screenIndex)
     {
     case 0:
+        PRINTF("GPIRIOU CASE 0\n");
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
         msg->msg[0] = '0';
         msg->msg[1] = 'x';
-        //getEthAddressStringFromBinary((uint8_t *)context->token1_address,
-        //                              (uint8_t *)msg->msg + 2,
-        //                              msg->pluginSharedRW->sha3,
-        //                              0);
+        getEthAddressStringFromBinary((uint8_t *)context->token1_address, // token1 is used due to size limitations in context
+                                      (uint8_t *)msg->msg + 2,
+                                      msg->pluginSharedRW->sha3,
+                                      0);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -269,6 +271,7 @@ void handle_query_contract_ui(void *parameters)
             handle_claim_all_ui(msg, context);
         break;
     case TRANSFER_FROM:
+        handle_send_portfolio_ui(msg, context);
         break;
     default:
         PRINTF("AN ERROR OCCURED IN UI\n");

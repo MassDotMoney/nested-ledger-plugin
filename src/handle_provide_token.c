@@ -37,7 +37,6 @@ void handle_provide_token(void *parameters)
     {
         if (context->number_of_tokens == 2 && context->booleans & TOKEN1_FOUND && context->booleans & TOKEN2_FOUND)
         {
-            PRINTF("GPIRIOU TEST\n");
             msg->additionalScreens++;
         }
     }

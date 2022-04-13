@@ -76,7 +76,7 @@ void handle_init_contract(void *parameters)
         break;
     case TRANSFER_FROM:
         PRINTF("IN TRANSFER FROM\n");
-        context->next_param = CREATE__TOKEN_ID; /// ? PARAMS TO BE MODIFIED
+        context->next_param = FROM;
         break;
     // Keep this
     default:

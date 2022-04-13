@@ -162,7 +162,31 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         }
         PRINTF("RELEASE_TOKENS %d\n", context->current_length);
         break;
+    default:
+        PRINTF("Param not supported: %d\n", context->next_param);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
+        break;
     }
+}
+
+static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *context)
+{
+    PRINTF("GPIRIOU HANDLE TRANSFER FROM\n");
+    switch ((transfer_from_parameter)context->next_param)
+    {
+    case FROM:
+        break;
+    case TO:
+        copy_address(context->token1_address, msg->parameter, sizeof(context->token1_address));
+        break;
+    case TOKEN_ID:
+        break;
+    default:
+        PRINTF("Param not supported: %d\n", context->next_param);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
+        break;
+    }
+    context->next_param++;
 }
 
 void handle_provide_parameter(void *parameters)
@@ -191,6 +215,9 @@ void handle_provide_parameter(void *parameters)
         break;
     case RELEASE_TOKENS:
         handle_release_tokens(msg, context);
+        break;
+    case TRANSFER_FROM:
+        handle_transfer_from(msg, context);
         break;
     default:
         PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

@@ -76,7 +76,7 @@
 /// CLAIM ///
 
 #define TITLE_CLAIM_SCREEN_1_UI "Claiming"
-#define TITLE_CLAIM_SCREEN_2_UI "PROUT"
+#define TITLE_CLAIM_SCREEN_2_UI "Claimed Tokens:"
 
 /// SEND ///
 

@@ -115,6 +115,15 @@ typedef enum
     RELEASE_ARRAY_TOKENS,
 } release_tokens_parameter;
 
+/* 721 Standard TransferFrom Function */
+
+typedef enum
+{
+    FROM,
+    TO,
+    TOKEN_ID,
+} transfer_from_parameter;
+
 // Booleans
 #define IS_COPY (1)
 #define TOKEN1_FOUND (1 << 2)
