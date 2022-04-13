@@ -39,7 +39,7 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 6 : 5;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
@@ -55,7 +55,7 @@ nano_models.forEach(function (model) {
     const [resolution, serializedTx] = await resolveTxFromData(data, contractAddr);
     const tx = signTransaction(serializedTx, resolution, eth.signTransaction)
 
-    const right_clicks = model.letter === 'S' ? 7 : 5;
+    const right_clicks = model.letter === 'S' ? 6 : 5;
 
     // Wait for the application to actually load and parse the transaction
     await waitForAppScreen(sim);
