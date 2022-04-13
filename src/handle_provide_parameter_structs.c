@@ -5,7 +5,7 @@
  *
  * @return parsed byte
  */
-static uint8_t get_ui_selector(uint8_t *parameter)
+static uint8_t get_ui_selector(const uint8_t *parameter)
 {
 	uint8_t i = 0;
 	while (parameter[i] == 0 && i < PARAMETER_LENGTH)

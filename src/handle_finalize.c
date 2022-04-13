@@ -42,6 +42,9 @@ void handle_finalize(void *parameters)
             break;
         }
         break;
+    case CREATE:
+    case DESTROY:
+        break;
     }
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).

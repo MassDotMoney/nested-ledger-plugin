@@ -164,10 +164,6 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         PRINTF("Param not supported: %d\n", context->next_param);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
-    default:
-        PRINTF("Param not supported: %d\n", context->next_param);
-        msg->result = ETH_PLUGIN_RESULT_ERROR;
-        break;
     }
 }
 

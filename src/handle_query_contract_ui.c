@@ -119,7 +119,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     }
 }
 
-static void handle_synchronization_ui(ethQueryContractUI_t *msg, context_t *context)
+static void handle_synchronization_ui(ethQueryContractUI_t *msg)
 {
     switch (msg->screenIndex)
     {
@@ -210,7 +210,7 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
         msg->msg[0] = '0';
         msg->msg[1] = 'x';
         getEthAddressStringFromBinary((uint8_t *)context->token1_address, // token1 is used due to size limitations in context
-                                      (uint8_t *)msg->msg + 2,
+                                      (char *)msg->msg + 2,
                                       msg->pluginSharedRW->sha3,
                                       0);
         break;
@@ -250,7 +250,7 @@ void handle_query_contract_ui(void *parameters)
         else if (context->ui_selector == DEPOSIT)
             handle_deposit_ui(msg, context);
         else if (context->ui_selector == SYNCHRONIZATION)
-            handle_synchronization_ui(msg, context);
+            handle_synchronization_ui(msg);
         break;
     case PROCESS_OUTPUT_ORDERS:
         if (context->ui_selector == SELL_TOKENS)

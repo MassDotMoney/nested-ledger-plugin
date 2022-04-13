@@ -101,7 +101,7 @@
         msg->msg[0] = '0';                                                \
         msg->msg[1] = 'x';                                                \
         getEthAddressStringFromBinary((uint8_t *)context->token1_address, \
-                                      (uint8_t *)msg->msg + 2,            \
+                                      (char *)msg->msg + 2,               \
                                       msg->pluginSharedRW->sha3,          \
                                       0);                                 \
     })
@@ -111,7 +111,7 @@
         msg->msg[0] = '0';                                                \
         msg->msg[1] = 'x';                                                \
         getEthAddressStringFromBinary((uint8_t *)context->token2_address, \
-                                      (uint8_t *)msg->msg + 2,            \
+                                      (char *)msg->msg + 2,               \
                                       msg->pluginSharedRW->sha3,          \
                                       0);                                 \
     })
