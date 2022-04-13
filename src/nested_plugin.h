@@ -9,6 +9,15 @@
 #define DEFAULT_DECIMAL WEI_TO_ETHER
 #define ETH_DECIMAL WEI_TO_ETHER
 
+#define MATIC "MATIC "
+#define WMATIC "WMATIC "
+#define AVAX "AVAX "
+#define WAVAX "WAVAX "
+#define BNB "BNB "
+#define WBNB "WBNB "
+#define ETH "ETH "
+#define WETH "WETH "
+
 #define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 #define ADDRESS_IS_NETWORK_TOKEN(_addr) (!memcmp(_addr, NETWORK_TOKEN_ADDRESS, ADDRESS_LENGTH))
 extern const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH];

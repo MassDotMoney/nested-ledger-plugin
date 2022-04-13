@@ -42,7 +42,6 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    print_bytes(context->token1_address, ADDRESS_LENGTH);
     switch (msg->screenIndex)
     {
     case 0:
@@ -81,8 +80,6 @@ static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context)
 
 static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
 {
-    PRINTF("GPIRIOU TICKER1: %s\n", context->token1_ticker);
-    // PRINTF("GPIRIOU TICKER2: %s\n", context->token2_ticker);
     switch (msg->screenIndex)
     {
     case 0:
@@ -216,6 +213,30 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     }
 }
 
+static void convert_ticker(char *token1_ticker, char *network_ticker)
+{
+    if (!(memcmp(ETH, network_ticker, MIN(sizeof(ETH), sizeof(network_ticker))))) // Check chain ID
+    {
+        if (!(memcmp(token1_ticker, WETH, MIN(sizeof(token1_ticker), sizeof(ETH)))))
+            strlcpy(token1_ticker, ETH, MAX_TICKER_LEN);
+    }
+    else if (!(memcmp(MATIC, network_ticker, MIN(sizeof(MATIC), sizeof(network_ticker)))))
+    {
+        if (!(memcmp(token1_ticker, WMATIC, MIN(sizeof(token1_ticker), sizeof(WMATIC)))))
+            strlcpy(token1_ticker, MATIC, MAX_TICKER_LEN);
+    }
+    else if (!(memcmp(AVAX, network_ticker, MIN(sizeof(AVAX), sizeof(network_ticker)))))
+    {
+        if (!(memcmp(token1_ticker, WAVAX, MIN(sizeof(token1_ticker), sizeof(WAVAX)))))
+            strlcpy(token1_ticker, AVAX, MAX_TICKER_LEN);
+    }
+    else if (!(memcmp(BNB, network_ticker, MIN(sizeof(BNB), sizeof(network_ticker)))))
+    {
+        if (!(memcmp(token1_ticker, WBNB, MIN(sizeof(token1_ticker), sizeof(WBNB)))))
+            strlcpy(token1_ticker, BNB, MAX_TICKER_LEN);
+    }
+}
+
 void handle_query_contract_ui(void *parameters)
 {
     ethQueryContractUI_t *msg = (ethQueryContractUI_t *)parameters;
@@ -231,6 +252,7 @@ void handle_query_contract_ui(void *parameters)
         strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
         strlcpy(context->token2_ticker, msg->network_ticker, sizeof(context->token2_ticker));
+    convert_ticker(context->token1_ticker, msg->network_ticker);
     switch (context->selectorIndex)
     {
     case CREATE:
