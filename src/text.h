@@ -26,7 +26,7 @@
 
 ///////////////////////
 
-// Titles and messages are listed by order of appearance.
+// Titles and messages are listed by order of appearance. TITLE are top line displays, MSG are bottom line displays and scroll while remaining on title screen.
 
 /// CREATE ///
 
@@ -66,12 +66,10 @@
 /// DEPOSIT ///
 
 #define TITLE_DEPOSIT_SCREEN_1_UI "Depositing"
-#define MSG_DEPOSIT_SCREEN_1_UI ""
 
 /// WITHDRAW ///
 
 #define TITLE_WITHDRAW_SCREEN_1_UI "Withdrawing"
-#define MSG_WITHDRAW_SCREEN_1_UI ""
 
 /// CLAIM ///
 
@@ -83,8 +81,6 @@
 #define TITLE_SEND_SCREEN_1_UI "Sending to:"
 
 /// UTILS ///
-
-#define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
 
 #define MSG_NUMBER_OF_TOKENS_UI (                                                              \
     {                                                                                          \
@@ -113,6 +109,8 @@
                                       msg->pluginSharedRW->sha3,          \
                                       0);                                 \
     })
+
+#define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
 
 #define MSG_TOKEN1_TICKER_OR_ADDRESS_UI (                                     \
     {                                                                         \
