@@ -61,10 +61,9 @@ void handle_finalize(void *parameters)
         context->booleans |= TOKEN1_FOUND;
         msg->tokenLookup2 = NULL;
     }
-    if (!ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
+    if ((!ADDRESS_IS_NETWORK_TOKEN(context->token2_address)) && (memcmp(context->token2_address, NULL_ADDRESS, ADDRESS_LENGTH)))
     {
-        // Address is not network token (0xeee...) so we will need to look up the token in the
-        // CAL.
+        // Address is not network token (0xeee...) or null so we will need to look up the token.
         PRINTF("Setting token2 address to: %.*H\n",
                ADDRESS_LENGTH,
                context->token2_address);

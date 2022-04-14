@@ -107,7 +107,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -250,6 +250,7 @@ void handle_query_contract_ui(void *parameters)
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
         strlcpy(context->token2_ticker, msg->network_ticker, sizeof(context->token2_ticker));
     convert_ticker(context->token1_ticker, msg->network_ticker);
+    convert_ticker(context->token2_ticker, msg->network_ticker);
     switch (context->selectorIndex)
     {
     case CREATE:

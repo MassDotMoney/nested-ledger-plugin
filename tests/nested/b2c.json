@@ -7,16 +7,14 @@
             "selectors": {
                 "0xa378534b": {
                     "erc20OfInterest": [
-                        "_batchedOrders.0.inputToken",
-                        "_batchedOrders.0.orders.0.token"
+                        "_batchedOrders.0.inputToken"
                     ],
                     "method": "create",
                     "plugin": "Nested"
                 },
                 "0x90e1aa69": {
                     "erc20OfInterest": [
-                        "_batchedOrders.0.inputToken",
-                        "_batchedOrders.0.orders.0.token"
+                        "_batchedOrders.0.inputToken"
                     ],
                     "method": "processInputOrders",
                     "plugin": "Nested"

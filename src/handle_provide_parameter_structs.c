@@ -39,7 +39,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__TOKEN_ADDRESS:
 		PRINTF("parse ORDER__TOKEN_ADDRESS\n");
-		PRINTF("number of tokens ? %d\n", context->number_of_tokens);
 		if (context->number_of_tokens == 1 && context->selectorIndex == PROCESS_OUTPUT_ORDERS)
 		{
 			PRINTF("copie token1 address\n");
@@ -62,7 +61,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__CALLDATA:
 		PRINTF("parse ORDER__CALLDATA start\n");
-		break;
+		return;
 	default:
 		break;
 	}
@@ -94,7 +93,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
 		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		PRINTF("with current_length_lvl1 = %d\n", context->current_length_lvl1);
-		PRINTF("with current_length = %d\n", context->current_length);
 		break;
 	case BOO__AMOUNT:
 		PRINTF("parse BOO__AMOUNT\n");
@@ -111,24 +109,23 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
 		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
-		context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		PRINTF("current_length_lvl1: %d\n", context->current_length_lvl1);
 		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
 	case BOO__OFFSET_ARRAY_ORDERS:
-		context->length_offset_array--;
-		PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n", context->length_offset_array);
-		if (context->length_offset_array < 2)
+		context->offset_array_index--;
+		if (context->offset_array_index < 2)
 		{
-			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			context->offsets_lvl1[context->offset_array_index] =
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->offset_array_index,
+						 context->offsets_lvl1[context->offset_array_index]);
 		}
-		if (context->length_offset_array == 0)
+		if (context->offset_array_index == 0)
 		{
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
@@ -167,33 +164,30 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		break;
 	case BIO__LEN_ORDERS:
 		PRINTF("parse BIO__LEN_ORDERS\n");
-		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		// context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("current_length: %d\n", context->current_length);
-		// test
+		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("parse BIO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
 	case BIO__OFFSET_ARRAY_ORDERS:
-		context->length_offset_array--;
-		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS, index: %d\n", context->length_offset_array);
-		if (context->length_offset_array < 2)
+		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
+		context->offset_array_index--;
+		if (context->offset_array_index < 2)
 		{
-			context->offsets_lvl1[context->length_offset_array] =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			context->offsets_lvl1[context->offset_array_index] =
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1[%d]: %d\n",
-				   context->length_offset_array,
-				   context->offsets_lvl1[context->length_offset_array]);
+						 context->offset_array_index,
+						 context->offsets_lvl1[context->offset_array_index]);
 		}
-		if (context->length_offset_array == 0)
+		if (context->offset_array_index == 0)
 		{
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (batch_input_orders)ORDER__OPERATOR;
 		}
 		return;
-		break;
 	default:
 		break;
 	}

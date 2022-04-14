@@ -47,25 +47,24 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
-        context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        context->number_of_tokens = context->current_length;
-        context->length_offset_array = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        PRINTF("current_length: %d\n", context->current_length);
+        // context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case CREATE__OFFSET_ARRAY_BIO:
-        context->length_offset_array--;
+        context->offset_array_index--;
         PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n",
-               context->length_offset_array);
-        if (context->length_offset_array < 2)
+               context->offset_array_index);
+        if (context->offset_array_index < 2)
         {
-            context->offsets_lvl0[context->length_offset_array] =
+            context->offsets_lvl0[context->offset_array_index] =
                 U4BE(msg->parameter, PARAMETER_LENGTH - 4);
             PRINTF("offsets_lvl0[%d]: %d\n",
-                   context->length_offset_array,
-                   context->offsets_lvl0[context->length_offset_array]);
+                   context->offset_array_index,
+                   context->offsets_lvl0[context->offset_array_index]);
         }
         // is on last offset.
-        if (context->length_offset_array == 0)
+        if (context->offset_array_index == 0)
         {
             switch (context->selectorIndex)
             {
@@ -113,7 +112,6 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     case DESTROY__LEN_ORDERS:
         PRINTF("DESTROY LEN ORDERS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        PRINTF("DESTROY NUMBER OF TOKENS:%d\n", context->number_of_tokens);
         context->next_param++;
         break;
     case DESTROY__ORDERS:
@@ -137,25 +135,26 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         break;
     case RELEASE_LEN_TOKENS:
         PRINTF("RELEASE_LEN_TOKENS\n");
-        context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        context->number_of_tokens = context->current_length;
+        // context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:
         // is first array element
-        if (context->number_of_tokens == context->current_length)
+        if (context->number_of_tokens == context->offset_array_index)
         {
             PRINTF("RELEASE copy first token address.\n");
             copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
         }
-        context->current_length--;
+        context->offset_array_index--;
         // is last array element && multiple tokens
-        if (context->number_of_tokens > 1 && context->current_length == 0)
+        if (context->number_of_tokens > 1 && context->offset_array_index == 0)
         {
             PRINTF("RELEASE copy last token address.\n");
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
         }
-        PRINTF("RELEASE_TOKENS token index: %d\n", context->current_length);
+        PRINTF("RELEASE_TOKENS token index: %d\n", context->offset_array_index);
         break;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
@@ -171,7 +170,7 @@ static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *co
     case FROM:
         break;
     case TO:
-        copy_address(context->token1_address, msg->parameter, sizeof(context->token1_address));
+        copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
         break;
     case TOKEN_ID:
         break;
