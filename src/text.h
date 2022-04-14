@@ -4,7 +4,7 @@
 /* Screen strings */
 
 // Use this header file to simply modify the strings displayed.
-// TITLE and MSG strings are respectively used for the top and bottom text displays in the UI screens.
+// TITLE and MSG strings are respectively used for the top and bottom text displays in the UI screen.
 
 // Title string for 1st UI is always PLUGIN_NAME in src/handle_query_contract_id.c.
 #define MSG_CREATE_ID "Create Portfolio"
@@ -13,21 +13,16 @@
 #define MSG_SYNCHRONIZATION_ID "Syncrhonization"
 #define MSG_DESTROY_ID "Sell Portfolio"
 #define MSG_TRANSFER_FROM_ID "Send Portfolio"
-
-// #define MSG_PROCESS_INPUT_ORDERS_ID "PROCESS_INPUT_ORDERS"
 #define MSG_ADD_TOKEN_ID "Add tokens"
 #define MSG_DEPOSIT_ID "Deposit"
 #define MSG_SYNCHRONIZATION_ID "Syncrhonization"
-
-#define MSG_PROCESS_OUTPUT_ORDERS_ID "PROCESS_OUTPUT_ORDERS"
 #define MSG_SWAP_ID "Swap"
 #define MSG_WITHDRAW_ID "Withdraw"
 #define MSG_SELL_TOKENS_ID "Sell Tokens"
 
 ///////////////////////
 
-// Titles and messages are listed by order of appearance. TITLE are top line displays, MSG are bottom line displays and scroll while remaining on title screen.
-
+// Titles and messages are listed by order of appearance.
 /// CREATE ///
 
 #define TITLE_CREATE_SCREEN_1_UI "Budget token:"
@@ -141,6 +136,3 @@
         else                                                                       \
             MSG_DISPLAY_TOKEN1_ADDRESS;                                            \
     })
-
-//#define UNKNOWN_TOKEN_TITLE "Unknown"
-//#define UNKNOWN_TOKEN_MSG "token:"
