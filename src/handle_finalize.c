@@ -17,8 +17,10 @@ void handle_finalize(void *parameters)
     ethPluginFinalize_t *msg = (ethPluginFinalize_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
+    // set default decimals
     context->token1_decimals = DEFAULT_DECIMAL;
 
+    // Determine screens count.
     switch ((selector_t)context->selectorIndex)
     {
     case RELEASE_TOKENS:
@@ -50,33 +52,29 @@ void handle_finalize(void *parameters)
         }
         break;
     }
-    //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
-    //// token addresses you will info for (such as decimals, ticker...).
-    if (!ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
+
+    // Check if token1 is (0xeee...)
+    if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
+        context->booleans |= TOKEN1_FOUND;
+    else
     {
-        // Address is not network token (0xeee...) so we will need to look up the token.
         PRINTF("Setting address to: %.*H\n",
                ADDRESS_LENGTH,
                context->token1_address);
+        // Address is not network token (0xeee...) so we will need to look up the token.
         msg->tokenLookup1 = context->token1_address;
     }
+
+    // Check if token1 is (0xeee...) or (0x000...)
+    if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address) || ADDRESS_IS_NULL_ADDRESS(context->token2_address))
+        context->booleans |= TOKEN2_FOUND;
     else
     {
-        context->booleans |= TOKEN1_FOUND;
-        msg->tokenLookup2 = NULL;
-    }
-    if (!ADDRESS_IS_NETWORK_TOKEN(context->token2_address) && !ADDRESS_IS_NULL_ADDRESS(context->token2_address))
-    {
-        // Address is not network token (0xeee...) or null so we will need to look up the token.
         PRINTF("Setting token2 address to: %.*H\n",
                ADDRESS_LENGTH,
                context->token2_address);
+        // Address is not network token (0xeee...) or null so we will need to look up the token.
         msg->tokenLookup2 = context->token2_address;
-    }
-    else
-    {
-        context->booleans |= TOKEN2_FOUND;
-        msg->tokenLookup2 = NULL;
     }
 
     print_booleans(context);
