@@ -162,20 +162,14 @@ typedef struct __attribute__((__packed__)) context_t
 {
     uint8_t on_struct;
     uint8_t next_param;
-    /** is the value of the next target offset */
-    uint32_t next_offset;
-    /** is the length of the current array */
-    // uint16_t current_length; // TODO check duplicate with offset_array_index
-    /** is the length of the current nested array */
-    uint16_t current_length_lvl1;
-    /** is the length/currentIndex of the offset array */
-    uint8_t offset_array_index;
-    /** is the value from which a given offset is calculated */
-    uint32_t current_tuple_offset;
-    uint16_t offsets_lvl0; // unused
-    uint16_t offsets_lvl1;
-    /** is the number of tokens found, this is not always the number of all tokens include in the Tx */
-    uint8_t number_of_tokens;
+    uint32_t next_offset;          // is the value of the next target offset
+    uint16_t current_length_lvl0;  // unused // is the length of the current array
+    uint16_t current_length_lvl1;  // is the length of the current nested array
+    uint16_t offsets_lvl0;         // unused
+    uint16_t offsets_lvl1;         // is the offset of the parameter we want to parse
+    uint8_t offset_array_index;    // is the length/currentIndex of the offset array
+    uint32_t current_tuple_offset; // is the value from which a given offset is calculated
+    uint8_t number_of_tokens;      // is the number of tokens found, this is not always the number of all tokens include in the Tx
     /** token1 is often the input token */
     uint8_t token1_address[ADDRESS_LENGTH];
     uint8_t token1_amount[INT256_LENGTH];
@@ -184,13 +178,10 @@ typedef struct __attribute__((__packed__)) context_t
     /** token2 is the output token */
     uint8_t token2_address[ADDRESS_LENGTH];
     char token2_ticker[MAX_TICKER_LEN];
-    /** ui_selector is the byte set by Nested front to determine the action */
-    uint8_t ui_selector;
-    /** is the offset of the last order's calldata end, just before the last byte of the Tx. */
-    uint32_t last_calldata_offset;
-    /** bitwise booleans */
-    uint8_t booleans;
-    selector_t selectorIndex;
+    uint8_t ui_selector;           // ui_selector is the byte set by Nested front to determine the action
+    uint32_t last_calldata_offset; // is the offset of the last order's calldata end, just before the last byte of the Tx
+    uint8_t booleans;              // bitwise booleans
+    selector_t selectorIndex;      // method id
 } context_t;
 
 // Piece of code that will check that the above structure is not bigger than 5 * 32. Do not remove

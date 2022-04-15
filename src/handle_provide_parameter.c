@@ -13,7 +13,9 @@ static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context)
     }
 }
 
-// create, processInputOrder and processOutputOrder have similar prototype
+/**
+ * parse both create, processInputOrder and processOutputOrder.
+ */
 static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 {
     // Switch to current struct parsing function.
@@ -47,7 +49,6 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
-        // context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
@@ -127,7 +128,6 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         break;
     case RELEASE_LEN_TOKENS:
         PRINTF("RELEASE_LEN_TOKENS\n");
-        // context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->next_param++;

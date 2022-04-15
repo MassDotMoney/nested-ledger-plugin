@@ -1,8 +1,7 @@
 #include "nested_plugin.h"
 
 /**
- * @brief Get the ui selector added by Nested front-end
- *
+ * Get the ui selector added by Nested front-end
  * @return parsed byte
  */
 static uint8_t get_ui_selector(const uint8_t *parameter)
@@ -13,6 +12,9 @@ static uint8_t get_ui_selector(const uint8_t *parameter)
 	return parameter[i];
 }
 
+/**
+ * parse order struct
+ */
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
 	PRINTF("LAST CALLDATA OFFSET: %d\n", context->last_calldata_offset);
@@ -68,6 +70,9 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	context->next_param++;
 }
 
+/**
+ * parse batch_output_orders struct
+ */
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context)
 {
 	PRINTF("PARSING BOO step; %d\n", context->next_param);
@@ -134,6 +139,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	context->next_param++;
 }
 
+/**
+ * parse batched_input_orders struct
+ */
 void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *context)
 {
 	PRINTF("PARSING BIO step; %d\n", context->next_param);
@@ -160,7 +168,6 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		break;
 	case BIO__LEN_ORDERS:
 		PRINTF("parse BIO__LEN_ORDERS\n");
-		// context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
