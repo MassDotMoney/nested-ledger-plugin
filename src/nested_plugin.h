@@ -20,6 +20,7 @@
 
 #define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 #define ADDRESS_IS_NETWORK_TOKEN(_addr) (!memcmp(_addr, NETWORK_TOKEN_ADDRESS, ADDRESS_LENGTH))
+#define ADDRESS_IS_NULL_ADDRESS(_addr) (!memcmp(_addr, NULL_ADDRESS, ADDRESS_LENGTH))
 extern const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH];
 
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
