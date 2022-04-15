@@ -38,6 +38,18 @@ typedef enum
 
 } selector_t;
 
+// selector of the Tx's last byte.
+typedef enum
+{
+    NONE,
+    ADD_TOKENS,
+    DEPOSIT,
+    SYNCHRONIZATION,
+    SELL_TOKENS,
+    WITHDRAW,
+    SWAP,
+} ui_selector;
+
 extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 
 /*
@@ -103,17 +115,6 @@ typedef enum
     CREATE__LEN_BIO,
     CREATE__OFFSET_ARRAY_BIO,
 } create_parameter;
-
-typedef enum
-{
-    NONE,
-    ADD_TOKENS,
-    DEPOSIT,
-    SYNCHRONIZATION,
-    SELL_TOKENS,
-    WITHDRAW,
-    SWAP,
-} ui_selector;
 
 /* FeeSplitter Functions */
 

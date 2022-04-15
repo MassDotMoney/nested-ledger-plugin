@@ -91,30 +91,27 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     {
     case DESTROY__TOKEN_ID:
         PRINTF("DESTROY TOKEN ID\n");
-        context->next_param++;
         break;
     case DESTROY__BUY_TOKEN:
         PRINTF("DESTROY BUY TOKEN\n");
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
-        context->next_param++;
         break;
     case DESTROY__OFFSET_ORDERS:
         PRINTF("DESTROY OFFSET ORDERS\n");
-        context->next_param++;
         break;
     case DESTROY__LEN_ORDERS:
         PRINTF("DESTROY LEN ORDERS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        context->next_param++;
         break;
     case DESTROY__ORDERS:
         PRINTF("DESTROY ORDERS\n");
-        break;
+        return;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
+    context->next_param++;
 }
 
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
@@ -124,13 +121,11 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
     {
     case RELEASE_OFFSET_TOKENS:
         PRINTF("RELEASE_OFFSET_TOKENS\n");
-        context->next_param++;
         break;
     case RELEASE_LEN_TOKENS:
         PRINTF("RELEASE_LEN_TOKENS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        context->next_param++;
         break;
     case RELEASE_ARRAY_TOKENS:
         // is first array element
@@ -147,12 +142,13 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
         }
         PRINTF("RELEASE_TOKENS token index: %d\n", context->offset_array_index);
-        break;
+        return;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }
+    context->next_param++;
 }
 
 static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *context)
