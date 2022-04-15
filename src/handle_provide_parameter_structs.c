@@ -24,7 +24,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		return;
 	}
 	// is on the last order, reset next_param for parsing purposes.
-	if (context->offsets_lvl1[0] == msg->parameterOffset)
+	if (context->offsets_lvl1 == msg->parameterOffset)
 	{
 		PRINTF("START LAST ORDER\n");
 		context->next_param = (order)ORDER__OPERATOR;
@@ -52,7 +52,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
 		// is on last order ???
-		if (msg->parameterOffset > context->offsets_lvl1[0])
+		if (msg->parameterOffset > context->offsets_lvl1)
 		{
 			// get last_calldata_offset to parse last Tx's byte
 			context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
@@ -117,16 +117,12 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__OFFSET_ARRAY_ORDERS:
 		context->offset_array_index--;
-		if (context->offset_array_index < 2)
-		{
-			context->offsets_lvl1[context->offset_array_index] =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("offsets_lvl1[%d]: %d\n",
-						 context->offset_array_index,
-						 context->offsets_lvl1[context->offset_array_index]);
-		}
 		if (context->offset_array_index == 0)
 		{
+			context->offsets_lvl1 =
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			PRINTF("offsets_lvl1: %d\n",
+						 context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
@@ -173,16 +169,12 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__OFFSET_ARRAY_ORDERS:
 		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
 		context->offset_array_index--;
-		if (context->offset_array_index < 2)
-		{
-			context->offsets_lvl1[context->offset_array_index] =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("offsets_lvl1[%d]: %d\n",
-						 context->offset_array_index,
-						 context->offsets_lvl1[context->offset_array_index]);
-		}
 		if (context->offset_array_index == 0)
 		{
+			context->offsets_lvl1 =
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			PRINTF("offsets_lvl1: %d\n",
+						 context->offsets_lvl1);
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (batch_input_orders)ORDER__OPERATOR;

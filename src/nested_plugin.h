@@ -172,8 +172,8 @@ typedef struct __attribute__((__packed__)) context_t
     uint8_t offset_array_index;
     /** is the value from which a given offset is calculated */
     uint32_t current_tuple_offset;
-    uint16_t offsets_lvl0[2];
-    uint16_t offsets_lvl1[2];
+    uint16_t offsets_lvl0; // unused
+    uint16_t offsets_lvl1;
     /** is the number of tokens found, this is not always the number of all tokens include in the Tx */
     uint8_t number_of_tokens;
     /** token1 is often the input token */

@@ -55,14 +55,6 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         context->offset_array_index--;
         PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n",
                context->offset_array_index);
-        if (context->offset_array_index < 2)
-        {
-            context->offsets_lvl0[context->offset_array_index] =
-                U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-            PRINTF("offsets_lvl0[%d]: %d\n",
-                   context->offset_array_index,
-                   context->offsets_lvl0[context->offset_array_index]);
-        }
         // is on last offset.
         if (context->offset_array_index == 0)
         {
