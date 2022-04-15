@@ -18,39 +18,43 @@ void handle_finalize(void *parameters)
     context_t *context = (context_t *)msg->pluginContext;
 
     context->token1_decimals = DEFAULT_DECIMAL;
-    msg->numScreens = 2;
 
-    switch (context->selectorIndex)
+    switch ((selector_t)context->selectorIndex)
     {
     case RELEASE_TOKENS:
-        msg->numScreens = 1;
-        break;
     case TRANSFER_FROM:
         msg->numScreens = 1;
         break;
+    case CREATE:
+    case DESTROY:
+        msg->numScreens = 2;
+        break;
     case PROCESS_INPUT_ORDERS:
     case PROCESS_OUTPUT_ORDERS:
-        switch (context->ui_selector)
+        switch ((ui_selector)context->ui_selector)
         {
         case DEPOSIT:
         case WITHDRAW:
         case SYNCHRONIZATION:
             msg->numScreens = 1;
             break;
-        default:
+        case ADD_TOKENS:
+        case SELL_TOKENS:
+        case SWAP:
+            msg->numScreens = 2;
+            break;
+        case NONE:
+            PRINTF("Error: could not find ui selector.\n");
+            msg->numScreens = 2;
             break;
         }
-        break;
-    case CREATE:
-    case DESTROY:
         break;
     }
     //// set `tokenLookup1` (and maybe `tokenLookup2`) to point to
     //// token addresses you will info for (such as decimals, ticker...).
     if (!ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
     {
-        // Address is not network token (0xeee...) so we will need to look up the token in the
-        // CAL.
+        // Address is not network token (0xeee...) so we will need to look up the token.
         PRINTF("Setting address to: %.*H\n",
                ADDRESS_LENGTH,
                context->token1_address);
