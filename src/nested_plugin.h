@@ -159,6 +159,7 @@ typedef enum
 //#define LEFT_SCROLL 0
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
+// 124 / 160
 typedef struct __attribute__((__packed__)) context_t
 {
     uint8_t on_struct;

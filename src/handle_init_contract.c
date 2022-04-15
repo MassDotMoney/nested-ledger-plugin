@@ -28,6 +28,9 @@ void handle_init_contract(void *parameters)
         return;
     }
 
+    // Print size of plugin's context.
+    PRINTF("context size: %d / %d\n", sizeof(context_t), msg->pluginContextLength);
+
     // Double check that the `context_t` struct is not bigger than the maximum size (defined by
     // `msg->pluginContextLength`).
     if (msg->pluginContextLength < sizeof(context_t))
