@@ -245,17 +245,16 @@ void handle_query_contract_ui(void *parameters)
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 
-    PRINTF("GPIRIOU #oftokens: %d\n", context->number_of_tokens);
-    PRINTF("GPIRIOU UI ADDRESS1:%.*H\n", sizeof(context->token1_address), context->token1_address);
-    PRINTF("GPIRIOU UI TICKER1: %s\n", context->token1_ticker);
-    PRINTF("GPIRIOU UI ADDRESS2:%.*H\n", sizeof(context->token2_address), context->token2_address);
-    PRINTF("GPIRIOU UI TICKER2: %s\n", context->token2_ticker);
+    // Get network ticker if address is '0xeee...'
     if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
         strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
         strlcpy(context->token2_ticker, msg->network_ticker, sizeof(context->token2_ticker));
+
+    // Remove 'W' from network token. (WETH => ETH)
     convert_ticker(context->token1_ticker, msg->network_ticker);
     convert_ticker(context->token2_ticker, msg->network_ticker);
+
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -271,16 +270,26 @@ void handle_query_contract_ui(void *parameters)
             handle_deposit_ui(msg, context);
         else if (context->ui_selector == SYNCHRONIZATION)
             handle_synchronization_ui(msg);
+        else
+        {
+            PRINTF("Error in handle_query_contract_ui's ui_selector switch\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return;
+        }
         break;
     case PROCESS_OUTPUT_ORDERS:
         if (context->ui_selector == SELL_TOKENS)
             handle_sell_tokens_ui(msg, context);
         else if (context->ui_selector == WITHDRAW)
-        {
             handle_withdraw_ui(msg, context);
-        }
         else if (context->ui_selector == SWAP)
             handle_swap_ui(msg, context);
+        else
+        {
+            PRINTF("Error in handle_query_contract_ui's ui_selector switch\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return;
+        }
         break;
     case DESTROY:
         handle_destroy_ui(msg, context);
@@ -295,7 +304,7 @@ void handle_query_contract_ui(void *parameters)
         handle_send_portfolio_ui(msg, context);
         break;
     default:
-        PRINTF("AN ERROR OCCURED IN UI\n");
+        PRINTF("Error in handle_query_contract_ui's selectorIndex switch\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         break;
     }

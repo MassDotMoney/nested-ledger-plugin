@@ -73,6 +73,8 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		PRINTF("parse TEST ORDER__CALLDATA start\n");
 		return;
 	default:
+		PRINTF("Param not supported: %d\n", context->next_param);
+		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}
 	context->next_param++;
@@ -142,6 +144,8 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		}
 		return;
 	default:
+		PRINTF("Param not supported: %d\n", context->next_param);
+		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}
 	context->next_param++;
@@ -196,6 +200,8 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		}
 		return;
 	default:
+		PRINTF("Param not supported: %d\n", context->next_param);
+		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}
 	context->next_param++;
