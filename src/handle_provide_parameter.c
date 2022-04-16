@@ -87,6 +87,12 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
 
 static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
 {
+    // Switch to current struct parsing function.
+    if (context->on_struct == S_ORDER)
+    {
+        parse_order(msg, context);
+        return;
+    }
     switch ((destroy_parameter)context->next_param)
     {
     case DESTROY__TOKEN_ID:
@@ -104,7 +110,9 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case DESTROY__ORDERS:
-        PRINTF("DESTROY ORDERS\n");
+        PRINTF("DESTROY ORDERS");
+        context->on_struct = (on_struct)S_ORDER;
+        context->next_param = (order)ORDER__OPERATOR;
         return;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);

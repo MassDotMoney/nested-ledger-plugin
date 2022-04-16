@@ -107,7 +107,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
+        MSG_TOKEN1_TICKER_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -246,7 +246,10 @@ void handle_query_contract_ui(void *parameters)
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     PRINTF("GPIRIOU #oftokens: %d\n", context->number_of_tokens);
-    PRINTF("GPIRIOU ADDRESS2:%.*H\n", sizeof(context->token2_address), context->token2_address);
+    PRINTF("GPIRIOU UI ADDRESS1:%.*H\n", sizeof(context->token1_address), context->token1_address);
+    PRINTF("GPIRIOU UI TICKER1: %s\n", context->token1_ticker);
+    PRINTF("GPIRIOU UI ADDRESS2:%.*H\n", sizeof(context->token2_address), context->token2_address);
+    PRINTF("GPIRIOU UI TICKER2: %s\n", context->token2_ticker);
     if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
         strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))

@@ -48,8 +48,11 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 				PRINTF("copie token1 address\n");
 				copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
 			}
-			else if (context->selectorIndex == CREATE)
+			else
+			{
+				PRINTF("copie token2 address\n");
 				copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+			}
 		}
 		break;
 	case ORDER__OFFSET_CALLDATA:
@@ -85,6 +88,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	{
 	case BOO__OUTPUTTOKEN:
 		PRINTF("parse BOO__OUTPUTTOKEN\n");
+		PRINTF("copie token2 address\n");
 		copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
 		context->current_tuple_offset = msg->parameterOffset;
 		PRINTF("parse BOO__OUTPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
@@ -135,7 +139,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 				   context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
-			context->next_param = (order)ORDER__OPERATOR;
 		}
 		return;
 	default:
