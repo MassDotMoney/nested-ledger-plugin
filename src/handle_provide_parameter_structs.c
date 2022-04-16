@@ -41,10 +41,15 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__TOKEN_ADDRESS:
 		PRINTF("parse ORDER__TOKEN_ADDRESS\n");
-		if (context->number_of_tokens == 1 && context->selectorIndex == PROCESS_OUTPUT_ORDERS)
+		if (context->number_of_tokens == 1)
 		{
-			PRINTF("copie token1 address\n");
-			copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+			if (context->selectorIndex == PROCESS_OUTPUT_ORDERS)
+			{
+				PRINTF("copie token1 address\n");
+				copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+			}
+			else if (context->selectorIndex == CREATE)
+				copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
 		}
 		break;
 	case ORDER__OFFSET_CALLDATA:
@@ -62,7 +67,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		}
 		break;
 	case ORDER__CALLDATA:
-		PRINTF("parse ORDER__CALLDATA start\n");
+		PRINTF("parse TEST ORDER__CALLDATA start\n");
 		return;
 	default:
 		break;
@@ -125,9 +130,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		if (context->offset_array_index == 0)
 		{
 			context->offsets_lvl1 =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1: %d\n",
-						 context->offsets_lvl1);
+				   context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
@@ -179,9 +184,9 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->offset_array_index == 0)
 		{
 			context->offsets_lvl1 =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1: %d\n",
-						 context->offsets_lvl1);
+				   context->offsets_lvl1);
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (batch_input_orders)ORDER__OPERATOR;

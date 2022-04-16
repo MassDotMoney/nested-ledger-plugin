@@ -54,8 +54,8 @@
 
 /// SYNCHRONIZATION ///
 
-#define TITLE_SYNCHRONIZATION_SCREEN_1_UI "Synchronizing"
-#define MSG_SYNCHRONIZATION_SCREEN_1_UI "with portfolio."
+#define TITLE_SYNCHRONIZATION_SCREEN_1_UI "Updating"
+#define MSG_SYNCHRONIZATION_SCREEN_1_UI "porfolio."
 
 /// DEPOSIT ///
 
@@ -76,12 +76,21 @@
 
 /// UTILS ///
 
-#define MSG_NUMBER_OF_TOKENS_UI (                                                              \
-    {                                                                                          \
-        if (context->number_of_tokens > 1)                                                     \
-            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "tokens."); \
-        else                                                                                   \
-            snprintf(msg->msg, msg->msgLength, "%d %s", context->number_of_tokens, "token.");  \
+#define MSG_NUMBER_OF_TOKENS_UI (                                                                        \
+    {                                                                                                    \
+        if (context->booleans & TOKEN2_FOUND && context->number_of_tokens == 1)                          \
+        {                                                                                                \
+            PRINTF("GPIRIOU DEBUG\n");                                                                   \
+            PRINTF("GPIRIOU ADDRESS2:%.*H\n", sizeof(context->token2_address), context->token2_address); \
+            snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);                            \
+        }                                                                                                \
+        else                                                                                             \
+        {                                                                                                \
+            if (context->number_of_tokens > 1)                                                           \
+                snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);              \
+            else                                                                                         \
+                snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);               \
+        }                                                                                                \
     })
 
 #define MSG_DISPLAY_TOKEN1_ADDRESS (                                      \

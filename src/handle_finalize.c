@@ -65,8 +65,8 @@ void handle_finalize(void *parameters)
         msg->tokenLookup1 = context->token1_address;
     }
 
-    // Check if token1 is (0xeee...) or (0x000...)
-    if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address) || ADDRESS_IS_NULL_ADDRESS(context->token2_address))
+    // Check if token2 is (0xeee...) or (0x000...)
+    if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address) || ADDRESS_IS_NULL_ADDRESS(context->token2_address))
         context->booleans |= TOKEN2_FOUND;
     else
     {

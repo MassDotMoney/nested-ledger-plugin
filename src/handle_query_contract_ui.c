@@ -184,7 +184,7 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
         MSG_NUMBER_OF_TOKENS_UI;
         break;
-    case 1: // Only if 2 tokens found by app.
+    case 1: // Only if 2 tokens found by ledgerjs.
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI, msg->titleLength);
         MSG_2_TICKERS_UI;
         break;
@@ -245,6 +245,8 @@ void handle_query_contract_ui(void *parameters)
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 
+    PRINTF("GPIRIOU #oftokens: %d\n", context->number_of_tokens);
+    PRINTF("GPIRIOU ADDRESS2:%.*H\n", sizeof(context->token2_address), context->token2_address);
     if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
         strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
