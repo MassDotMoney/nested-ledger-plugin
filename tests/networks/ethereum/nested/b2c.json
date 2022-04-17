@@ -24,7 +24,7 @@
                 "0x51227094": {
                     "erc20OfInterest": [
                         "_batchedOrders.0.outputToken",
-                        "_batchedOrders.0.orders.0.token"
+                        "_batchedOrders.0.orders.-1.token"
                     ],
                     "method": "processOutputOrders",
                     "plugin": "Nested"

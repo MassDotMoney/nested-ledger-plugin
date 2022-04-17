@@ -113,11 +113,12 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		PRINTF("with current_length_lvl1 = %d\n", context->current_length_lvl1);
 		break;
 	case BOO__AMOUNT:
-		PRINTF("parse BOO__AMOUNT\n");
+		PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length_lvl1);
+		// copy last amount, matching b2c
 		if (context->current_length_lvl1 == 1)
 		{
-			PRINTF("copie token1 amount\n");
 			copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
+			PRINTF("copie token1 amount: %.*H\n", PARAMETER_LENGTH, context->token1_amount);
 		}
 		context->current_length_lvl1--;
 		if (context->current_length_lvl1)
@@ -135,7 +136,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
 	case BOO__OFFSET_ARRAY_ORDERS:
+		PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n", context->offset_array_index);
 		context->offset_array_index--;
+		// copy last order, matching b2c
 		if (context->offset_array_index == 0)
 		{
 			context->offsets_lvl1 =
@@ -143,6 +146,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 			PRINTF("offsets_lvl1: %d\n",
 						 context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
+			// Switch to order's parsing
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
 		}
@@ -174,6 +178,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__AMOUNT:
 		PRINTF("parse BIO__AMOUNT\n");
 		copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
+		PRINTF("get token1_amount: %d\n");
 		break;
 	case BIO__OFFSET_ORDERS:
 		PRINTF("parse BIO__OFFSET_ORDERS\n");
@@ -194,13 +199,14 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__OFFSET_ARRAY_ORDERS:
 		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
 		context->offset_array_index--;
+		// is on last order's offset
 		if (context->offset_array_index == 0)
 		{
+			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->offsets_lvl1 =
 					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1: %d\n",
 						 context->offsets_lvl1);
-			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
 		}
