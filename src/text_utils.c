@@ -37,12 +37,12 @@ void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int tok
 {
     if (context->number_of_tokens == 1)
     {
-        if (!(context->booleans & TOKEN1_FOUND) || !(context->booleans & TOKEN2_FOUND))
-            snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
-        else if (token == 1 && context->booleans & TOKEN1_FOUND)
+        if (token == 1 && context->booleans & TOKEN1_FOUND)
             snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker);
         else if (token == 2 && context->booleans & TOKEN2_FOUND)
             snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);
+        else if (!(context->booleans & TOKEN1_FOUND) || !(context->booleans & TOKEN2_FOUND))
+            snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
         else
             snprintf(msg->msg, msg->msgLength, "ERROR", context->token2_ticker);
     }
@@ -50,7 +50,7 @@ void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int tok
         snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);
 }
 
-void msg_amount_or_address_ui(ethQueryContractUI_t *msg, context_t *context)
+void msg_amount_or_address_ui(ethQueryContractUI_t *msg, context_t *context) // Use for token1 only.
 {
     if (context->booleans & TOKEN1_FOUND)
     {

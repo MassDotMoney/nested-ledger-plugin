@@ -1,12 +1,12 @@
 #include "nested_plugin.h"
 #define PLUGIN_NAME "Nested"
 
-/* Screen strings */
-
 // Use this header file to simply modify the strings displayed.
-// TITLE and MSG strings are respectively used for the top and bottom text displays in the UI screen.
+// TITLE and MSG strings are respectively are listed by order of appearance and used for the top and bottom text displays in the UI screen.
 
-// TITLE string for 1st UI is always PLUGIN_NAME in src/handle_query_contract_id.c.
+/* handle_query_contract_id.c strings */
+
+// TITLE string for 1st UI is PLUGIN_NAME.
 #define MSG_CREATE_ID "Create Portfolio"
 #define MSG_COPY_ID "Copy Portfolio"
 #define MSG_CLAIM_ID "Claim Royalties"
@@ -19,9 +19,7 @@
 #define MSG_WITHDRAW_ID "Withdraw"
 #define MSG_SELL_TOKENS_ID "Sell Tokens"
 
-///////////////////////
-
-// Titles and messages are listed by order of appearance.
+/* handle_query_contract_ui.c strings */
 
 /// CREATE ///
 
