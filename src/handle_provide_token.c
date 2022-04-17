@@ -6,7 +6,6 @@
 
 void handle_provide_token(void *parameters)
 {
-    PRINTF("GPIRIOU PROVIDE TOKEN\n");
     ethPluginProvideInfo_t *msg = (ethPluginProvideInfo_t *)parameters;
     context_t *context = (context_t *)msg->pluginContext;
 
@@ -30,8 +29,6 @@ void handle_provide_token(void *parameters)
         context->booleans |= TOKEN2_FOUND;
         // Only the ticker is stored for token2.
         strlcpy(context->token2_ticker, (char *)msg->item2->token.ticker, sizeof(context->token2_ticker));
-        PRINTF("GPIRIOU TOKEN2 FOUND !\n");
-        PRINTF("GPIRIOU TICKER2:%.*H\n", sizeof(context->token2_ticker), context->token2_ticker);
     }
 
     if (context->selectorIndex == RELEASE_TOKENS)

@@ -8,11 +8,11 @@ static void handle_create_ui(ethQueryContractUI_t *msg, context_t *context)
     case 0:
         // Edit these to change screens.
         strlcpy(msg->title, TITLE_CREATE_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        msg_amount_or_address_ui(msg, context);
         break;
     case 1:
         strlcpy(msg->title, TITLE_CREATE_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
+        msg_number_of_tokens(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -27,11 +27,11 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_COPY_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        msg_amount_or_address_ui(msg, context);
         break;
     case 1:
         strlcpy(msg->title, TITLE_COPY_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
+        msg_number_of_tokens(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -46,11 +46,11 @@ static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
+        msg_number_of_tokens(msg, context, 2);
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER1_OR_ADDRESS_UI;
+        msg_ticker_or_address(msg, context, 1);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -65,11 +65,11 @@ static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_SWAP_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        msg_amount_or_address_ui(msg, context);
         break;
     case 1:
         strlcpy(msg->title, TITLE_SWAP_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER2_OR_ADDRESS_UI;
+        msg_ticker_or_address(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -84,11 +84,11 @@ static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        msg_amount_or_address_ui(msg, context);
         break;
     case 1:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
+        msg_ticker_or_address(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -102,14 +102,12 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     switch (msg->screenIndex)
     {
     case 0:
-        PRINTF("GPIRIOU SELL CASE0\n");
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
+        msg_number_of_tokens(msg, context, 1);
         break;
     case 1:
-        PRINTF("GPIRIOU SELL CASE1\n");
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TICKER2_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
+        msg_ticker_or_address(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -139,7 +137,7 @@ static void handle_deposit_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_DEPOSIT_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI;
+        msg_amount_or_address_ui(msg, context);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -154,7 +152,7 @@ static void handle_withdraw_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_WITHDRAW_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER2_OR_ADDRESS_UI;
+        msg_ticker_or_address(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -169,7 +167,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER1_OR_ADDRESS_UI;
+        msg_ticker_or_address(msg, context, 1);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -184,11 +182,11 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
+        msg_number_of_tokens(msg, context, 1);
         break;
     case 1: // Only if 2 tokens found by ledgerjs.
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI, msg->titleLength);
-        MSG_2_TICKERS_UI;
+        msg_2tickers_ui(msg, context);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -203,7 +201,7 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     {
     case 0:
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
-        MSG_DISPLAY_TOKEN1_ADDRESS_UI; // token1 is used to store 'to' address due to size limitations in context
+        msg_display_address_ui(msg, context->token1_address);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -256,16 +254,6 @@ void handle_query_contract_ui(void *parameters)
     // Remove 'W' from network token. (WETH => ETH)
     convert_ticker(context->token1_ticker, msg->network_ticker);
     convert_ticker(context->token2_ticker, msg->network_ticker);
-
-    PRINTF("GPIRIOU ADDRESS1: %.*h \033[0m \n",
-           sizeof(context->token1_address),
-           context->token1_address);
-    PRINTF("GPIRIOU TICKER1: %s\n", context->token1_ticker);
-    PRINTF("GPIRIOU AMOUNT: %d\n", context->token1_amount);
-    PRINTF("GPIRIOU ADDRESS2: %.*h \033[0m \n",
-           sizeof(context->token2_address),
-           context->token2_address);
-    PRINTF("GPIRIOU TICKER2: %s\n", context->token2_ticker);
 
     switch (context->selectorIndex)
     {
