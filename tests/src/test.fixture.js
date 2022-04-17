@@ -33,7 +33,7 @@ const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
 
 const nano_models: DeviceModel[] = [
     { name: 'nanos', letter: 'S', path: NANOS_PLUGIN_PATH, eth_path: NANOS_ETH_PATH },
-    // { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
+    { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
 ];
 
 // const nestedJSON = generate_plugin_config();
@@ -149,14 +149,14 @@ async function processTransaction(eth, sim, steps, label, testNetwork, unsignedT
  * @param {string} unsignedTx unsignedTx to serialized
  * @param {string} testNetwork network name
  */
-function processTest(device, steps, contractName, testLabel, testDirSuffix, unsignedTx, testNetwork = "ethereum") {
+function processTest(device, step, contractName, testLabel, testDirSuffix, unsignedTx, testNetwork = "ethereum") {
     test(
         "[" + device.letter + "]" + "[" + contractName + "] - " + testLabel,
         zemu(device, testNetwork, async (sim, eth) => {
             await processTransaction(
                 eth,
                 sim,
-                device.letter == 'S' ? steps[0] : steps[1],
+                step,
                 testNetwork + "_" + device.name + "_" + testDirSuffix,
                 testNetwork,
                 unsignedTx

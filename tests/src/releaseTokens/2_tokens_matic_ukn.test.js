@@ -11,12 +11,21 @@ const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 // but wrong usdc token address (2791 -> 2792)
 const inputData = "0x6d9634b7000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000d500b1d8e8ef31e21c99d1db9a6444d3adf12700000000000000000000000002792bca1f2de4661ed88a30c99a7a9449aa84174";
 
-// [NanoS steps, NanoX steps]
-const steps = [5, 4]
+const models = [
+	{
+		name: 'nanos',
+		steps: 5
+	},
+	// {
+	// 	name: 'nanox',
+	// 	steps: 0
+	// },
+]
 
 // populate unsignedTx from genericTx and get network chain id
 const unsignedTx = populateTransaction(contractAddr, inputData, testNetwork);
 // Process tests for each nano models
-nano_models.forEach((model) =>
-	processTest(model, steps, contractName, testLabel, testDirSuffix, unsignedTx, testNetwork)
-);
+models.forEach((model) => {
+	const nano_model = nano_models.find((model) => model.name == model.name)
+	processTest(nano_model, model.steps, contractName, testLabel, testDirSuffix, unsignedTx, testNetwork)
+})
