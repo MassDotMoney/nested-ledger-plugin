@@ -170,6 +170,10 @@ const supportedNetwork = {
     'ethereum': 1,
     'bsc': 56,
     'avalanche': 43114,
+    // 'celo': 42220,
+    // 'arbitrum': 42161,
+    // 'optimism': 10,
+    // 'fantom': 250,
 }
 
 function populateTransaction(contractAddr, inputData, networkName, value = "0.1") {
