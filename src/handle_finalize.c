@@ -58,7 +58,7 @@ void handle_finalize(void *parameters)
         context->booleans |= TOKEN1_FOUND;
     else
     {
-        PRINTF("Setting address to: %.*H\n",
+        PRINTF("Setting token1 address to: %.*H\n",
                ADDRESS_LENGTH,
                context->token1_address);
         // Address is not network token (0xeee...) so we will need to look up the token.

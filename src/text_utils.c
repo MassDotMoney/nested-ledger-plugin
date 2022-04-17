@@ -26,6 +26,8 @@ void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int to
         else
             msg_display_address_ui(msg, context->token2_address);
     }
+    else
+        snprintf(msg->msg, msg->msgLength, "ERROR");
 }
 
 void msg_2tickers_ui(ethQueryContractUI_t *msg, context_t *context)
@@ -44,7 +46,7 @@ void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int tok
         else if (!(context->booleans & TOKEN1_FOUND) || !(context->booleans & TOKEN2_FOUND))
             snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
         else
-            snprintf(msg->msg, msg->msgLength, "ERROR", context->token2_ticker);
+            snprintf(msg->msg, msg->msgLength, "ERROR");
     }
     else
         snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);

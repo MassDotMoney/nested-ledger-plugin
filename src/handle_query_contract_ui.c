@@ -88,7 +88,7 @@ static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_2_UI, msg->titleLength);
-        msg_ticker_or_address(msg, context, 2);
+        msg_number_of_tokens(msg, context, 2);
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
