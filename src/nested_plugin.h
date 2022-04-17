@@ -200,5 +200,3 @@ void handle_query_contract_id(void *parameters);
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context);
 void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *context);
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context);
-
-void copy_offset(ethPluginProvideParameter_t *msg, context_t *context);

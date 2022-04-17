@@ -46,7 +46,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case CREATE__OFFSET_BIO:
         PRINTF("CREATE__OFFSET_BIO\n");
-        // No need to copy 'next_offset' here, because it's always the next parameter
+        // No need to copy the offset here, because it's always the next parameter
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");

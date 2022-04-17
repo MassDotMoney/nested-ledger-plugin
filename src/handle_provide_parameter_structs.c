@@ -57,7 +57,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__OFFSET_CALLDATA:
 		PRINTF("parse ORDER__OFFSET_CALLDATA\n");
-		copy_offset(msg, context);
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
@@ -101,7 +100,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__OFFSET_ORDERS:
 		PRINTF("parse BOO__OFFSET_ORDERS\n");
-		copy_offset(msg, context);
 		break;
 	case BOO__FROM_RESERVE:
 		PRINTF("parse BOO__FROM_RESERVE\n");
@@ -179,7 +177,6 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		break;
 	case BIO__OFFSET_ORDERS:
 		PRINTF("parse BIO__OFFSET_ORDERS\n");
-		copy_offset(msg, context);
 		break;
 	case BIO__FROM_RESERVE:
 		PRINTF("parse BIO__FROM_RESERVE\n");
