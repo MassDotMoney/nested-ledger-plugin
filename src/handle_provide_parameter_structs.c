@@ -82,6 +82,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 
 /**
  * parse batch_output_orders struct
+ * token2 is the output token
  */
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context)
 {
@@ -90,8 +91,8 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	{
 	case BOO__OUTPUTTOKEN:
 		PRINTF("parse BOO__OUTPUTTOKEN\n");
-		PRINTF("copie token2 address\n");
 		copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+		PRINTF("copie token2 address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
 		context->current_tuple_offset = msg->parameterOffset;
 		PRINTF("parse BOO__OUTPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
@@ -104,6 +105,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__FROM_RESERVE:
 		PRINTF("parse BOO__FROM_RESERVE\n");
+		// Get from_reserve, but we don't use it for now.
+		if (U4BE(msg->parameter, PARAMETER_LENGTH - 4))
+			context->booleans |= IS_FROM_RESERVE;
 		break;
 	case BOO__LEN_AMOUNTS:
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
@@ -120,7 +124,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		context->current_length_lvl1--;
 		if (context->current_length_lvl1)
 			return;
-
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
@@ -138,9 +141,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		if (context->offset_array_index == 0)
 		{
 			context->offsets_lvl1 =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1: %d\n",
-				   context->offsets_lvl1);
+						 context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
@@ -165,6 +168,8 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__INPUTTOKEN:
 		PRINTF("parse BIO__INPUTTOKEN\n");
 		copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+		PRINTF("Copied inputToken to token1_address: %.*H\n", ADDRESS_LENGTH, context->token1_address);
+		// Set current_tuple_offset for parsing purposes
 		context->current_tuple_offset = msg->parameterOffset;
 		PRINTF("parse BIO__INPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
 		break;
@@ -178,6 +183,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		break;
 	case BIO__FROM_RESERVE:
 		PRINTF("parse BIO__FROM_RESERVE\n");
+		// Get from_reserve, but we don't use it for now.
 		if (U4BE(msg->parameter, PARAMETER_LENGTH - 4))
 			context->booleans |= IS_FROM_RESERVE;
 		break;
@@ -194,9 +200,9 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->offset_array_index == 0)
 		{
 			context->offsets_lvl1 =
-				U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("offsets_lvl1: %d\n",
-				   context->offsets_lvl1);
+						 context->offsets_lvl1);
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;

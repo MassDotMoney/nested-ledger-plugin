@@ -42,14 +42,15 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         // Check if it's copy or create
         if (context->selectorIndex == CREATE)
             check_token_id(msg, context);
+        // We could get 'tokenId' here
         break;
     case CREATE__OFFSET_BIO:
         PRINTF("CREATE__OFFSET_BIO\n");
-        copy_offset(msg, context); // osef, because it's always the next param
+        // No need to copy 'next_offset' here, because it's always the next parameter
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
-        // context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        // For now, there is always 1 batchOrder in each Tx, we will parse the last one if there are multiple batchOrders
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case CREATE__OFFSET_ARRAY_BIO:
@@ -59,6 +60,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         // is on last offset.
         if (context->offset_array_index == 0)
         {
+            // Switch to according struct's parsing method.
             switch (context->selectorIndex)
             {
             case CREATE:
@@ -101,6 +103,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     case DESTROY__BUY_TOKEN:
         PRINTF("DESTROY BUY TOKEN\n");
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+        PRINTF("Copied buyToken to token1_address: %.*H\n", ADDRESS_LENGTH, context->token1_address);
         break;
     case DESTROY__OFFSET_ORDERS:
         PRINTF("DESTROY OFFSET ORDERS\n");
@@ -112,6 +115,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case DESTROY__ORDERS:
         PRINTF("DESTROY ORDERS");
+        // Switch to order's parsing
         context->on_struct = (on_struct)S_ORDER;
         context->next_param = (order)ORDER__OPERATOR;
         return;
@@ -142,6 +146,7 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         {
             PRINTF("RELEASE copy first token address.\n");
             copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+            PRINTF("Copied to token1_address: %.*H\n", ADDRESS_LENGTH, context->token1_address);
         }
         context->offset_array_index--;
         // is last array element && multiple tokens
@@ -149,6 +154,7 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
         {
             PRINTF("RELEASE copy last token address.\n");
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+            PRINTF("Copied to token2_address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
         }
         PRINTF("RELEASE_TOKENS token index: %d\n", context->offset_array_index);
         return;
