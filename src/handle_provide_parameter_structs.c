@@ -178,7 +178,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__AMOUNT:
 		PRINTF("parse BIO__AMOUNT\n");
 		copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
-		PRINTF("get token1_amount: %d\n");
+		PRINTF("get token1_amount: %.*H\n", PARAMETER_LENGTH, context->token1_amount);
 		break;
 	case BIO__OFFSET_ORDERS:
 		PRINTF("parse BIO__OFFSET_ORDERS\n");
@@ -199,7 +199,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__OFFSET_ARRAY_ORDERS:
 		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
 		context->offset_array_index--;
-		// is on last order's offset
+		// is on last order's offset to match b2c
 		if (context->offset_array_index == 0)
 		{
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
