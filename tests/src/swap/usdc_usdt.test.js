@@ -26,6 +26,6 @@ const models = [
 const unsignedTx = populateTransaction(contractAddr, inputData, testNetwork);
 // Process tests for each nano models
 models.forEach((model) => {
-	const nano_model = nano_models.find((model) => model.name == model.name)
+	const nano_model = nano_models.find((nano_model) => nano_model.name === model.name)
 	processTest(nano_model, model.steps, contractName, testLabel, testDirSuffix, unsignedTx, testNetwork)
 })
