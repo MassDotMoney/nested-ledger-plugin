@@ -12,7 +12,7 @@ static void handle_create_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_CREATE_SCREEN_2_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -31,7 +31,7 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_COPY_SCREEN_2_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -46,11 +46,11 @@ static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_1_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_PORTFOLIO_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
+        MSG_TICKER1_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -69,7 +69,7 @@ static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_SWAP_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
+        MSG_TICKER2_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -88,7 +88,7 @@ static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
         break;
     case 1:
         strlcpy(msg->title, TITLE_ADD_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -102,23 +102,14 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     switch (msg->screenIndex)
     {
     case 0:
+        PRINTF("GPIRIOU SELL CASE0\n");
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_1_UI, msg->titleLength);
-        if (context->booleans & TOKEN1_FOUND && context->number_of_tokens == 1)
-        {
-            PRINTF("GPIRIOU DEBUG\n");
-            snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker);
-        }
-        else
-        {
-            if (context->number_of_tokens > 1)
-                snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);
-            else
-                snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
-        }
+        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
         break;
     case 1:
+        PRINTF("GPIRIOU SELL CASE1\n");
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN2_TICKER_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
+        MSG_TICKER2_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -163,7 +154,7 @@ static void handle_withdraw_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_WITHDRAW_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN2_TICKER_OR_ADDRESS_UI;
+        MSG_TICKER2_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -178,7 +169,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_TOKEN1_TICKER_OR_ADDRESS_UI;
+        MSG_TICKER1_OR_ADDRESS_UI;
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -193,7 +184,7 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_1_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI;
         break;
     case 1: // Only if 2 tokens found by ledgerjs.
         strlcpy(msg->title, TITLE_CLAIM_SCREEN_2_UI, msg->titleLength);
@@ -212,7 +203,7 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
     {
     case 0:
         strlcpy(msg->title, TITLE_SEND_SCREEN_1_UI, msg->titleLength);
-        MSG_DISPLAY_TOKEN1_ADDRESS; // token1 is used to store 'to' address due to size limitations in context
+        MSG_DISPLAY_TOKEN1_ADDRESS_UI; // token1 is used to store 'to' address due to size limitations in context
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);

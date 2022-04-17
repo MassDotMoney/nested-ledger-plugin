@@ -76,11 +76,65 @@
 
 /// UTILS ///
 
-#define MSG_NUMBER_OF_TOKENS_UI (                                                           \
+#define MSG_DISPLAY_TOKEN1_ADDRESS_UI (                                   \
+    {                                                                     \
+        msg->msg[0] = '0';                                                \
+        msg->msg[1] = 'x';                                                \
+        getEthAddressStringFromBinary((uint8_t *)context->token1_address, \
+                                      (char *)msg->msg + 2,               \
+                                      msg->pluginSharedRW->sha3,          \
+                                      0);                                 \
+    })
+
+#define MSG_DISPLAY_TOKEN2_ADDRESS_UI (                                   \
+    {                                                                     \
+        msg->msg[0] = '0';                                                \
+        msg->msg[1] = 'x';                                                \
+        getEthAddressStringFromBinary((uint8_t *)context->token2_address, \
+                                      (char *)msg->msg + 2,               \
+                                      msg->pluginSharedRW->sha3,          \
+                                      0);                                 \
+    })
+
+#define MSG_TICKER1_OR_ADDRESS_UI (                                           \
+    {                                                                         \
+        if (context->booleans & TOKEN1_FOUND)                                 \
+            snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker); \
+        else                                                                  \
+            MSG_DISPLAY_TOKEN1_ADDRESS_UI;                                    \
+    })
+
+#define MSG_TICKER2_OR_ADDRESS_UI (                                           \
+    {                                                                         \
+        if (context->booleans & TOKEN2_FOUND)                                 \
+            snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker); \
+        else                                                                  \
+            MSG_DISPLAY_TOKEN2_ADDRESS_UI;                                    \
+    })
+
+#define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
+
+#define MSG_TICKER1_OR_NUMBER_OF_TOKENS_UI (                                                \
+    {                                                                                       \
+        if (context->booleans & TOKEN1_FOUND && context->number_of_tokens == 1)             \
+        {                                                                                   \
+            PRINTF("GPIRIOU DEBUG1\n");                                                     \
+            snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker);               \
+        }                                                                                   \
+        else                                                                                \
+        {                                                                                   \
+            if (context->number_of_tokens > 1)                                              \
+                snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens); \
+            else                                                                            \
+                snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);  \
+        }                                                                                   \
+    })
+
+#define MSG_TICKER2_OR_NUMBER_OF_TOKENS_UI (                                                \
     {                                                                                       \
         if (context->booleans & TOKEN2_FOUND && context->number_of_tokens == 1)             \
         {                                                                                   \
-            PRINTF("GPIRIOU DEBUG\n");                                                      \
+            PRINTF("GPIRIOU DEBUG2\n");                                                     \
             snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);               \
         }                                                                                   \
         else                                                                                \
@@ -92,56 +146,16 @@
         }                                                                                   \
     })
 
-#define MSG_DISPLAY_TOKEN1_ADDRESS (                                      \
-    {                                                                     \
-        msg->msg[0] = '0';                                                \
-        msg->msg[1] = 'x';                                                \
-        getEthAddressStringFromBinary((uint8_t *)context->token1_address, \
-                                      (char *)msg->msg + 2,               \
-                                      msg->pluginSharedRW->sha3,          \
-                                      0);                                 \
-    })
-
-#define MSG_DISPLAY_TOKEN2_ADDRESS (                                      \
-    {                                                                     \
-        msg->msg[0] = '0';                                                \
-        msg->msg[1] = 'x';                                                \
-        getEthAddressStringFromBinary((uint8_t *)context->token2_address, \
-                                      (char *)msg->msg + 2,               \
-                                      msg->pluginSharedRW->sha3,          \
-                                      0);                                 \
-    })
-
-#define MSG_2_TICKERS_UI snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker)
-
-#define MSG_TOKEN1_TICKER_OR_ADDRESS_UI (                                     \
-    {                                                                         \
-        if (context->booleans & TOKEN1_FOUND)                                 \
-            snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker); \
-        else                                                                  \
-            MSG_DISPLAY_TOKEN1_ADDRESS;                                       \
-    })
-
-#define MSG_TOKEN2_TICKER_OR_ADDRESS_UI (                                     \
-    {                                                                         \
-        if (context->booleans & TOKEN2_FOUND)                                 \
-            snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker); \
-        else                                                                  \
-            MSG_DISPLAY_TOKEN2_ADDRESS;                                       \
-    })
-
-#define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                                              \
-    {                                                                                                  \
-        if (context->booleans & TOKEN1_FOUND)                                                          \
-        {                                                                                              \
-            PRINTF("GPIRIOU amount: %.*H\n", sizeof(context->token1_address), context->token1_amount); \
-            amountToString(context->token1_amount, sizeof(context->token1_amount),                     \
-                           context->token1_decimals,                                                   \
-                           context->token1_ticker,                                                     \
-                           msg->msg,                                                                   \
-                           msg->msgLength);                                                            \
-            PRINTF("penzo_msg: %.*H\n", msg->msgLength, msg->msg);                                     \
-        }                                                                                              \
-        else                                                                                           \
-            MSG_DISPLAY_TOKEN1_ADDRESS;                                                                \
+#define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                          \
+    {                                                                              \
+        if (context->booleans & TOKEN1_FOUND)                                      \
+        {                                                                          \
+            amountToString(context->token1_amount, sizeof(context->token1_amount), \
+                           context->token1_decimals,                               \
+                           context->token1_ticker,                                 \
+                           msg->msg,                                               \
+                           msg->msgLength);                                        \
+        }                                                                          \
+        else                                                                       \
+            MSG_DISPLAY_TOKEN1_ADDRESS_UI;                                         \
     })
