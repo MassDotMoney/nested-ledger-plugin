@@ -49,7 +49,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
-        context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        // context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case CREATE__OFFSET_ARRAY_BIO:
@@ -108,6 +108,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
     case DESTROY__LEN_ORDERS:
         PRINTF("DESTROY LEN ORDERS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
         break;
     case DESTROY__ORDERS:
         PRINTF("DESTROY ORDERS");

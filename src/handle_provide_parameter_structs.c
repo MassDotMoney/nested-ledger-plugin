@@ -112,7 +112,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__AMOUNT:
 		PRINTF("parse BOO__AMOUNT\n");
-		if (context->number_of_tokens == 1)
+		if (context->current_length_lvl1 == 1)
 		{
 			PRINTF("copie token1 amount\n");
 			copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
@@ -124,9 +124,11 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
-		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
+		// context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
 		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("current_length_lvl1: %d\n", context->current_length_lvl1);
+		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
+		// PRINTF("current_length_lvl1: %d\n", context->current_length_lvl1);
 		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
@@ -141,6 +143,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 				   context->offsets_lvl1);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
+			context->next_param = (order)ORDER__OPERATOR;
 		}
 		return;
 	default:
@@ -196,7 +199,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 				   context->offsets_lvl1);
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->on_struct = (on_struct)S_ORDER;
-			context->next_param = (batch_input_orders)ORDER__OPERATOR;
+			context->next_param = (order)ORDER__OPERATOR;
 		}
 		return;
 	default:

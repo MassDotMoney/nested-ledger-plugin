@@ -103,11 +103,22 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
     {
     case 0:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_1_UI, msg->titleLength);
-        MSG_NUMBER_OF_TOKENS_UI;
+        if (context->booleans & TOKEN1_FOUND && context->number_of_tokens == 1)
+        {
+            PRINTF("GPIRIOU DEBUG\n");
+            snprintf(msg->msg, msg->msgLength, "%s", context->token1_ticker);
+        }
+        else
+        {
+            if (context->number_of_tokens > 1)
+                snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);
+            else
+                snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
+        }
         break;
     case 1:
         strlcpy(msg->title, TITLE_SELL_TOKENS_SCREEN_2_UI, msg->titleLength);
-        MSG_TOKEN1_TICKER_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
+        MSG_TOKEN2_TICKER_OR_ADDRESS_UI; // Received token is token1 in ProcessOutputOrders
         break;
     default:
         strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -254,6 +265,16 @@ void handle_query_contract_ui(void *parameters)
     // Remove 'W' from network token. (WETH => ETH)
     convert_ticker(context->token1_ticker, msg->network_ticker);
     convert_ticker(context->token2_ticker, msg->network_ticker);
+
+    PRINTF("GPIRIOU ADDRESS1: %.*h \033[0m \n",
+           sizeof(context->token1_address),
+           context->token1_address);
+    PRINTF("GPIRIOU TICKER1: %s\n", context->token1_ticker);
+    PRINTF("GPIRIOU AMOUNT: %d\n", context->token1_amount);
+    PRINTF("GPIRIOU ADDRESS2: %.*h \033[0m \n",
+           sizeof(context->token2_address),
+           context->token2_address);
+    PRINTF("GPIRIOU TICKER2: %s\n", context->token2_ticker);
 
     switch (context->selectorIndex)
     {

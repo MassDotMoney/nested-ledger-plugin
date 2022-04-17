@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "3Matic 2 tokens create"; // <= Name of the test
+const testLabel = "create 3matic 2 tokens"; // <= Name of the test
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 console.log("PGLENN", testDirSuffix);
 

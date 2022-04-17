@@ -78,6 +78,8 @@ void handle_finalize(void *parameters)
     }
 
     print_booleans(context);
+    PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
+    PRINTF("token1_amount: %.*H\n", sizeof(context->token1_amount), context->token1_amount);
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
     msg->result = ETH_PLUGIN_RESULT_OK;

@@ -130,16 +130,18 @@
             MSG_DISPLAY_TOKEN2_ADDRESS;                                       \
     })
 
-#define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                          \
-    {                                                                              \
-        if (context->booleans & TOKEN1_FOUND)                                      \
-        {                                                                          \
-            amountToString(context->token1_amount, sizeof(context->token1_amount), \
-                           context->token1_decimals,                               \
-                           context->token1_ticker,                                 \
-                           msg->msg,                                               \
-                           msg->msgLength);                                        \
-        }                                                                          \
-        else                                                                       \
-            MSG_DISPLAY_TOKEN1_ADDRESS;                                            \
+#define MSG_TOKEN1_AMOUNT_OR_ADDRESS_UI (                                                              \
+    {                                                                                                  \
+        if (context->booleans & TOKEN1_FOUND)                                                          \
+        {                                                                                              \
+            PRINTF("GPIRIOU amount: %.*H\n", sizeof(context->token1_address), context->token1_amount); \
+            amountToString(context->token1_amount, sizeof(context->token1_amount),                     \
+                           context->token1_decimals,                                                   \
+                           context->token1_ticker,                                                     \
+                           msg->msg,                                                                   \
+                           msg->msgLength);                                                            \
+            PRINTF("penzo_msg: %.*H\n", msg->msgLength, msg->msg);                                     \
+        }                                                                                              \
+        else                                                                                           \
+            MSG_DISPLAY_TOKEN1_ADDRESS;                                                                \
     })
