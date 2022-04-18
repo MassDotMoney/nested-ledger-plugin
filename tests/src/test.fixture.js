@@ -7,11 +7,6 @@ import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger"
 
 const transactionUploadDelay = 60000;
 
-// TODO remove when old tests are gone
-async function waitForAppScreen(sim) {
-    await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot(), transactionUploadDelay);
-}
-
 const sim_options_nano = {
     ...DEFAULT_START_OPTIONS,
     logging: true,
@@ -31,24 +26,18 @@ const NANOX_PLUGIN_PATH = Resolve('elfs/nested_nanox.elf');
 const SPECULOS_ADDRESS = '0xFE984369CE3919AA7BB4F431082D027B4F8ED70C';
 const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
 
+const NFT_EXPLORER_BASE_URL = "https://nft.api.live.ledger.com/v1/ethereum"
+const PLUGIN_BASE_URL = "https://cdn.live.ledger.com"
+
 const nano_models: DeviceModel[] = [
     { name: 'nanos', letter: 'S', path: NANOS_PLUGIN_PATH, eth_path: NANOS_ETH_PATH },
     { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH }
 ];
 
-// const nestedJSON = generate_plugin_config();
-
 const resolutionConfig = {
     externalPlugins: true,
     nft: false,
     erc20: false
-};
-
-// TODO remove when old tests are gone
-const loadConfig = {
-    nftExplorerBaseURL: "https://nft.api.live.ledger.com/v1/ethereum",
-    pluginBaseURL: "https://cdn.live.ledger.com",
-    // extraPlugins: nestedJSON,
 };
 
 let genericTx = {
@@ -62,22 +51,6 @@ let genericTx = {
 };
 
 const TIMEOUT = 1000000;
-
-// TODO remove this when all test are reworked
-async function resolveTxFromData(data, contractAddr) {
-    let unsignedTx = genericTx;
-    unsignedTx.to = contractAddr;
-    unsignedTx.data = data;
-    unsignedTx.value = parseEther("1");
-    // Create serializedTx and remove the "0x" prefix
-    const serializedTx = ethers.utils.serializeTransaction(unsignedTx).slice(2);
-    const resolution = await ledgerService.resolveTransaction(
-        serializedTx,
-        loadConfig,
-        resolutionConfig
-    );
-    return [resolution, serializedTx];
-}
 
 function zemu(device, testNetwork, func) {
     return async () => {
@@ -94,7 +67,9 @@ function zemu(device, testNetwork, func) {
             const transport = sim.getTransport();
             const eth = new Eth(transport);
             eth.setLoadConfig({
-                baseURL: null,
+                // baseURL: null,
+                nftExplorerBaseURL: NFT_EXPLORER_BASE_URL,
+                pluginBaseURL: PLUGIN_BASE_URL,
                 extraPlugins: generate_plugin_config(testNetwork),
             });
             await func(sim, eth);
@@ -113,11 +88,10 @@ function zemu(device, testNetwork, func) {
  * @param {string} testNetwork network name
  * @param {string} unsignedTx unsignedTx to serialized
  */
-// async function processTransaction(eth, sim, steps, label, testNetwork, serializedTx) {
 async function processTransaction(eth, sim, steps, label, testNetwork, unsignedTx) {
     const loadConfig = {
-        nftExplorerBaseURL: "https://nft.api.live.ledger.com/v1/ethereum",
-        pluginBaseURL: "https://cdn.live.ledger.com",
+        nftExplorerBaseURL: NFT_EXPLORER_BASE_URL,
+        pluginBaseURL: PLUGIN_BASE_URL,
         extraPlugins: generate_plugin_config(testNetwork),
     };
 
@@ -143,6 +117,7 @@ async function processTransaction(eth, sim, steps, label, testNetwork, unsignedT
 /**
  * Function to execute test with the simulator
  * @param {Object} device Device including its name, its label, and the number of steps to process the use case
+ * @param {number} step Number of screens for this Tx
  * @param {string} contractName Name of the contract
  * @param {string} testLabel Name of the test case
  * @param {string} testDirSuffix Name of the folder suffix for snapshot comparison
@@ -192,16 +167,10 @@ function populateTransaction(contractAddr, inputData, networkName, value = "0.1"
 
 module.exports = {
     zemu,
-    waitForAppScreen,
     genericTx,
     nano_models,
     SPECULOS_ADDRESS,
     RANDOM_ADDRESS,
-    // txFromEtherscan,
-    resolveTxFromData,
-    // signTransaction,
     processTest,
     populateTransaction,
-    resolutionConfig,
-    loadConfig,
 }
