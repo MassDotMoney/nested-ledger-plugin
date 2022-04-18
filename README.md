@@ -33,7 +33,7 @@ Find more info about `PRINTF` and debugging [here](https://developers.ledger.com
 
 ### Build the apps.
 
-Open `build_local_test.sh` with a text editor to see which flags to pass to build the ethereum app and the plugin for S and X.
+Open `./tests/build_local_test.sh.` with a text editor to see which flags to pass to build the ethereum app and the plugin for S and X.
 
 # Testing:
 
