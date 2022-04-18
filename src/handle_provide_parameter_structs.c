@@ -26,7 +26,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		return;
 	}
 	// is on the last order, reset next_param for parsing purposes.
-	if (context->offsets_lvl1 == msg->parameterOffset)
+	if (context->target_offset == msg->parameterOffset)
 	{
 		PRINTF("START LAST ORDER\n");
 		context->next_param = (order)ORDER__OPERATOR;
@@ -61,7 +61,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
 		// is on last order ???
-		if (msg->parameterOffset > context->offsets_lvl1)
+		if (msg->parameterOffset > context->target_offset)
 		{
 			// get last_calldata_offset to parse last Tx's byte
 			context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
@@ -109,28 +109,28 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__LEN_AMOUNTS:
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
-		context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("with current_length_lvl1 = %d\n", context->current_length_lvl1);
+		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("with current_length = %d\n", context->current_length);
 		break;
 	case BOO__AMOUNT:
-		PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length_lvl1);
+		PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length);
 		// copy last amount, matching b2c
-		if (context->current_length_lvl1 == 1)
+		if (context->current_length == 1)
 		{
 			copy_parameter(context->token1_amount, msg->parameter, sizeof(context->token1_amount));
 			PRINTF("copie token1 amount: %.*H\n", PARAMETER_LENGTH, context->token1_amount);
 		}
-		context->current_length_lvl1--;
-		if (context->current_length_lvl1)
+		context->current_length--;
+		if (context->current_length)
 			return;
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
-		// context->current_length_lvl1 = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
+		// context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
 		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
-		// PRINTF("current_length_lvl1: %d\n", context->current_length_lvl1);
+		// PRINTF("current_length: %d\n", context->current_length);
 		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
@@ -141,10 +141,10 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		// copy last order, matching b2c
 		if (context->offset_array_index == 0)
 		{
-			context->offsets_lvl1 =
+			context->target_offset =
 					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("offsets_lvl1: %d\n",
-						 context->offsets_lvl1);
+			PRINTF("target_offset: %d\n",
+						 context->target_offset);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			// Switch to order's parsing
 			context->on_struct = (on_struct)S_ORDER;
@@ -203,10 +203,10 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 		if (context->offset_array_index == 0)
 		{
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
-			context->offsets_lvl1 =
+			context->target_offset =
 					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("offsets_lvl1: %d\n",
-						 context->offsets_lvl1);
+			PRINTF("target_offset: %d\n",
+						 context->target_offset);
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
 		}

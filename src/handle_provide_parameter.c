@@ -170,12 +170,12 @@ static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *co
 {
     switch ((transfer_from_parameter)context->next_param)
     {
-    case FROM:
+    case TRANSFER_FROM__FROM:
         break;
-    case TO:
+    case TRANSFER_FROM__TO:
         copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
         break;
-    case TOKEN_ID:
+    case TRANSFER_FROM__TOKEN_ID:
         break;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);

@@ -132,9 +132,9 @@ typedef enum
 
 typedef enum
 {
-    FROM,
-    TO,
-    TOKEN_ID,
+    TRANSFER_FROM__FROM,
+    TRANSFER_FROM__TO,
+    TRANSFER_FROM__TOKEN_ID,
 } transfer_from_parameter;
 
 // Booleans
@@ -154,10 +154,8 @@ typedef struct __attribute__((__packed__)) context_t
     uint8_t on_struct;
     uint8_t next_param;
     uint32_t next_offset;          // is the value of the next target offset
-    uint16_t current_length_lvl0;  // unused // is the length of the current array
-    uint16_t current_length_lvl1;  // is the length of the current nested array
-    uint16_t offsets_lvl0;         // unused
-    uint16_t offsets_lvl1;         // is the offset of the parameter we want to parse
+    uint16_t current_length;       // is the length of the current array
+    uint16_t target_offset;        // is the offset of the parameter we want to parse
     uint8_t offset_array_index;    // is the length/currentIndex of the offset array
     uint32_t current_tuple_offset; // is the value from which a given offset is calculated
     uint8_t number_of_tokens;      // is the number of tokens found, this is not always the number of all tokens include in the Tx

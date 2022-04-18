@@ -80,8 +80,8 @@ void handle_init_contract(void *parameters)
         context->next_param = RELEASE__OFFSET_TOKENS;
         break;
     case TRANSFER_FROM:
-        PRINTF("IN TRANSFER FROM\n");
-        context->next_param = FROM;
+        PRINTF("IN TRANSFER TRANSFER_FROM__FROM\n");
+        context->next_param = TRANSFER_FROM__FROM;
         break;
     default:
         PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
