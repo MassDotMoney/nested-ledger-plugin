@@ -108,8 +108,6 @@ In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many scr
 
 In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
 
-*Note: the screen number may not be edited after `handle_provide_token` is called.*
-
 ## Load the plugin into a NanoS
 
 You may also manually load the plugin into a NanoS (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
