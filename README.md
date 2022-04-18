@@ -14,7 +14,7 @@ It is STRONGLY recommended to follow the [plugin guide](https://developers.ledge
 
 The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
 
-## Environment Setup:
+# Environment Setup:
 
 Start by setting up the dev environment by following this [walkthrough](
 https://developers.ledger.com/docs/dapp/nano-plugin/environment-setup/).
@@ -22,13 +22,11 @@ https://developers.ledger.com/docs/dapp/nano-plugin/environment-setup/).
 
 It is important to git pull the nanos-secure-sdk and nanox-secure-sdk to successfully build the ethereum-app and the plugin.
 
-*Note: At this time, the sdk's need to be pulled every time you launch the docker image.*
-
-To be able to print while debugging, you must comment the macro 
+To be able to print while debugging, comment the macro 
 `#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
 
 
-*Note: You must uncomment it when the plugin is ready for deployment.*
+*Note: Uncomment it when the plugin is ready for deployment.*
 
 Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
 
@@ -46,7 +44,9 @@ Open `./tests/build_local_test.sh.` with a text editor to see which flags to pas
 
 Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app.
 
-## Testing environment setup:
+*Note: At this time, the docker sdk's need to be pulled every time you launch the docker image.*
+
+# Testing environment setup:
 
 Setup the testing environment with the help of this [page](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
 
@@ -54,7 +54,7 @@ The tests consist of recent snapshots in `./tests/snapshot-tmp` being compared t
 
 `./tests/snapshots`.
 
-### To run the tests:
+## Running the tests:
 
 Open another terminal window.
 
@@ -66,38 +66,40 @@ To run all tests
 
 #### OR
 
-`yarn test -t NAME_OF_TEST` where NAME_OF_TEST is the string associated to the singular test name.
+`yarn test -t "Name of test"` where `"Name of test"` is the string associated to the singular test name.
 
-The singular test names may be found in `./tests/src/*/*.test.json`.
+The singular test names can be found in `./tests/src/*/*.test.json`.
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
 
-## Plugin edit and rework:
+# Plugin edit and rework:
 
 The plugin has 3 basic components for minor edits and rework:
 1. String macros and functions.
 2. Screen function calls.
 3. Number of screens.
 
-### 1. String macros and functions:
+## 1. String macros and functions:
 
-The strings displayed by the plugin are set by macros and functions, are divided in three categories:
+The strings displayed by the plugin are set by macros and functions:
+ 
+ #### Macros
 
-* TITLE (top)
-* MSG (bottom)
+* `TITLE_NAME_OF_ACTION_SCREEN_#_UI` (top)
+* `MSG_NAME_OF_ACTION_SCREEN_#_UI` (bottom)
 
-Both found in `./src/text.h`.
+Both are found in `./src/text.h`. Edit these to modify the strings displayed to the user.
 
-Edit these to modify the strings displated to the user.
+ #### Functions
 
-* Utilitary functions (for displaying addresses, tickers, amounts, etc).
+These utilitary functions are used for displaying addresses, tickers, amounts, etc.
 
-You can find the utilitary functions in `./src/text_utils.c`.
+They are located in in `./src/text_utils.c`.
 
-The strings are to be copied into `msg->title` and `msg->msg` in the `EthQueryContractUI_t *msg` structure.
+*Note: The strings are to be copied into `msg->title` and `msg->msg` in the `EthQueryContractUI_t *msg` structure.*
 
-### 2. Screen function calls:
+## 2. Screen function calls:
 
 There are two functions where the screen strings are set.
 
@@ -113,15 +115,17 @@ Each action called by the user has a respective function that sets the text.
 
 Edit the cases of `handle_*_ui()` functions to switch places to macros and functions.
 
-### 3. Number of screens:
+## 3. Number of screens:
 There are two functions that can set the screen number.
 
 In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed (excluding the ID screen).
 
 In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
 
-## Load the plugin into a Nano S
+Both are summed into `msg->screenIndex`.
+
+# Load the plugin into a Nano S
 
 You may also manually load the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
 
-*Note: If you choose to load with ledgerblue, you may find an APDU for a transaction in `./apdus/transferFrom`. Use it to make sure the plugin doesn't blind-sign.*
+*Note: You may find an APDU for a transaction in `./apdus/transferFrom`. Use it to make sure the plugin doesn't blind-sign.*
