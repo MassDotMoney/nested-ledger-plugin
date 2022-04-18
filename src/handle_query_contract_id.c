@@ -12,6 +12,7 @@ void handle_query_contract_id(void *parameters)
     // For the first screen, display the plugin name.
     strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
 
+    // Get selector according screen.
     switch (context->selectorIndex)
     {
     case CREATE:
@@ -27,6 +28,12 @@ void handle_query_contract_id(void *parameters)
             strlcpy(msg->version, MSG_DEPOSIT_ID, msg->versionLength);
         else if (context->ui_selector == SYNCHRONIZATION)
             strlcpy(msg->version, MSG_SYNCHRONIZATION_ID, msg->versionLength);
+        else
+        {
+            PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return;
+        }
         break;
     case PROCESS_OUTPUT_ORDERS:
         if (context->ui_selector == SELL_TOKENS)
@@ -35,6 +42,12 @@ void handle_query_contract_id(void *parameters)
             strlcpy(msg->version, MSG_WITHDRAW_ID, msg->versionLength);
         else if (context->ui_selector == SWAP)
             strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
+        else
+        {
+            PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return;
+        }
         break;
     case DESTROY:
         strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
@@ -48,7 +61,7 @@ void handle_query_contract_id(void *parameters)
     default:
         PRINTF("Selector index: %d not supported\n", context->selectorIndex);
         msg->result = ETH_PLUGIN_RESULT_ERROR;
-        break;
+        return;
     }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
