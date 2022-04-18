@@ -29,7 +29,7 @@ To be able to print while debugging, you must comment the macro
 
 Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/).
 
-**Note You must uncomment it if the plugin is ready for deployment.**
+**Note: You must uncomment it if the plugin is ready for deployment.**
 
 ### Build the apps.
 
