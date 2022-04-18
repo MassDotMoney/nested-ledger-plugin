@@ -4,7 +4,7 @@ Ledger lightweight app for EVM compatible transaction signing for [Nested Financ
 
 # Plugins:
 
-Plugins are lightweight applications that go hand-in-hand with the Ethereum Application on a Nano S / X device.
+Plugins are lightweight applications that go hand-in-hand with the Ethereum Application on Nano S / X devices.
 
 They allow users to safely interact with smart contracts by parsing the transaction data and displaying its content in a human readable way.
 
@@ -33,7 +33,7 @@ Find more info about `PRINTF` and debugging [here](https://developers.ledger.com
 
 ### Build the apps.
 
-Open `build_local_test.sh` with a text editor to see which flags to pass to build the ethereum app and the plugin.
+Open `build_local_test.sh` with a text editor to see which flags to pass to build the ethereum app and the plugin for S and X.
 
 # Testing:
 
@@ -57,9 +57,9 @@ OR
 
 `yarn test -t NAME_OF_TEST` where NAME_OF_TEST is the string associated to the singular test name.
 
-The singular test names may be found in `nested-ledger-plugin/tests/src/*/*.test.json`.
+The singular test names may be found in `./tests/src/*/*.test.json`.
 
-*Note: Sometimes, batched tests may fail, it is recommended to launch a singular test for the failed one, to make sure the error does not come from the ZEMU tester.*
+*Note: Sometimes, batched tests may fail, it is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
 
 # Plugin edit and rework:
@@ -73,22 +73,21 @@ The plugin has 3 basic components for minor edits and rework:
 
 This file contains all the strings to be displayed by the plugin.
 
-The Nano devices have a top string display and a bottom one.
-
-These strings, defined by macros and functions, are divided in three categories:
+These strings, set by macros and functions, are divided in three categories:
 * TITLE (top)
 * MSG (bottom)
 * Utilitary functions (for displaying addresses, tickers, amounts, etc).
 
-The strings are to be copied into `msg->title` and `msg->msg` from the `EthQueryContractUI_t *msg` structure.
+You can ind the utilitary functions in `./src/text_utils.c`.
 
+The strings are to be copied into `msg->title` and `msg->msg` from the `EthQueryContractUI_t *msg` structure.
 
 ## 2. The screen function calls:
 
 There are two functions where the screen strings are set.
 
 #### ID screen:
-The first screen is the ID screen, set in `src/handle_query_contract_id.c`.
+The first screen is the ID screen, set in `./src/handle_query_contract_id.c`.
 
 The title string is the plugin name.
 The message strings are defined in `text.h`.
@@ -96,18 +95,18 @@ The message strings are defined in `text.h`.
 *Note: It is not included in the amount of screens of `msg->screenIndex`.*
 
 #### UI screens:
-These screens are set in `src/handle_query_contract_ui.c`. 
+These screens are set in `./src/handle_query_contract_ui.c`. 
 
 Each action called by the user has a respective function that sets the text.
 
-The utilitary functions for displaying can be found in `src/text_utils.c`.
+Edit the cases of `handle_*_ui()` functions to switch places to macros and functions.
 
 ## 3. Number of screens:
 There are two functions/files that can set the screen number.
 
-In `src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed (excluding the ID screen).
+In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed (excluding the ID screen).
 
-In `src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
+In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
 
 *Note: the screen number may not be edited after `handle_provide_token` is called.*
 
