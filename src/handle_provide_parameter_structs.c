@@ -71,7 +71,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 	case ORDER__CALLDATA:
 		return;
 	default:
-		PRINTF("Param not supported: %d\n", context->next_param);
+		PRINTF("order's param not supported: %d\n", context->next_param);
 		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}
@@ -125,23 +125,22 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		break;
 	case BOO__LEN_ORDERS:
 		PRINTF("parse BOO__LEN_ORDERS\n");
-		// context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
-		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("setting current_length: %d\n", context->current_length);
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
-		// PRINTF("current_length: %d\n", context->current_length);
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
 		PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
 		break;
 	case BOO__OFFSET_ARRAY_ORDERS:
-		PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n", context->offset_array_index);
-		context->offset_array_index--;
+		PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n", context->current_length);
+		context->current_length--;
 		// copy last order, matching b2c
-		if (context->offset_array_index == 0)
+		if (context->current_length == 0)
 		{
+			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			context->target_offset = U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
 			PRINTF("target_offset: %d\n", context->target_offset);
-			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			// Switch to order's parsing
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
@@ -149,7 +148,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		// skip context->next_param++;
 		return;
 	default:
-		PRINTF("Param not supported: %d\n", context->next_param);
+		PRINTF("batch_output_orders's param not supported: %d\n", context->next_param);
 		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}
@@ -189,27 +188,29 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
 	case BIO__LEN_ORDERS:
 		PRINTF("parse BIO__LEN_ORDERS\n");
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
+		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+		PRINTF("setting current_length: %d\n", context->current_length);
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
-		PRINTF("parse BIO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
+		PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
 		break;
 	case BIO__OFFSET_ARRAY_ORDERS:
 		PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
-		context->offset_array_index--;
+		context->current_length--;
 		// is on last order's offset to match b2c
-		if (context->offset_array_index == 0)
+		if (context->current_length == 0)
 		{
 			PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
-			context->target_offset =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("target_offset: %d\n",
-						 context->target_offset);
+			context->target_offset = U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			PRINTF("target_offset: %d\n", context->target_offset);
+			// Switch to order's parsing
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
 		}
+		// skip context->next_param++;
 		return;
 	default:
-		PRINTF("Param not supported: %d\n", context->next_param);
+		PRINTF("batch_input_orders's param not supported: %d\n", context->next_param);
 		msg->result = ETH_PLUGIN_RESULT_ERROR;
 		break;
 	}

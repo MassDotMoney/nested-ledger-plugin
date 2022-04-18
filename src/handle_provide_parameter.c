@@ -52,14 +52,14 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
     case CREATE__LEN_BIO:
         PRINTF("CREATE__LEN_BIO\n");
         // For now, there is always 1 batchOrder in each Tx, we will parse the last one if there are multiple batchOrders
-        context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case CREATE__OFFSET_ARRAY_BIO:
-        context->offset_array_index--;
+        context->current_length--;
         PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n",
-               context->offset_array_index);
+               context->current_length);
         // is on last offset.
-        if (context->offset_array_index == 0)
+        if (context->current_length == 0)
         {
             // Switch to according struct's parsing method.
             switch (context->selectorIndex)
@@ -140,25 +140,25 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
     case RELEASE__LEN_TOKENS:
         PRINTF("RELEASE__LEN_TOKENS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-        context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
+        context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
     case RELEASE__ARRAY_TOKENS:
         // is first array element
-        if (context->number_of_tokens == context->offset_array_index)
+        if (context->number_of_tokens == context->current_length)
         {
             PRINTF("RELEASE copy first token address.\n");
             copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
             PRINTF("Copied to token1_address: %.*H\n", ADDRESS_LENGTH, context->token1_address);
         }
-        context->offset_array_index--;
+        context->current_length--;
         // is last array element && multiple tokens
-        if (context->number_of_tokens > 1 && context->offset_array_index == 0)
+        if (context->number_of_tokens > 1 && context->current_length == 0)
         {
             PRINTF("RELEASE copy last token address.\n");
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
             PRINTF("Copied to token2_address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
         }
-        PRINTF("RELEASE_TOKENS token index: %d\n", context->offset_array_index);
+        PRINTF("RELEASE_TOKENS token index: %d\n", context->current_length);
         return;
     default:
         PRINTF("Param not supported: %d\n", context->next_param);
