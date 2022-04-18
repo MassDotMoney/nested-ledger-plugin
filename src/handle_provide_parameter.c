@@ -1,12 +1,14 @@
 #include "nested_plugin.h"
 
+/**
+ * Check token id, set IS_COPY is token id is not '000...'
+ */
 static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context)
 {
     for (uint8_t i = 0; i < PARAMETER_LENGTH; i++)
     {
         if (msg->parameter[i] != 0)
         {
-            PRINTF("IS NOT 0\n");
             context->booleans |= IS_COPY;
             break;
         }
@@ -34,7 +36,6 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context)
         }
         return;
     }
-    PRINTF("PARSING CREATE\n");
     switch ((create_parameter)context->next_param)
     {
     case CREATE__TOKEN_ID:
@@ -107,6 +108,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         break;
     case DESTROY__OFFSET_ORDERS:
         PRINTF("DESTROY OFFSET ORDERS\n");
+        // No need to copy the offset here, because it's always the next parameter
         break;
     case DESTROY__LEN_ORDERS:
         PRINTF("DESTROY LEN ORDERS\n");
@@ -129,11 +131,11 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
 
 static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *context)
 {
-    PRINTF("HANDLE_RELEASE_TOKENS\n");
     switch ((release_tokens_parameter)context->next_param)
     {
     case RELEASE__OFFSET_TOKENS:
         PRINTF("RELEASE__OFFSET_TOKENS\n");
+        // No need to copy the offset here, because it's always the next parameter
         break;
     case RELEASE__LEN_TOKENS:
         PRINTF("RELEASE__LEN_TOKENS\n");

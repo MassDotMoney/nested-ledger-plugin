@@ -2,7 +2,7 @@
 
 /**
  * Get the ui selector added by Nested front-end
- * @return parsed byte
+ * @return first byte found
  */
 static uint8_t get_ui_selector(const uint8_t *parameter)
 {
@@ -17,41 +17,41 @@ static uint8_t get_ui_selector(const uint8_t *parameter)
  */
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 {
-	PRINTF("LAST CALLDATA OFFSET: %d\n", context->last_calldata_offset);
-	// is on last tx param.
+	// is on last tx param, where we can find ui_selector.
 	if (context->last_calldata_offset == msg->parameterOffset)
 	{
 		context->ui_selector = get_ui_selector(msg->parameter);
 		PRINTF("copied ui_selector: %d\n", context->ui_selector);
 		return;
 	}
-	// is on the last order, reset next_param for parsing purposes.
+	// is on beginning of last order, reset next_param for parsing purposes.
 	if (context->target_offset == msg->parameterOffset)
 	{
 		PRINTF("START LAST ORDER\n");
 		context->next_param = (order)ORDER__OPERATOR;
 	}
-	PRINTF("PARSING ORDER with next->param: %d\n", context->next_param);
 	switch ((order)context->next_param)
 	{
 	case ORDER__OPERATOR:
 		PRINTF("parse ORDER__OPERATOR\n");
 		context->current_tuple_offset = msg->parameterOffset;
-		PRINTF("NEW current_tuple_offset: %d\n", context->current_tuple_offset);
+		PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
 		break;
 	case ORDER__TOKEN_ADDRESS:
 		PRINTF("parse ORDER__TOKEN_ADDRESS\n");
 		if (context->number_of_tokens == 1)
 		{
+			// is processOutput
 			if (context->selectorIndex == PROCESS_OUTPUT_ORDERS)
 			{
-				PRINTF("copie token1 address\n");
 				copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+				PRINTF("Copied to token1_address: %.*H\n", ADDRESS_LENGTH, context->token1_address);
 			}
+			// is create, processInput or destroy
 			else
 			{
-				PRINTF("copie token2 address\n");
 				copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
+				PRINTF("Copied to token2_address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
 			}
 		}
 		break;
@@ -60,16 +60,15 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
 		break;
 	case ORDER__LEN_CALLDATA:
 		PRINTF("parse ORDER__LEN_CALLDATA\n");
-		// is on last order ???
+		// is on last order ?
 		if (msg->parameterOffset > context->target_offset)
 		{
-			// get last_calldata_offset to parse last Tx's byte
+			// get the offset of the last calldata to parse last Tx's byte
 			context->last_calldata_offset = msg->parameterOffset + PARAMETER_LENGTH + U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-			PRINTF("LAST ORDER offset: %d\n", context->last_calldata_offset);
+			PRINTF("setting last_calldata_offset: %d\n", context->last_calldata_offset);
 		}
 		break;
 	case ORDER__CALLDATA:
-		PRINTF("parse TEST ORDER__CALLDATA start\n");
 		return;
 	default:
 		PRINTF("Param not supported: %d\n", context->next_param);
@@ -85,7 +84,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context)
  */
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context)
 {
-	PRINTF("PARSING BOO step; %d\n", context->next_param);
 	switch ((batch_output_orders)context->next_param)
 	{
 	case BOO__OUTPUTTOKEN:
@@ -93,7 +91,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
 		PRINTF("copie token2 address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
 		context->current_tuple_offset = msg->parameterOffset;
-		PRINTF("parse BOO__OUTPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
+		PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
 		break;
 	case BOO__OFFSET_AMOUNTS:
 		PRINTF("parse BOO__OFFSET_AMOUNTS\n");
@@ -110,7 +108,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 	case BOO__LEN_AMOUNTS:
 		PRINTF("parse BOO__LEN_AMOUNTS\n");
 		context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("with current_length = %d\n", context->current_length);
+		PRINTF("setting current_length: %d\n", context->current_length);
 		break;
 	case BOO__AMOUNT:
 		PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length);
@@ -121,6 +119,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 			PRINTF("copie token1 amount: %.*H\n", PARAMETER_LENGTH, context->token1_amount);
 		}
 		context->current_length--;
+		// skip context->next_param++;
 		if (context->current_length)
 			return;
 		break;
@@ -129,11 +128,10 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		// context->current_length = U4BE(msg->parameter, PARAMETER_LENGTH - 4); // risky length overwrite
 		context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
 		context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
-		PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
+		PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
 		// PRINTF("current_length: %d\n", context->current_length);
-		// test
 		context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
-		PRINTF("parse BOO__LEN_ORDERS, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
+		PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
 		break;
 	case BOO__OFFSET_ARRAY_ORDERS:
 		PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n", context->offset_array_index);
@@ -141,15 +139,14 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
 		// copy last order, matching b2c
 		if (context->offset_array_index == 0)
 		{
-			context->target_offset =
-					U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
-			PRINTF("target_offset: %d\n",
-						 context->target_offset);
+			context->target_offset = U4BE(msg->parameter, PARAMETER_LENGTH - 4) + context->current_tuple_offset;
+			PRINTF("target_offset: %d\n", context->target_offset);
 			PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
 			// Switch to order's parsing
 			context->on_struct = (on_struct)S_ORDER;
 			context->next_param = (order)ORDER__OPERATOR;
 		}
+		// skip context->next_param++;
 		return;
 	default:
 		PRINTF("Param not supported: %d\n", context->next_param);
