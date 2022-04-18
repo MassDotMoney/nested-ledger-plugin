@@ -40,8 +40,6 @@ Open a terminal window.
 
 `./start.sh`
 
-Open `./tests/build_local_test.sh.` with a text editor to see which flags to pass to build the ethereum app and the plugin for S and X.
-
 Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app.
 
 *Note: At this time, the docker sdk's need to be pulled every time you launch the docker image.*
