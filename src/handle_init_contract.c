@@ -65,11 +65,11 @@ void handle_init_contract(void *parameters)
         break;
     case PROCESS_INPUT_ORDERS:
         PRINTF("IN PROCESS_INPUT_ORDERS\n");
-        context->next_param = CREATE__TOKEN_ID; //// ??
+        context->next_param = CREATE__TOKEN_ID;
         break;
     case PROCESS_OUTPUT_ORDERS:
         PRINTF("IN PROCESS_OUTPUT_ORDERS\n");
-        context->next_param = CREATE__TOKEN_ID; /// ??
+        context->next_param = CREATE__TOKEN_ID;
         break;
     case DESTROY:
         PRINTF("IN DESTROY\n");
@@ -77,7 +77,7 @@ void handle_init_contract(void *parameters)
         break;
     case RELEASE_TOKENS:
         PRINTF("IN RELEASE TOKENS\n");
-        context->next_param = RELEASE_OFFSET_TOKENS;
+        context->next_param = RELEASE__OFFSET_TOKENS;
         break;
     case TRANSFER_FROM:
         PRINTF("IN TRANSFER FROM\n");

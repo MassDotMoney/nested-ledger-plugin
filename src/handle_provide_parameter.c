@@ -132,15 +132,15 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
     PRINTF("HANDLE_RELEASE_TOKENS\n");
     switch ((release_tokens_parameter)context->next_param)
     {
-    case RELEASE_OFFSET_TOKENS:
-        PRINTF("RELEASE_OFFSET_TOKENS\n");
+    case RELEASE__OFFSET_TOKENS:
+        PRINTF("RELEASE__OFFSET_TOKENS\n");
         break;
-    case RELEASE_LEN_TOKENS:
-        PRINTF("RELEASE_LEN_TOKENS\n");
+    case RELEASE__LEN_TOKENS:
+        PRINTF("RELEASE__LEN_TOKENS\n");
         context->number_of_tokens = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         context->offset_array_index = U4BE(msg->parameter, PARAMETER_LENGTH - 4);
         break;
-    case RELEASE_ARRAY_TOKENS:
+    case RELEASE__ARRAY_TOKENS:
         // is first array element
         if (context->number_of_tokens == context->offset_array_index)
         {

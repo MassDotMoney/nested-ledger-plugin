@@ -9,6 +9,7 @@
 #define DEFAULT_DECIMAL WEI_TO_ETHER
 #define ETH_DECIMAL WEI_TO_ETHER
 
+// Network tickers
 #define MATIC "MATIC "
 #define WMATIC "WMATIC "
 #define AVAX "AVAX "
@@ -18,13 +19,12 @@
 #define ETH "ETH "
 #define WETH "WETH "
 
+// Utility addresses checking
 #define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 #define ADDRESS_IS_NETWORK_TOKEN(_addr) (!memcmp(_addr, NETWORK_TOKEN_ADDRESS, ADDRESS_LENGTH))
 #define ADDRESS_IS_NULL_ADDRESS(_addr) (!memcmp(_addr, NULL_ADDRESS, ADDRESS_LENGTH))
 extern const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH];
 
-// Number of selectors defined in this plugin. Should match the enum `selector_t`.
-#define NUM_SELECTORS 6
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum
@@ -35,8 +35,12 @@ typedef enum
     DESTROY,
     RELEASE_TOKENS,
     TRANSFER_FROM,
-
 } selector_t;
+
+// Number of selectors defined in this plugin. Should match the enum `selector_t`.
+#define NUM_SELECTORS 6
+
+extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 
 // selector of the Tx's last byte.
 typedef enum
@@ -49,8 +53,6 @@ typedef enum
     WITHDRAW,
     SWAP,
 } ui_selector;
-
-extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 
 /*
     INestedFactory Structs
@@ -108,6 +110,7 @@ typedef enum
     DESTROY__ORDERS,
 } destroy_parameter;
 
+// used for create, processInputOrder and processOutputOrder
 typedef enum
 {
     CREATE__TOKEN_ID,
@@ -120,9 +123,9 @@ typedef enum
 
 typedef enum
 {
-    RELEASE_OFFSET_TOKENS,
-    RELEASE_LEN_TOKENS,
-    RELEASE_ARRAY_TOKENS,
+    RELEASE__OFFSET_TOKENS,
+    RELEASE__LEN_TOKENS,
+    RELEASE__ARRAY_TOKENS,
 } release_tokens_parameter;
 
 /* 721 Standard TransferFrom Function */
@@ -143,20 +146,6 @@ typedef enum
 #define BOOL6 (1 << 6)
 #define BOOL7 (1 << 7)
 #define BOOL8 (1 << 8)
-
-// screen array correspondance
-//#define FIRST_SCREEN_UI 1 // Must remain first screen in screen array and always up. Comes after ID screen in handle_query_contract_ui.c
-//#define SCREEN_2_UI (1 << 1)
-//#define SCREEN_3_UI (1 << 2)
-//#define SCREEN_4_UI (1 << 3)
-//#define SCREEN_5_UI (1 << 4)
-//#define SCREEN_6_UI (1 << 5)
-//#define SCREEN_7_UI (1 << 6)
-//#define SCREEN_8_UI (1 << 7)
-//#define LAST_UI (1 << 7) // Must remain last screen in screen array.
-//
-//#define RIGHT_SCROLL 1
-//#define LEFT_SCROLL 0
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 // 124 / 160
