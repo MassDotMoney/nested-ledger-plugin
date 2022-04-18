@@ -126,6 +126,6 @@ Both are summed into `msg->screenIndex`.
 
 # Load the plugin into a Nano S
 
-You may also manually load the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
+It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
 
-*Note: You may find an APDU for a transaction in `./apdus/transferFrom`. Use it to make sure the plugin doesn't blind-sign.*
+*Note: You may find APDU's for a transaction in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
