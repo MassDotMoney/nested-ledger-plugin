@@ -78,7 +78,7 @@ These strings, set by macros and functions, are divided in three categories:
 * MSG (bottom)
 * Utilitary functions (for displaying addresses, tickers, amounts, etc).
 
-You can ind the utilitary functions in `./src/text_utils.c`.
+You can find the utilitary functions in `./src/text_utils.c`.
 
 The strings are to be copied into `msg->title` and `msg->msg` from the `EthQueryContractUI_t *msg` structure.
 
