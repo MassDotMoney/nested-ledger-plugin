@@ -212,22 +212,23 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
 
 static void convert_ticker(char token1_ticker[MAX_TICKER_LEN], char network_ticker[MAX_TICKER_LEN])
 {
-    if (!(memcmp(ETH, network_ticker, sizeof(ETH)))) // Check chain ID
+    // Check on which chain we are, then remove W from network's ticker
+    if (!(memcmp(ETH, network_ticker, sizeof(ETH))))
     {
         if (!(memcmp(token1_ticker, WETH, sizeof(WETH))))
             strlcpy(token1_ticker, ETH, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(MATIC, network_ticker, sizeof(MATIC)))) // Check chain ID
+    else if (!(memcmp(MATIC, network_ticker, sizeof(MATIC))))
     {
         if (!(memcmp(token1_ticker, WMATIC, sizeof(WMATIC))))
             strlcpy(token1_ticker, MATIC, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(AVAX, network_ticker, sizeof(AVAX)))) // Check chain ID
+    else if (!(memcmp(AVAX, network_ticker, sizeof(AVAX))))
     {
         if (!(memcmp(token1_ticker, WAVAX, sizeof(WAVAX))))
             strlcpy(token1_ticker, AVAX, MAX_TICKER_LEN);
     }
-    else if (!(memcmp(BNB, network_ticker, sizeof(BNB)))) // Check chain ID
+    else if (!(memcmp(BNB, network_ticker, sizeof(BNB))))
     {
         if (!(memcmp(token1_ticker, WBNB, sizeof(WBNB))))
             strlcpy(token1_ticker, BNB, MAX_TICKER_LEN);
@@ -245,7 +246,7 @@ void handle_query_contract_ui(void *parameters)
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 
-    // Get network ticker if address is '0xeee...'
+    // Get network ticker if address is '0xeee...' and copy network's token ticker
     if (ADDRESS_IS_NETWORK_TOKEN(context->token1_address))
         strlcpy(context->token1_ticker, msg->network_ticker, sizeof(context->token1_ticker));
     if (ADDRESS_IS_NETWORK_TOKEN(context->token2_address))
@@ -255,6 +256,7 @@ void handle_query_contract_ui(void *parameters)
     convert_ticker(context->token1_ticker, msg->network_ticker);
     convert_ticker(context->token2_ticker, msg->network_ticker);
 
+    // Get according screen.
     switch (context->selectorIndex)
     {
     case CREATE:

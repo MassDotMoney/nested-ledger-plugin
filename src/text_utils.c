@@ -10,7 +10,10 @@ void msg_display_address_ui(ethQueryContractUI_t *msg, uint8_t *address)
                                   0);
 }
 
-void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int token) // token argument is 1 for token1 and 2 for token2
+/**
+ * @param token choose token1 or token2
+ */
+void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int token)
 {
     if (token == 1) // Token1
     {
@@ -35,6 +38,9 @@ void msg_2tickers_ui(ethQueryContractUI_t *msg, context_t *context)
     snprintf(msg->msg, msg->msgLength, "%s and %s", context->token1_ticker, context->token2_ticker);
 }
 
+/**
+ * @param token choose token1 or token2
+ */
 void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int token)
 {
     if (context->number_of_tokens == 1)
