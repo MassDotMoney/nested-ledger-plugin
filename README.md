@@ -125,6 +125,8 @@ It is also possible to sideload the plugin into a Nano S (only) by using [ledger
 
 Remember to unlock the device and run each in their respective folders:
 
+`export $NANOS_SDK=<path-to-nanos-secure-sdk>`
+
 `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
 
 Follow the steps displayed on the ledger.
