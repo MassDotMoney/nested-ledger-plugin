@@ -10,39 +10,39 @@ They allow users to safely interact with smart contracts by parsing the transact
 
 It is STRONGLY recommended to follow the [plugin guide](https://developers.ledger.com/docs/dapp/nano-plugin/overview/) in order to better understand the flow and the context for plugins.
 
-# Environment Setup:
-
-Start by setting up the dev environment by following this [walkthrough](
-https://developers.ledger.com/docs/dapp/nano-plugin/environment-setup/). There is no need to follow the ethereum-app compilation instructions.
-
-Git pull the docker `/opt/nanos-secure-sdk` and `/opt/nanox-secure-sdk` repositories to successfully build the ethereum-app and plugin.
-
-To be able to print while debugging, comment the macro 
-`#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
-
-*Note: Uncomment it when the plugin is ready for deployment.*
-
-Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
-
 ## Formatting:
 
 The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
 
-# Testing environment setup:
+# Environment Setup:
 
-Find more information about testing environment with this [page](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
+[Get Docker](https://docs.docker.com/get-docker/) and [Docker-compose](https://docs.docker.com/compose/install/).
+
+In a new terminal window:
+
+`mkdir plugin_dev`
+
+`cd plugin_dev`
+
+`git clone https://github.com/LedgerHQ/app-ethereum`
+
+`git clone https://github.com/LedgerHQ/plugin-tools`
+
+Clone this repo here as well.
+
+The ethereum app and its `ethereum-plugin-sdk` must both be on the develop branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
 
 ## Build the apps
 
-Start Docker.
+Now start Docker.
 
-Open a terminal window.
-
-`cd <path>/plugin_dev/plugin-tools`
+`cd plugin-tools`
 
 `./start.sh`
 
-The ethereum app and its `ethereum-plugin-sdk` must both be on the develop branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
+Git pull the docker `/opt/nanos-secure-sdk` and `/opt/nanox-secure-sdk` repositories to successfully build the ethereum-app and plugin.
+
+*Note: At this time, the docker sdk's need to be pulled and on master every time you launch the docker image.*
 
 `cd ../nested-ledger-plugin/tests/`
 
@@ -50,7 +50,12 @@ The ethereum app and its `ethereum-plugin-sdk` must both be on the develop branc
 
 Replace `all` with the appropriate flags to build the plugin for S, X and/or the ethereum app. Edit the path in the script for the ethereum app.
 
-*Note: At this time, the docker sdk's need to be pulled and on master every time you launch the docker image.*
+To be able to print while debugging, comment the macro 
+`#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
+
+*Note: Uncomment it when the plugin is ready for deployment.*
+
+Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
 
 # Running the tests:
 
@@ -76,6 +81,8 @@ The singular test names can be found in the `./tests/src/*/*.test.json` files.
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
+Find more information about the [Zondax ZEMU](https://developers.ledger.com/docs/dapp/nano-plugin/testing/) tester.
+
 ## Testing on browser:
 
 It is possible to send APDU's to a browser hosted screen.
@@ -98,7 +105,7 @@ Open a browser page and enter `localhost:5000` in the url field. The browser pag
 
 An APDU file is stored in `./tests/apdus/transferFrom`.
 
-In another terminal window:
+In another terminal window type:
 
 `ledgerspec transferFrom`
 
@@ -110,9 +117,9 @@ More information on the [speculos doc page](https://speculos.ledger.com/user/cli
 
 ## Testing by sideloading:
 
-It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/). This must be done on a linux operating system.
+It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/). This must be done on a Linux operating system.
 
-*Note: When using a VM remember to reclone in `plugin_dev` the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
+*Note: When using a VM remember to reclone in the same folder the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
 
 Remember to unlock the device and run each in their respective folders:
 
@@ -130,7 +137,9 @@ You may send APDU's to the ledger with this alias:
 
 Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
 
-Run `ledger transferFrom` to send the data to the ledger. Remember to open the plugin app on the ledger beforehand.
+Run `ledger transferFrom` to send the APDU's contained in the file to the ledger.
+
+Remember to open the plugin app on the ledger beforehand.
 
 *Note: Recently deployed contracts abi's might not yet have been merged in the Ledger database which may result in a failure to fetch token information."*
 
@@ -145,7 +154,7 @@ The plugin has 3 basic components for modifications:
 2. Screen function calls.
 3. Number of screens.
 
-## 1. String macros and functions:
+### 1. String macros and functions:
 
 The strings displayed by the plugin are set by macros and functions:
  
@@ -162,7 +171,7 @@ These utilitary functions are used for displaying addresses, tickers, amounts, e
 
 They are located in in `./src/text_utils.c`.
 
-## 2. Screen function calls:
+### 2. Screen function calls:
 
 There are two functions where the screen strings are set.
 
@@ -179,7 +188,7 @@ Each action called by the user has a respective function that sets the text.
 
 Edit the `switch(msg->screenIndex)` cases of `handle_*_ui()` functions if needed.
 
-## 3. Number of screens:
+### 3. Number of screens:
 There are two variables that can set the screen number.
 
 In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
