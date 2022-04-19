@@ -8,7 +8,7 @@
 
 // TITLE string for 1st UI is PLUGIN_NAME.
 #define MSG_CREATE_ID "Create Portfolio"
-#define MSG_COPY_ID "Replicate Portfolio"
+#define MSG_COPY_ID "Replicate a Portfolio"
 #define MSG_CLAIM_ID "Claim Royalties"
 #define MSG_DESTROY_ID "Sell Portfolio"
 #define MSG_TRANSFER_FROM_ID "Send Portfolio"
