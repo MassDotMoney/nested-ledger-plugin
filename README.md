@@ -29,35 +29,41 @@ Find more info about `PRINTF` and debugging [here](https://developers.ledger.com
 
 The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
 
+# Testing environment setup:
+
+Setup the testing environment with the help of this [page](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
+
 ## Build the apps
 
 Start Docker.
 
 Open a terminal window.
 
-`cd /plugin_dev/plugin_tools/`
+`cd <path>/plugin_dev/plugin-tools`
 
 `./start.sh`
 
 The ethereum app and its `ethereum-plugin-sdk` must both be on the (develop) branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
 
-Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app. Edit the path in the script for the ethereum app.
+`cd ../nested-ledger-plugin/tests/`
+
+`./build_locals_test.sh all`
+
+Replace `all` with the appropriate flags to build the plugin for S,X and/or the ethereum app. Edit the path in the script for the ethereum app.
 
 *Note: At this time, the docker sdk's need to be pulled every time you launch the docker image.*
 
-# Testing environment setup:
+## Running the tests:
 
-Setup the testing environment with the help of this [page](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
+### Testing with ZEMU:
 
 The tests consist of recent snapshots in `./tests/snapshot-tmp` being compared to a set of expected snapshots located in
 
 `./tests/snapshots`.
 
-## Running the tests:
-
 Open another terminal window.
 
-`cd ./tests`
+Go to `/plugin_dev/nested-ledger-plugin/tests`.
 
 `yarn test`
 
@@ -65,12 +71,69 @@ To run all tests
 
 #### OR
 
-`yarn test -t "Name of test"` where `"Name of test"` is the string associated to the singular test name.
+`yarn test -t "<name-of-test>"` to run a singular test.
 
-The singular test names can be found in `./tests/src/*/*.test.json`.
+The singular test names can be found in the `./tests/src/*/*.test.json` files.
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
+### Testing by sending APDU's to Speculos:
+
+It is possible to send APDU's to a browser hosted screen.
+
+Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
+
+`pip3 install ledgerblue`
+
+Add these aliases and edit the their `<path>`.
+
+`speculos='docker run --rm -it -v <path>/plugin_dev/nested-ledger-plugin/tests/elfs:/speculos/apps -p 5000:5000 --publish 41000:41000 speculos --display headless --vnc-port 41000 --apdu-port 41000 apps/ethereum_nanos.elf -l Nested:apps/nested_nanos.elf'`
+
+`ledgers='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | LEDGER_PROXY_ADDRESS=127.0.0.1 LEDGER_PROXY_PORT=41000 python3 -m ledgerblue.runScript --apdu'`
+
+In a new terminal page enter:
+
+`speculos`
+
+Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a ledger Nano S.
+
+An APDU file is stored in `./tests/apdus/transferFrom`.
+
+In another terminal window:
+
+`ledgers transferFrom`
+
+The emulating page should display a Nested NFT transfer transaction.
+
+More information on the [speculos doc page](https://speculos.ledger.com/user/clients.html).
+
+*Note: You must have previously killed other running speculos terminals.*
+
+### Testing by sideloading on an Nano S:
+
+It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
+
+Remember to unlock the device and run each in their respective folders,
+
+`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
+
+Follow the steps on the ledger.
+
+Now run
+
+`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
+
+You may send APDU's to the ledger with this alias:
+
+`ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
+
+Run `ledger transferFrom` to send the data to the ledger.
+
+(Remember to have the plugin open on the "Application is ready" screen).
+
+*Note: Recently deployed contracts might not yet have been merged in the Ledger database which may result in a failure to fetch the token information."
+
+Remove the `DEBUG=1` flags if you do not wish to compile in debug mode`
 
 # Plugin modifications:
 
@@ -122,29 +185,9 @@ In `./src/handle_provide_token.c` the `msg->additionScreens` variable increases 
 
 Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
-# WIP Load the plugin into a Nano S
+## Further modifications:
 
-It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
-
-### If sideloading with ledgerblue
-
-In their respective folders,
-
-run 
-
-`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` 
-
-to build and load the ethereum app to the device.
-
-Run
-
-`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
-
-Remove the `DEBUG=1` flags if you do not wish to compile in debug mode (made for printing logs).
-
-Once setup, find out how to send APDU's to the ledger by following the [speculos doc page](https://speculos.ledger.com/user/clients.html).
-
-*Note: APDU's are stored in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
+Deeper modifications require a better understanding of the plugin worflow, mostly adding/removing selector method ID's, appropriately parsing in `./src/provide_parameter.c` and modifiying screen count and display strings.
 
 # Deployment
 
