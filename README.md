@@ -126,7 +126,7 @@ It is also possible to sideload the plugin into a Nano S (only) by following thi
 
 Run `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to build and load the ethereum app to the device.
 
-Run `make clean && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
+Run `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
 
 Remove the `DEBUG=1` flags if you do not wish to compile in debug mode (made for printing logs).
 
