@@ -124,4 +124,6 @@ Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
 It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
 
+Once setup, find out how to send APDU's to the ledger by following the [speculos doc page](https://speculos.ledger.com/user/clients.html).
+
 *Note: APDU's are stored in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
