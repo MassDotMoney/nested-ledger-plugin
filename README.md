@@ -39,7 +39,7 @@ Open a terminal window.
 
 `./start.sh`
 
-Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app.
+Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app. Edit the path in the script for the ethereum app.
 
 *Note: At this time, the docker sdk's need to be pulled every time you launch the docker image. The ethereum app and its ethereum-plugin-sdk must both be on the (develop) branch.*
 
