@@ -39,7 +39,7 @@ Open a terminal window.
 
 `./start.sh`
 
-The ethereum app and its ethereum-plugin-sdk must both be on the (develop) branch.
+The ethereum app and its `ethereum-plugin-sdk` must both be on the (develop) branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
 
 Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app. Edit the path in the script for the ethereum app.
 
