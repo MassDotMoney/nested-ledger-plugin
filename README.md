@@ -127,6 +127,8 @@ Remember to unlock the device and run each in their respective folders:
 
 Follow the steps displayed on the ledger.
 
+Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
+
 Now run
 
 `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
@@ -134,8 +136,6 @@ Now run
 You may send APDU's to the ledger with this alias:
 
 `ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
-
-Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
 
 Run `ledger transferFrom` to send the APDU's contained in the file to the ledger.
 
