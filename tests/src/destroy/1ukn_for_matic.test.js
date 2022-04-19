@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "1ukn for matic destroy"; // <= Name of the test
+const testLabel = "destroy 1ukn for matic"; // <= Name of the test
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 
 // https://polygonscan.com/tx/0x77860b09b07e01de39da707a3fbe894d7bc510fbe8c2c367bea8f3b32957a298
