@@ -112,7 +112,7 @@ Each action called by the user has a respective function that sets the text.
 Edit the `switch(msg->screenIndex)` cases of `handle_*_ui()` functions if needed.
 
 ## 3. Number of screens:
-There are two functions that can set the screen number.
+There are two variables that can set the screen number.
 
 In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
 
