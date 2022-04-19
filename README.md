@@ -116,9 +116,9 @@ There are two functions that can set the screen number.
 
 In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
 
-In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
+In `./src/handle_provide_token.c` the `msg->additionScreens` variable increases the previously set screen number.
 
-Both are summed into `msg->screenIndex`.
+Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
 # WIP Load the plugin into a Nano S
 
