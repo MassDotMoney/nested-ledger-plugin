@@ -128,7 +128,9 @@ It is also possible to sideload the plugin into a Nano S (only) by following thi
 
 ### If sideloading with ledgerblue
 
-Run 
+In their respective folders,
+
+run 
 
 `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` 
 
