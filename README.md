@@ -18,7 +18,7 @@ The C source code is expected to be formatted with `clang-format` 11.0.0 or high
 
 [Get Docker](https://docs.docker.com/get-docker/) and [Docker-compose](https://docs.docker.com/compose/install/).
 
-In a new terminal window:
+In a terminal window:
 
 `mkdir plugin_dev`
 
