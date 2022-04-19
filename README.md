@@ -135,7 +135,7 @@ Follow the steps displayed on the ledger.
 
 Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
 
-Remove the `DEBUG=1` flag if you do not wish to compile in debug mode.
+*Note: Remove the `DEBUG=1` flag if you do not wish to compile in debug mode.*
 
 Now
 
