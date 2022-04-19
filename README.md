@@ -88,8 +88,6 @@ The strings displayed by the plugin are set by macros and functions:
 
 Both are found in `./src/text.h`. Edit these to modify the strings displayed to the user.
 
-They are used as parameters by `strlcpy` and `snprintf`.
-
  #### Functions:
 
 These utilitary functions are used for displaying addresses, tickers, amounts, etc.
@@ -111,14 +109,12 @@ These screens are set in `./src/handle_query_contract_ui.c`.
 
 Each action called by the user has a respective function that sets the text.
 
-This is where the macros and utilitary functions are called.
-
 Edit the `switch(msg->screenIndex)` cases of `handle_*_ui()` functions if needed.
 
 ## 3. Number of screens:
 There are two functions that can set the screen number.
 
-In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed (excluding the ID screen).
+In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
 
 In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
 
@@ -128,4 +124,4 @@ Both are summed into `msg->screenIndex`.
 
 It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
 
-*Note: You may find APDU's for a transaction in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
+*Note: APDU's are stored in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
