@@ -125,7 +125,7 @@ It is also possible to sideload the plugin into a Nano S (only) by using [ledger
 
 Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
 
-Remember to plug and unlock the device and enter:
+Plug and unlock the device and enter in the terminal:
 
 `cd <path>/app-ethereum`
 
