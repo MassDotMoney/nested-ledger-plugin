@@ -83,7 +83,7 @@ The singular test names can be found in the `./tests/src/*/*.test.json` files.
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
-Find more information about the [Zondax ZEMU](https://developers.ledger.com/docs/dapp/nano-plugin/testing/) tester.
+Find [more information](https://developers.ledger.com/docs/dapp/nano-plugin/testing/) about the Zondax ZEMU tester.
 
 ## Testing on browser:
 
