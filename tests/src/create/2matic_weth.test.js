@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "copy 2matic weth"; // <= Name of the test
+const testLabel = "create 2matic weth"; // <= Name of the test
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 
 // //// https://polygonscan.com/tx/0xbba1870d88796e2cf61f74af829e4a985f0b595f77862af3c5a3257737be4625
