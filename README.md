@@ -124,6 +124,8 @@ Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
 It is also possible to sideload the plugin into a Nano S (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
 
+### If sideloading with ledgerblue
+
 Run 
 
 `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` 
