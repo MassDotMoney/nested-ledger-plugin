@@ -8,7 +8,7 @@
 
 // TITLE string for 1st UI is PLUGIN_NAME.
 #define MSG_CREATE_ID "Create Portfolio"
-#define MSG_COPY_ID "Copy Portfolio"
+#define MSG_COPY_ID "Replicate Portfolio"
 #define MSG_CLAIM_ID "Claim Royalties"
 #define MSG_DESTROY_ID "Sell Portfolio"
 #define MSG_TRANSFER_FROM_ID "Send Portfolio"
@@ -29,7 +29,7 @@
 /// COPY ///
 
 #define TITLE_COPY_SCREEN_1_UI "Budget token:"
-#define TITLE_COPY_SCREEN_2_UI "Copying"
+#define TITLE_COPY_SCREEN_2_UI "Replicating"
 
 /// SELL PORTFOLIO ///
 
