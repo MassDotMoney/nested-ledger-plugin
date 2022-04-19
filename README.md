@@ -69,6 +69,8 @@ Open another terminal window.
 
 Go to `/plugin_dev/nested-ledger-plugin/tests`.
 
+`yarn install`
+
 `yarn test`
 
 To run all tests
