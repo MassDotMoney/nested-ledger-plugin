@@ -16,7 +16,7 @@ Start by setting up the dev environment by following this [walkthrough](
 https://developers.ledger.com/docs/dapp/nano-plugin/environment-setup/).
 
 
-It is important to git pull the nanos-secure-sdk and nanox-secure-sdk to successfully build the ethereum-app and the plugin.
+It is important to git pull the `/opt/nanos-secure-sdk` and `/opt/nanox-secure-sdk` to successfully build the ethereum-app and the plugin.
 
 To be able to print while debugging, comment the macro 
 `#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
@@ -41,7 +41,7 @@ Open a terminal window.
 
 Run `./build_locals_test.sh all` or replace `all` with the appropriate flags to build the plugin and/or the ethereum app.
 
-*Note: At this time, the docker sdk's need to be pulled every time you launch the docker image.*
+*Note: At this time, the docker sdk's need to be pulled every time you launch the docker image. The ethereum app and its ethereum-plugin-sdk must both be on the (develop) branch.*
 
 # Testing environment setup:
 
