@@ -123,11 +123,13 @@ It is also possible to sideload the plugin into a Nano S (only) by using [ledger
 
 *Note: When using a VM remember to reclone in the same folder the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
 
-Remember to unlock the device and run each in their respective folders:
+Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
 
-`export $NANOS_SDK=<path-to-nanos-secure-sdk>`
+Remember to plug and unlock the device and enter:
 
-`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
+`cd <path>/app-ethereum`
+
+`make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
 
 Follow the steps displayed on the ledger.
 
@@ -135,9 +137,13 @@ Once installed you should be able to open the ethereum app and land on the "Appl
 
 Remove the `DEBUG=1` flag if you do not wish to compile in debug mode.
 
-Now run
+Now
 
-`make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
+`cd ../nested-ledger-plugin/`
+
+`make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
+
+`make clean` before reloading is advised.
 
 You may send APDU's to the ledger with this alias:
 
