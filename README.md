@@ -129,6 +129,8 @@ Follow the steps displayed on the ledger.
 
 Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
 
+Remove the `DEBUG=1` flags if you do not wish to compile in debug mode.
+
 Now run
 
 `make clean BOLOS_SDK=$NANOS_SDK && make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
@@ -142,8 +144,6 @@ Run `ledger transferFrom` to send the APDU's contained in the file to the ledger
 Remember to open the plugin app on the ledger beforehand.
 
 *Note: Recently deployed contracts abi's might not yet have been merged in the Ledger database which may result in a failure to fetch token information.*
-
-Remove the `DEBUG=1` flags if you do not wish to compile in debug mode.
 
 # Plugin modifications:
 
