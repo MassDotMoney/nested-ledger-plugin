@@ -141,7 +141,7 @@ Run `ledger transferFrom` to send the APDU's contained in the file to the ledger
 
 Remember to open the plugin app on the ledger beforehand.
 
-*Note: Recently deployed contracts abi's might not yet have been merged in the Ledger database which may result in a failure to fetch token information."*
+*Note: Recently deployed contracts abi's might not yet have been merged in the Ledger database which may result in a failure to fetch token information.*
 
 Remove the `DEBUG=1` flags if you do not wish to compile in debug mode.
 
