@@ -139,3 +139,7 @@ Remove the `DEBUG=1` flags if you do not wish to compile in debug mode (made for
 Once setup, find out how to send APDU's to the ledger by following the [speculos doc page](https://speculos.ledger.com/user/clients.html).
 
 *Note: APDU's are stored in `./apdus/transferFrom`. Use the file to make sure the plugin doesn't blind-sign. Remember to open the app. ;)*
+
+# Deployment
+
+Visit this [page](https://developers.ledger.com/docs/nano-app/requirements-intro/) to make sure the plugin meets the standards and you have completed all the steps.
