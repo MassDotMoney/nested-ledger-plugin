@@ -30,7 +30,7 @@ In a terminal window:
 
 `git clone https://github.com/NestedFi/nested-ledger-plugin/`
 
-`app-ethereum` and its `ethereum-plugin-sdk` must both be on the develop branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
+`app-ethereum` and its `ethereum-plugin-sdk` must both be on the develop branch.
 
 ## Build the apps
 
