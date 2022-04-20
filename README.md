@@ -10,7 +10,7 @@ They allow users to safely interact with smart contracts by parsing the transact
 
 It is STRONGLY recommended to follow the [plugin guide](https://developers.ledger.com/docs/dapp/nano-plugin/overview/) in order to better understand the flow and the context for plugins.
 
-## Formatting:
+## Formating:
 
 The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
 
@@ -30,17 +30,23 @@ In a terminal window:
 
 Clone this repo here as well.
 
-The ethereum app and its `ethereum-plugin-sdk` must both be on the develop branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
+`app-ethereum` and its `ethereum-plugin-sdk` must both be on the develop branch. The plugin's `ethereum-plugin-sdk` is not a git repository.
 
 ## Build the apps
 
-Now start Docker.
+Launch Docker.
+
+In the same terminal:
 
 `cd plugin-tools`
 
 `./start.sh`
 
-Git pull the docker `/opt/nanos-secure-sdk` and `/opt/nanox-secure-sdk` repositories to successfully build the ethereum-app and plugin.
+Git pull the docker sdk's:
+
+`cd ../../opt/nanos-secure-sdk && git pull` 
+
+`cd ../nanox-secure-sdk && git pull`
 
 *Note: At this time, the docker sdk's need to be pulled and on master every time you launch the docker image.*
 
@@ -48,7 +54,7 @@ Git pull the docker `/opt/nanos-secure-sdk` and `/opt/nanox-secure-sdk` reposito
 
 `./build_locals_test.sh all`
 
-Replace `all` with the appropriate flags to build the plugin for S, X and/or the ethereum app. Edit the path in the script for the ethereum app.
+If needed, replace `all` with the appropriate flags to specifically build the plugin for S, X and the ethereum app.
 
 To be able to print while debugging, comment the macro 
 `#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
@@ -67,19 +73,17 @@ The tests consist of recent snapshots in `./tests/snapshot-tmp` being compared t
 
 Open another terminal window.
 
-Go to `/plugin_dev/nested-ledger-plugin/tests`.
+`cd <path>/nested-ledger-plugin/tests`.
 
 `yarn install`
 
-`yarn test`
-
-To run all tests
+`yarn test` to run all tests
 
 #### OR
 
 `yarn test -t "<name-of-test>"` to run a singular test.
 
-The singular test names can be found in the `./tests/src/*/*.test.json` files.
+The singular test names can be found in the `./tests/src/<test-folder>/*.test.js` files.
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
@@ -113,15 +117,15 @@ In another terminal window type:
 
 The emulating page should display a Nested NFT transfer transaction.
 
-More information on the [speculos doc page](https://speculos.ledger.com/user/clients.html).
+More information on the [speculos doc page](https://speculos.ledger.com/).
 
 *Note: You must have previously killed other running speculos terminals.*
 
 ## Testing by sideloading:
 
-It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/). This must be done on a Linux operating system.
+It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/). This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
 
-*Note: When using a VM remember to reclone in the same folder the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
+*Note: When using a virtual machine remember to reclone in the same folder the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
 
 Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
 
@@ -129,7 +133,7 @@ Plug and unlock the device and enter in the terminal:
 
 `cd <path>/app-ethereum`
 
-`make load -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
+`make load BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
 
 Follow the steps displayed on the ledger.
 
@@ -137,15 +141,11 @@ Once installed you should be able to open the ethereum app and land on the "Appl
 
 *Note: Remove the `DEBUG=1` flag if you do not wish to compile in debug mode.*
 
-Now
-
 `cd ../nested-ledger-plugin/`
 
-`make load -j DEBUG=1 BOLOS_SDK=$NANOS_SDK` to load the plugin.
+`make load BOLOS_SDK=$NANOS_SDK` to load the plugin.
 
-`make clean` before reloading is advised.
-
-You may send APDU's to the ledger with this alias:
+Send APDU's to the ledger with this alias:
 
 `ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
 
