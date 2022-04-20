@@ -20,13 +20,13 @@ The C source code is expected to be formatted with `clang-format` 11.0.0 or high
 
 In a terminal window:
 
-`mkdir plugin_dev`
-
-`cd plugin_dev`
+`mkdir plugin_dev && cd plugin_dev`
 
 `git clone https://github.com/LedgerHQ/app-ethereum`
 
 `git clone https://github.com/LedgerHQ/plugin-tools`
+
+`git clone https://github.com/NestedFi/nested-ledger-plugin/`
 
 Clone this repo here as well.
 
@@ -59,8 +59,6 @@ If needed, replace `all` with the appropriate flags to specifically build the pl
 To be able to print while debugging, comment the macro 
 `#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
 
-*Note: Uncomment it when the plugin is ready for deployment.*
-
 Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
 
 # Running the tests:
@@ -75,8 +73,6 @@ Open another terminal window.
 
 `cd <path>/nested-ledger-plugin/tests`.
 
-`yarn install`
-
 `yarn test` to run all tests
 
 #### OR
@@ -87,7 +83,7 @@ The singular test names can be found in the `./tests/src/<test-folder>/*.test.js
 
 *Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
-[Find more information](https://developers.ledger.com/docs/dapp/nano-plugin/testing/) about the Zondax ZEMU tester.
+Find more information about the Zondax [ZEMU tester](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
 
 ## Testing on browser:
 
@@ -97,7 +93,7 @@ Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
 
 `pip3 install ledgerblue`
 
-Add these aliases and edit their `<path>`.
+Add these aliases.
 
 `speculos='docker run --rm -it -v <path>/plugin_dev/nested-ledger-plugin/tests/elfs:/speculos/apps -p 5000:5000 --publish 41000:41000 speculos --display headless --vnc-port 41000 --apdu-port 41000 apps/ethereum_nanos.elf -l Nested:apps/nested_nanos.elf'`
 
@@ -108,8 +104,6 @@ In a new terminal window enter:
 `speculos`
 
 Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a ledger Nano S.
-
-An APDU file is stored in `./tests/apdus/transferFrom`.
 
 In another terminal window type:
 
@@ -123,9 +117,11 @@ More information on the [speculos doc page](https://speculos.ledger.com/).
 
 ## Testing by sideloading:
 
-It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/). This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
+It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
 
-*Note: When using a virtual machine remember to reclone in the same folder the [ethereum-app](https://github.com/LedgerHQ/app-ethereum.git), the [nanos-secure-sdk](https://github.com/LedgerHQ/nanos-secure-sdk.git) and this repository.*
+This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
+
+`pip3 install ledgerblue`
 
 Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
 
@@ -139,8 +135,6 @@ Follow the steps displayed on the ledger.
 
 Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
 
-*Note: Remove the `DEBUG=1` flag if you do not wish to compile in debug mode.*
-
 `cd ../nested-ledger-plugin/`
 
 `make load BOLOS_SDK=$NANOS_SDK` to load the plugin.
@@ -149,15 +143,13 @@ Send APDU's to the ledger with this alias:
 
 `ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
 
-Run `ledger transferFrom` to send the APDU's contained in the file to the ledger.
+Open the plugin.
 
-Remember to open the plugin app on the ledger beforehand.
-
-*Note: Recently deployed contracts abi's might not yet have been merged in the Ledger database which may result in a failure to fetch token information.*
+`ledger transferFrom` to send the APDU's contained in the file to the ledger.
 
 # Plugin modifications:
 
-## Basic modification:
+## Basic modifications:
 
 The plugin has 3 basic components for modifications:
 1. String macros and functions.
@@ -166,12 +158,12 @@ The plugin has 3 basic components for modifications:
 
 ### 1. String macros and functions:
 
-The strings displayed by the plugin are set by macros and functions:
+The strings displayed by the plugin are set by macros and functions.
  
  #### Macros:
 
-* `TITLE_NAME_OF_ACTION_SCREEN_#_UI` (top)
-* `MSG_NAME_OF_ACTION_SCREEN_#_UI` (bottom)
+* `TITLE_<NAME_OF_ACTION>_SCREEN_#_UI` (top)
+* `MSG_<NAME_OF_ACTION>_SCREEN_#_UI` (bottom)
 
 Edit these in `./src/text.h` to modify the strings displayed to the user.
 
@@ -194,22 +186,20 @@ The first screen is the ID screen, set in `./src/handle_query_contract_id.c`.
  
 These screens are set in `./src/handle_query_contract_ui.c`. 
 
-Each action called by the user has a respective function that sets the text.
-
-Edit the `switch(msg->screenIndex)` cases of `handle_*_ui()` functions if needed.
+Edit the `switch(msg->screenIndex)` cases of `handle_<name-of-action>_ui()` functions if needed.
 
 ### 3. Number of screens:
 There are two variables that can set the screen number.
 
 In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
 
-In `./src/handle_provide_token.c` the `msg->additionScreens` variable increases the previously set screen number.
+In `./src/handle_provide_token.c` the `msg->additionalScreens` variable increases the previously set screen number.
 
 Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
 ## Advanced modifications:
 
-Advanced modifications require a better understanding of the plugin worflow, mostly adding/removing selector method ID's, appropriately parsing in `./src/provide_parameter.c` and correctly intializing the plugin.
+Follow this [guide](https://developers.ledger.com/docs/dapp/nano-plugin/selectors/) to further modify the plugin.
 
 # Deployment
 
