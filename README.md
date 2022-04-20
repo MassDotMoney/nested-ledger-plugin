@@ -20,7 +20,9 @@ The C source code is expected to be formatted with `clang-format` 11.0.0 or high
 
 In a terminal window:
 
-`mkdir plugin_dev && cd plugin_dev`
+`mkdir plugin_dev`
+
+`cd plugin_dev`
 
 `git clone https://github.com/LedgerHQ/app-ethereum`
 
