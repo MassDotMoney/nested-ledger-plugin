@@ -123,6 +123,8 @@ This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 1
 
 `pip3 install ledgerblue`
 
+Clone the apropriate repositories.
+
 Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
 
 Plug and unlock the device and enter in the terminal:
@@ -152,26 +154,19 @@ Open the plugin.
 ## Basic modifications:
 
 The plugin has 3 basic components for modifications:
-1. String macros and functions.
+
+1. Number of screens.
 2. Screen function calls.
-3. Number of screens.
+3. String macros and functions.
 
-### 1. String macros and functions:
+### 1. Number of screens:
+There are two variables that can set the screen number.
 
-The strings displayed by the plugin are set by macros and functions.
- 
- #### Macros:
+In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
 
-* `TITLE_<NAME_OF_ACTION>_SCREEN_#_UI` (top)
-* `MSG_<NAME_OF_ACTION>_SCREEN_#_UI` (bottom)
+In `./src/handle_provide_token.c` the `msg->additionalScreens` variable increases the previously set screen number.
 
-Edit these in `./src/text.h` to modify the strings displayed to the user.
-
- #### Functions:
-
-These utilitary functions are used for displaying addresses, tickers, amounts, etc.
-
-They are located in in `./src/text_utils.c`.
+Both are summed into `msg->screenIndex` which is used to scroll through screens.
 
 ### 2. Screen function calls:
 
@@ -188,14 +183,22 @@ These screens are set in `./src/handle_query_contract_ui.c`.
 
 Edit the `switch(msg->screenIndex)` cases of `handle_<name-of-action>_ui()` functions if needed.
 
-### 3. Number of screens:
-There are two variables that can set the screen number.
+### 3. String macros and functions:
 
-In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
+The strings displayed by the plugin are set by macros and functions.
+ 
+ #### Macros:
 
-In `./src/handle_provide_token.c` the `msg->additionalScreens` variable increases the previously set screen number.
+* `TITLE_<NAME_OF_ACTION>_SCREEN_#_UI` (top)
+* `MSG_<NAME_OF_ACTION>_SCREEN_#_UI` (bottom)
 
-Both are summed into `msg->screenIndex` which is used to scroll through screens.
+Edit these in `./src/text.h` to modify the strings displayed to the user.
+
+ #### Functions:
+
+These utilitary functions are used for displaying addresses, tickers, amounts, etc.
+
+They are located in in `./src/text_utils.c`.
 
 ## Advanced modifications:
 
