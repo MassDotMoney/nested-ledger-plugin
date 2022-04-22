@@ -117,7 +117,7 @@ More information on the [speculos doc page](https://speculos.ledger.com/).
 
 ## Testing by sideloading:
 
-It is also possible to sideload the plugin into a Nano S (only) by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
+It is also possible to sideload the plugin into a Nano S by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
 
 This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
 
