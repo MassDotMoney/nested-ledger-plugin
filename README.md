@@ -87,7 +87,7 @@ Find more information about the Zondax [ZEMU tester](https://developers.ledger.c
 
 ## Testing on browser:
 
-It is possible to send APDU's to a browser hosted screen.
+It is possible to send APDU's to a Nano S browser hosted emulator.
 
 Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
 
