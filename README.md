@@ -87,7 +87,7 @@ Find more information about the Zondax [ZEMU tester](https://developers.ledger.c
 
 ## Testing on browser:
 
-It is possible to send APDU's to a Nano S browser hosted emulator using [speculos](https://github.com/LedgerHQ/speculos) from Docker.
+It is possible to send APDU's to a Nano S browser hosted emulator using [speculos](https://github.com/LedgerHQ/speculos) via Docker.
 
 Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
 
