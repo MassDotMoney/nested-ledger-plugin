@@ -103,7 +103,7 @@ In a new terminal window enter:
 
 `speculos`
 
-Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a ledger Nano S.
+Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a Nano S.
 
 In another terminal window type:
 
