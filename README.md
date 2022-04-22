@@ -1,8 +1,8 @@
 # Nested Finance Ledger plugin
 
-Ledger lightweight app for EVM compatible transaction signing for [Nested Finance](https://nested.fi/).
+Ledger lightweight app for [Nested Finance](https://nested.fi/).
 
-# Plugins:
+## Plugins:
 
 Plugins are lightweight applications that go hand-in-hand with the Ethereum Application on Nano S / X devices.
 
@@ -10,106 +10,200 @@ They allow users to safely interact with smart contracts by parsing the transact
 
 It is STRONGLY recommended to follow the [plugin guide](https://developers.ledger.com/docs/dapp/nano-plugin/overview/) in order to better understand the flow and the context for plugins.
 
-# Formatting:
+## Formating:
 
 The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
 
 # Environment Setup:
 
-Start by setting up the dev environment by following this [walkthrough](
-https://developers.ledger.com/docs/dapp/nano-plugin/environment-setup/).
+[Get Docker](https://docs.docker.com/get-docker/) and [Docker-compose](https://docs.docker.com/compose/install/).
 
+In a terminal window:
 
-It is important to git pull the nanos-secure-sdk and nanox-secure-sdk to successfully build the ethereum-app and the plugin.
+`mkdir plugin_dev`
 
-*Note: At this time, the sdk's need to be pulled every time you launch the docker image.*
+`cd plugin_dev`
 
-To be able to print while debugging, you must comment the macro 
+`git clone https://github.com/LedgerHQ/app-ethereum`
+
+`git clone https://github.com/LedgerHQ/plugin-tools`
+
+`git clone https://github.com/NestedFi/nested-ledger-plugin/`
+
+`app-ethereum` and its `ethereum-plugin-sdk` must both be on the develop branch.
+
+## Build the apps
+
+Launch Docker.
+
+In the same terminal:
+
+`cd plugin-tools`
+
+`./start.sh`
+
+Git pull the docker sdk's:
+
+`cd ../../opt/nanos-secure-sdk && git pull` 
+
+`cd ../nanox-secure-sdk && git pull`
+
+*Note: At this time, the docker sdk's need to be pulled and on master every time you launch the docker image.*
+
+`cd ../nested-ledger-plugin/tests/`
+
+`./build_locals_test.sh all`
+
+If needed, replace `all` with the appropriate flags to specifically build the plugin for S, X and the ethereum app.
+
+To be able to print while debugging, comment the macro 
 `#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
 
-Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/).
+Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
 
-*Note: You must uncomment it if the plugin is ready for deployment.*
+# Running the tests:
 
-### Build the apps.
+## Testing with ZEMU:
 
-Open `./tests/build_local_test.sh.` with a text editor to see which flags to pass to build the ethereum app and the plugin for S and X.
+The tests consist of recent snapshots in `./tests/snapshot-tmp` being compared to a set of expected snapshots located in
 
-# Testing:
+`./tests/snapshots`.
 
-You should have installed the dev environment for this section.
+Open another terminal window.
 
-## Testing environment setup:
+`cd <path>/nested-ledger-plugin/tests`.
 
-Setup the testing environment with the help of this [page](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
+`yarn test` to run all tests
 
-### Testing with ZEMU:
+#### OR
 
-The tests consist of "fresh" screenshots being compared to a set of expected screenshots located in `./tests/snapshots`.
+`yarn test -t "<name-of-test>"` to run a singular test.
 
-To run the tests:
+The singular test names can be found in the `./tests/src/<test-folder>/*.test.js` files.
 
-`cd ./tests/`
+*Note: Sometimes, batched tests may fail. It is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
 
-Once in the appropriate directory, simply run `yarn test` to run all tests.
+Find more information about the Zondax [ZEMU tester](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
 
-OR
+## Testing on browser:
 
-`yarn test -t NAME_OF_TEST` where NAME_OF_TEST is the string associated to the singular test name.
+It is possible to send APDU's to a browser hosted Nano S emulator using [speculos](https://github.com/LedgerHQ/speculos) via Docker.
 
-The singular test names may be found in `./tests/src/*/*.test.json`.
+Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
 
-*Note: Sometimes, batched tests may fail, it is recommended to launch a singular test for the failed one to make sure the error does not come from the ZEMU tester.*
+`pip3 install ledgerblue`
 
+Add these aliases.
 
-# Plugin edit and rework:
+`speculos='docker run --rm -it -v <path>/plugin_dev/nested-ledger-plugin/tests/elfs:/speculos/apps -p 5000:5000 --publish 41000:41000 speculos --display headless --vnc-port 41000 --apdu-port 41000 apps/ethereum_nanos.elf -l Nested:apps/nested_nanos.elf'`
 
-The plugin has 3 basic components for minor edits and rework:
-1. The text.h header file.
-2. The screen function calls.
-3. The number of screens.
+`ledgerspec='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | LEDGER_PROXY_ADDRESS=127.0.0.1 LEDGER_PROXY_PORT=41000 python3 -m ledgerblue.runScript --apdu'`
 
-## 1. The text.h header file:
+In a new terminal window enter:
 
-This file contains all the strings to be displayed by the plugin.
+`speculos`
 
-These strings, set by macros and functions, are divided in three categories:
-* TITLE (top)
-* MSG (bottom)
-* Utilitary functions (for displaying addresses, tickers, amounts, etc).
+Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a Nano S.
 
-You can find the utilitary functions in `./src/text_utils.c`.
+In another terminal window type:
 
-The strings are to be copied into `msg->title` and `msg->msg` from the `EthQueryContractUI_t *msg` structure.
+`ledgerspec transferFrom`
 
-## 2. The screen function calls:
+The emulating page should display a Nested NFT transfer transaction.
+
+More information on the [speculos doc page](https://speculos.ledger.com/).
+
+*Note: You must have previously killed other running speculos terminals.*
+
+## Testing by sideloading:
+
+It is also possible to sideload the plugin into a Nano S by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
+
+This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
+
+`pip3 install ledgerblue`
+
+Clone the apropriate repositories.
+
+Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
+
+Plug and unlock the device and enter in the terminal:
+
+`cd <path>/app-ethereum`
+
+`make load BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
+
+Follow the steps displayed on the ledger.
+
+Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
+
+`cd ../nested-ledger-plugin/`
+
+`make load BOLOS_SDK=$NANOS_SDK` to load the plugin.
+
+Send APDU's to the ledger with this alias:
+
+`ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
+
+Open the plugin.
+
+`ledger transferFrom` to send the APDU's contained in the file to the ledger.
+
+# Plugin modifications:
+
+## Basic modifications:
+
+The plugin has 3 basic components for modifications:
+
+1. Number of screens.
+2. Screen function calls.
+3. String macros and functions.
+
+### 1. Number of screens:
+There are two variables that can set the screen number.
+
+In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed.
+
+In `./src/handle_provide_token.c` the `msg->additionalScreens` variable increases the previously set screen number.
+
+Both are summed into `msg->screenIndex` which is used to scroll through screens.
+
+### 2. Screen function calls:
 
 There are two functions where the screen strings are set.
 
 #### ID screen:
 The first screen is the ID screen, set in `./src/handle_query_contract_id.c`.
 
-The title string is the plugin name.
-The message strings are defined in `text.h`.
-
 *Note: It is not included in the amount of screens of `msg->screenIndex`.*
 
 #### UI screens:
+ 
 These screens are set in `./src/handle_query_contract_ui.c`. 
 
-Each action called by the user has a respective function that sets the text.
+Edit the `switch(msg->screenIndex)` cases of `handle_<name-of-action>_ui()` functions if needed.
 
-Edit the cases of `handle_*_ui()` functions to switch places to macros and functions.
+### 3. String macros and functions:
 
-## 3. Number of screens:
-There are two functions/files that can set the screen number.
+The strings displayed by the plugin are set by macros and functions.
+ 
+ #### Macros:
 
-In `./src/handle_finalize.c` the `msg->numScreens` variable defines how many screens will be displayed (excluding the ID screen).
+* `TITLE_<NAME_OF_ACTION>_SCREEN_#_UI` (top)
+* `MSG_<NAME_OF_ACTION>_SCREEN_#_UI` (bottom)
 
-In `./src/handle_provide_token.c` the `msg->additionScreens` variable allows to edit the previously set screen number.
+Edit these in `./src/text.h` to modify the strings displayed to the user.
 
-## Load the plugin into a NanoS
+ #### Functions:
 
-You may also manually load the plugin into a NanoS (only) by following this [guide](https://developers.ledger.com/docs/nano-app/load/).
+These utilitary functions are used for displaying addresses, tickers, amounts, etc.
 
-*Note: If you choose to load with ledgerblue, you may find an APDU for a transaction in `./apdus/transferFrom`. Use it to make sure the plugin doesn't blind-sign.*
+They are located in in `./src/text_utils.c`.
+
+## Advanced modifications:
+
+Follow this [guide](https://developers.ledger.com/docs/dapp/nano-plugin/selectors/) to further modify the plugin.
+
+# Deployment
+
+Visit this [page](https://developers.ledger.com/docs/nano-app/requirements-intro/) to make sure the plugin meets the standards and you have completed all the steps necessary for deployment.
