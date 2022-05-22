@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: binaries
-          path: tests/elfs/plugin_nanos.elf
+          path: tests/elfs/nested_nanos.elf
   
 
   job_build_plugin_debug_nano_sp:
@@ -150,7 +150,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: binaries
-          path: tests/elfs/plugin_nanox.elf
+          path: tests/elfs/nested_nanox.elf
 
   job_build_ethereum_nano_s:
     name: Build Ethereum application for Nano S testing
