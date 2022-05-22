@@ -28,7 +28,7 @@ jobs:
         run: |
           make clean
           make BOLOS_SDK=$NANOS_SDK
-  
+
   job_build_plugin_nano_sp:
     name: Build plugin for Nano S Plus
     runs-on: ubuntu-latest
@@ -88,13 +88,12 @@ jobs:
       - name: Move binary to test directory
         run: |
           mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/plugin_nanos.elf
+          mv bin/app.elf ./tests/elfs/nested_nanos.elf
       - name: Upload plugin binary
         uses: actions/upload-artifact@v2
         with:
           name: binaries
           path: tests/elfs/nested_nanos.elf
-  
 
   job_build_plugin_debug_nano_sp:
     name: Build plugin for Nano S Plus testing
@@ -145,7 +144,7 @@ jobs:
       - name: Move binary to test directory
         run: |
           mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/plugin_nanox.elf
+          mv bin/app.elf ./tests/elfs/nested_nanox.elf
       - name: Upload plugin binary
         uses: actions/upload-artifact@v2
         with:
@@ -177,7 +176,7 @@ jobs:
         with:
           name: binaries
           path: tests/elfs/ethereum_nanos.elf
-  
+
   job_build_ethereum_nano_sp:
     name: Build Ethereum application for Nano S Plus testing
     runs-on: ubuntu-latest
@@ -232,7 +231,15 @@ jobs:
 
   jobs-e2e-tests:
     name: E2E Tests
-    needs: [job_build_plugin_debug_nano_s, job_build_plugin_debug_nano_sp, job_build_plugin_debug_nano_x, job_build_ethereum_nano_s, job_build_ethereum_nano_sp, job_build_ethereum_nano_x]
+    needs:
+      [
+        job_build_plugin_debug_nano_s,
+        job_build_plugin_debug_nano_sp,
+        job_build_plugin_debug_nano_x,
+        job_build_ethereum_nano_s,
+        job_build_ethereum_nano_sp,
+        job_build_ethereum_nano_x,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Test
