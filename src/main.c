@@ -37,7 +37,7 @@ static const uint32_t DESTROY_SELECTOR = 0xbba9b10c;
 static const uint32_t RELEASE_TOKENS_SELECTOR = 0x6d9634b7;
 static const uint32_t TRANSFER_FROM_SELECTOR = 0x23b872dd;
 
-// Array of all the different boilerplate selectors. Make sure this follows the same order as the
+// Array of all the different plugin selectors. Make sure this follows the same order as the
 // enum defined in `nested_plugin.h`
 const uint32_t NESTED_SELECTORS[NUM_SELECTORS] = {
     CREATE_SELECTOR,

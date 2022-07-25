@@ -2,7 +2,7 @@
 #define PLUGIN_NAME "Nested"
 
 // Use this header file to simply modify the strings displayed.
-// TITLE and MSG strings are respectively are listed by order of appearance and used for the top and bottom text displays in the UI screen.
+// TITLE and MSG strings are respectively listed by order of appearance and used for the top and bottom text displays in the UI screen.
 
 /* handle_query_contract_id.c strings */
 
