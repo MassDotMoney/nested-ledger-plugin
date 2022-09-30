@@ -112,7 +112,8 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
       PRINTF("copie token1 amount: %.*H\n", PARAMETER_LENGTH,
              context->token1_amount);
     }
-    context->current_length--;
+    if (context->current_length)
+      context->current_length--;
     // skip context->next_param++;
     if (context->current_length)
       return;
@@ -129,7 +130,8 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
   case BOO__OFFSET_ARRAY_ORDERS:
     PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n",
            context->current_length);
-    context->current_length--;
+    if (context->current_length)
+      context->current_length--;
     // copy last order, matching b2c
     if (context->current_length == 0) {
       PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
@@ -192,7 +194,8 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
     break;
   case BIO__OFFSET_ARRAY_ORDERS:
     PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
-    context->current_length--;
+    if (context->current_length)
+      context->current_length--;
     // is on last order's offset to match b2c
     if (context->current_length == 0) {
       PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");

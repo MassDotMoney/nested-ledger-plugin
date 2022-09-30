@@ -51,7 +51,8 @@ static void handle_create(ethPluginProvideParameter_t *msg,
     context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
     break;
   case CREATE__OFFSET_ARRAY_BIO:
-    context->current_length--;
+    if (context->current_length)
+      context->current_length--;
     PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n", context->current_length);
     // is on last offset.
     if (context->current_length == 0) {
@@ -142,7 +143,8 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg,
       PRINTF("Copied to token1_address: %.*H\n", ADDRESS_LENGTH,
              context->token1_address);
     }
-    context->current_length--;
+    if (context->current_length)
+      context->current_length--;
     // is last array element && multiple tokens
     if (context->number_of_tokens > 1 && context->current_length == 0) {
       PRINTF("RELEASE copy last token address.\n");
