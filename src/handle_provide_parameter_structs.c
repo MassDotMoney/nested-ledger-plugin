@@ -97,9 +97,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
     break;
   case BOO__FROM_RESERVE:
     PRINTF("parse BOO__FROM_RESERVE\n");
-    // Get from_reserve, but we don't use it for now.
-    if (U4BE(msg->parameter, PARAMETER_LENGTH - 4))
-      context->booleans |= IS_FROM_RESERVE;
     break;
   case BOO__LEN_AMOUNTS:
     PRINTF("parse BOO__LEN_AMOUNTS\n");
@@ -183,9 +180,6 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
     break;
   case BIO__FROM_RESERVE:
     PRINTF("parse BIO__FROM_RESERVE\n");
-    // Get from_reserve, but we don't use it for now.
-    if (U4BE(msg->parameter, PARAMETER_LENGTH - 4))
-      context->booleans |= IS_FROM_RESERVE;
     break;
   case BIO__LEN_ORDERS:
     PRINTF("parse BIO__LEN_ORDERS\n");
