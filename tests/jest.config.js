@@ -35,5 +35,5 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
 
   // Stop immediatly when a test fail
-  bail: true,
+  bail: false,
 };
