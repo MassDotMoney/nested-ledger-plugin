@@ -122,7 +122,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg,
     // Switch to order's parsing
     context->on_struct = (on_struct)S_ORDER;
     context->next_param = (order)ORDER__OPERATOR;
-    return;
+    break;
   default:
     PRINTF("Param not supported: %d\n", context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;
@@ -163,7 +163,7 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg,
              context->token2_address);
     }
     PRINTF("RELEASE_TOKENS token index: %d\n", context->current_length);
-    return;
+    break;
   default:
     PRINTF("Param not supported: %d\n", context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;

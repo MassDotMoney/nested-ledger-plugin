@@ -41,8 +41,6 @@ void handle_init_contract(void *parameters) {
 
   // Initialize the context (to 0).
   memset(context, 0, sizeof(*context));
-  // Set current offset to the method id size
-  context->current_tuple_offset = SELECTOR_SIZE;
 
   // Find tx selector
   uint32_t selector = U4BE(msg->selector, 0);

@@ -31,6 +31,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     PRINTF("parse ORDER__OPERATOR\n");
     context->current_tuple_offset = msg->parameterOffset;
     PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
+    context->next_param = (order)ORDER__TOKEN_ADDRESS;
     break;
   case ORDER__TOKEN_ADDRESS:
     PRINTF("parse ORDER__TOKEN_ADDRESS\n");
@@ -48,9 +49,11 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
                context->token2_address);
       }
     }
+    context->next_param = (order)ORDER__OFFSET_CALLDATA;
     break;
   case ORDER__OFFSET_CALLDATA:
     PRINTF("parse ORDER__OFFSET_CALLDATA\n");
+    context->next_param = (order)ORDER__LEN_CALLDATA;
     break;
   case ORDER__LEN_CALLDATA:
     PRINTF("parse ORDER__LEN_CALLDATA\n");
@@ -63,15 +66,15 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
       PRINTF("setting last_calldata_offset: %d\n",
              context->last_calldata_offset);
     }
+    context->next_param = (order)ORDER__CALLDATA;
     break;
   case ORDER__CALLDATA:
-    return;
+    break;
   default:
     PRINTF("order's param not supported: %d\n", context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 /**
@@ -88,20 +91,25 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
            context->token2_address);
     context->current_tuple_offset = msg->parameterOffset;
     PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
+    context->next_param = (batch_output_orders)BOO__OFFSET_AMOUNTS;
     break;
   case BOO__OFFSET_AMOUNTS:
     PRINTF("parse BOO__OFFSET_AMOUNTS\n");
+    context->next_param = (batch_output_orders)BOO__OFFSET_ORDERS;
     break;
   case BOO__OFFSET_ORDERS:
     PRINTF("parse BOO__OFFSET_ORDERS\n");
+    context->next_param = (batch_output_orders)BOO__FROM_RESERVE;
     break;
   case BOO__FROM_RESERVE:
     PRINTF("parse BOO__FROM_RESERVE\n");
+    context->next_param = (batch_output_orders)BOO__LEN_AMOUNTS;
     break;
   case BOO__LEN_AMOUNTS:
     PRINTF("parse BOO__LEN_AMOUNTS\n");
     context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
     PRINTF("setting current_length: %d\n", context->current_length);
+    context->next_param = (batch_output_orders)BOO__AMOUNT;
     break;
   case BOO__AMOUNT:
     PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length);
@@ -114,9 +122,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
     }
     if (context->current_length)
       context->current_length--;
-    // skip context->next_param++;
-    if (context->current_length)
-      return;
+    // skip until last amount
+    if (context->current_length == 0)
+      context->next_param = (batch_output_orders)BOO__LEN_ORDERS;
     break;
   case BOO__LEN_ORDERS:
     PRINTF("parse BOO__LEN_ORDERS\n");
@@ -126,6 +134,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
     PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
     context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
     PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
+    context->next_param = (batch_output_orders)BOO__OFFSET_ARRAY_ORDERS;
     break;
   case BOO__OFFSET_ARRAY_ORDERS:
     PRINTF("parse BOO__OFFSET_ARRAY_ORDERS, index: %d\n",
@@ -142,15 +151,13 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg,
       context->on_struct = (on_struct)S_ORDER;
       context->next_param = (order)ORDER__OPERATOR;
     }
-    // skip context->next_param++;
-    return;
+    break;
   default:
     PRINTF("batch_output_orders's param not supported: %d\n",
            context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 /**
@@ -169,6 +176,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
     context->current_tuple_offset = msg->parameterOffset;
     PRINTF("parse BIO__INPUTTOKEN, NEW TUPLE_OFFSET: %d\n",
            context->current_tuple_offset);
+    context->next_param = (batch_input_orders)BIO__AMOUNT;
     break;
   case BIO__AMOUNT:
     PRINTF("parse BIO__AMOUNT\n");
@@ -176,12 +184,15 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
                    sizeof(context->token1_amount));
     PRINTF("get token1_amount: %.*H\n", PARAMETER_LENGTH,
            context->token1_amount);
+    context->next_param = (batch_input_orders)BIO__OFFSET_ORDERS;
     break;
   case BIO__OFFSET_ORDERS:
     PRINTF("parse BIO__OFFSET_ORDERS\n");
+    context->next_param = (batch_input_orders)BIO__FROM_RESERVE;
     break;
   case BIO__FROM_RESERVE:
     PRINTF("parse BIO__FROM_RESERVE\n");
+    context->next_param = (batch_input_orders)BIO__LEN_ORDERS;
     break;
   case BIO__LEN_ORDERS:
     PRINTF("parse BIO__LEN_ORDERS\n");
@@ -191,6 +202,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
     PRINTF("setting current_length: %d\n", context->current_length);
     context->current_tuple_offset = msg->parameterOffset + PARAMETER_LENGTH;
     PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
+    context->next_param = (batch_input_orders)BIO__OFFSET_ARRAY_ORDERS;
     break;
   case BIO__OFFSET_ARRAY_ORDERS:
     PRINTF("parse BIO__OFFSET_ARRAY_ORDERS\n");
@@ -206,13 +218,11 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg,
       context->on_struct = (on_struct)S_ORDER;
       context->next_param = (order)ORDER__OPERATOR;
     }
-    // skip context->next_param++;
-    return;
+    break;
   default:
     PRINTF("batch_input_orders's param not supported: %d\n",
            context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
