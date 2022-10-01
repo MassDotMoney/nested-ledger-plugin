@@ -39,16 +39,19 @@ static void handle_create(ethPluginProvideParameter_t *msg,
     if (context->selectorIndex == CREATE)
       check_token_id(msg, context);
     // We could get 'tokenId' here
+    context->next_param = (create_parameter)CREATE__OFFSET_BIO;
     break;
   case CREATE__OFFSET_BIO:
     PRINTF("CREATE__OFFSET_BIO\n");
     // No need to copy the offset here, because it's always the next parameter
+    context->next_param = (create_parameter)CREATE__LEN_BIO;
     break;
   case CREATE__LEN_BIO:
     PRINTF("CREATE__LEN_BIO\n");
     // For now, there is always 1 batchOrder in each Tx, we will parse the last
     // one if there are multiple batchOrders
     context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
+    context->next_param = (create_parameter)CREATE__OFFSET_ARRAY_BIO;
     break;
   case CREATE__OFFSET_ARRAY_BIO:
     if (context->current_length)
@@ -73,13 +76,12 @@ static void handle_create(ethPluginProvideParameter_t *msg,
         break;
       }
     }
-    return;
+    break;
   default:
     PRINTF("Param not supported: %d\n", context->next_param);
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 static void handle_destroy(ethPluginProvideParameter_t *msg,
@@ -92,21 +94,25 @@ static void handle_destroy(ethPluginProvideParameter_t *msg,
   switch ((destroy_parameter)context->next_param) {
   case DESTROY__TOKEN_ID:
     PRINTF("DESTROY TOKEN ID\n");
+    context->next_param = (destroy_parameter)DESTROY__BUY_TOKEN;
     break;
   case DESTROY__BUY_TOKEN:
     PRINTF("DESTROY BUY TOKEN\n");
     copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
     PRINTF("Copied buyToken to token1_address: %.*H\n", ADDRESS_LENGTH,
            context->token1_address);
+    context->next_param = (destroy_parameter)DESTROY__OFFSET_ORDERS;
     break;
   case DESTROY__OFFSET_ORDERS:
     PRINTF("DESTROY OFFSET ORDERS\n");
     // No need to copy the offset here, because it's always the next parameter
+    context->next_param = (destroy_parameter)DESTROY__LEN_ORDERS;
     break;
   case DESTROY__LEN_ORDERS:
     PRINTF("DESTROY LEN ORDERS\n");
     context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
     PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
+    context->next_param = (destroy_parameter)DESTROY__ORDERS;
     break;
   case DESTROY__ORDERS:
     PRINTF("DESTROY ORDERS");
@@ -122,7 +128,6 @@ static void handle_destroy(ethPluginProvideParameter_t *msg,
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 static void handle_release_tokens(ethPluginProvideParameter_t *msg,
@@ -131,12 +136,14 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg,
   case RELEASE__OFFSET_TOKENS:
     PRINTF("RELEASE__OFFSET_TOKENS\n");
     // No need to copy the offset here, because it's always the next parameter
+    context->next_param = (release_tokens_parameter)RELEASE__LEN_TOKENS;
     break;
   case RELEASE__LEN_TOKENS:
     PRINTF("RELEASE__LEN_TOKENS\n");
     context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
     PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
     context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
+    context->next_param = (release_tokens_parameter)RELEASE__ARRAY_TOKENS;
     break;
   case RELEASE__ARRAY_TOKENS:
     // is first array element
@@ -162,16 +169,17 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg,
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 static void handle_transfer_from(ethPluginProvideParameter_t *msg,
                                  context_t *context) {
   switch ((transfer_from_parameter)context->next_param) {
   case TRANSFER_FROM__FROM:
+    context->next_param = (transfer_from_parameter)TRANSFER_FROM__TO;
     break;
   case TRANSFER_FROM__TO:
     copy_address(context->token1_address, msg->parameter, ADDRESS_LENGTH);
+    context->next_param = (transfer_from_parameter)TRANSFER_FROM__TOKEN_ID;
     break;
   case TRANSFER_FROM__TOKEN_ID:
     break;
@@ -180,7 +188,6 @@ static void handle_transfer_from(ethPluginProvideParameter_t *msg,
     msg->result = ETH_PLUGIN_RESULT_ERROR;
     break;
   }
-  context->next_param++;
 }
 
 void handle_provide_parameter(void *parameters) {
