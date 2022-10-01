@@ -110,6 +110,9 @@ static void handle_destroy(ethPluginProvideParameter_t *msg,
     break;
   case DESTROY__ORDERS:
     PRINTF("DESTROY ORDERS");
+    // Skip order's parsing if it is empty
+    if (context->number_of_tokens == 0)
+      return;
     // Switch to order's parsing
     context->on_struct = (on_struct)S_ORDER;
     context->next_param = (order)ORDER__OPERATOR;

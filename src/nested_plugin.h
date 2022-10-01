@@ -145,7 +145,7 @@ typedef struct __attribute__((__packed__)) context_t {
   uint16_t current_length; // is the length of the current array
   uint16_t target_offset;  // is the offset of the parameter we want to parse
   uint32_t current_tuple_offset; // is the value from which a given offset is
-                                 // calculated
+                                 // calculated (in nested sturctures)
   uint32_t last_calldata_offset; // is the offset of the last order's calldata
                                  // end, just before the last byte of the Tx
   uint8_t number_of_tokens; // is the number of tokens found, this is not always
