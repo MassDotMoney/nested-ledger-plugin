@@ -22,7 +22,7 @@ endif
 include $(BOLOS_SDK)/Makefile.defines
 
 # EDIT THIS: Put your plugin name
-APPNAME = "Nested"
+APPNAME = "nested"
 
 ifeq ($(ETHEREUM_PLUGIN_SDK),)
 ETHEREUM_PLUGIN_SDK=ethereum-plugin-sdk
@@ -39,9 +39,9 @@ APPVERSION       = "$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)"
 
 # EDIT THIS: Change the name of the gif, and generate you own GIFs!
 ifeq ($(TARGET_NAME), TARGET_NANOS)
-ICONNAME=icons/nanos_app_nested.gif
+ICONNAME=icons/nanos_app_opensea.gif
 else
-ICONNAME=icons/nanox_app_nested.gif
+ICONNAME=icons/nanox_app_opensea.gif
 endif
 
 ################
@@ -83,8 +83,23 @@ endif
 # Enabling debug PRINTF
 DEBUG:= 0
 ifneq ($(DEBUG),0)
-        DEFINES += HAVE_SEMIHOSTED_PRINTF PRINTF=semihosted_printf
-        CFLAGS  += -include src/dbg/debug.h
+				DEFINES += HAVE_STACK_OVERFLOW_CHECK
+        SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl lib_u2f
+        DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=4 IO_HID_EP_LENGTH=64 HAVE_USB_APDU
+				DEFINES += DBG_PLUGIN
+ 
+        ifeq ($(DEBUG),10)
+                $(warning Using semihosted PRINTF. Only run with speculos!)
+                CFLAGS    += -include src/dbg/debug.h
+                DEFINES   += HAVE_PRINTF PRINTF=semihosted_printf
+        else
+                ifeq ($(TARGET_NAME),TARGET_NANOS)
+                        DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+                else
+                        DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
+                endif
+ 
+        endif
 else
         DEFINES += PRINTF\(...\)=
 endif
@@ -149,5 +164,4 @@ include $(BOLOS_SDK)/Makefile.rules
 dep/%.d: %.c Makefile
 
 listvariants:
-        # EDIT THIS: replace `nested` by the lowercase name of your plugin
-	@echo VARIANTS NONE nested
+	@echo VARIANTS NONE opensea
