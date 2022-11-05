@@ -35,8 +35,9 @@ void handle_finalize(void *parameters) {
     case NONE:
     default:
       PRINTF("Error: could not find ui selector.\n");
-      msg->result = ETH_PLUGIN_RESULT_ERROR;
-      return;
+      // msg->result = ETH_PLUGIN_RESULT_ERROR;
+      // return;
+      break; // TODO
     }
     break;
   default:

@@ -137,15 +137,16 @@ typedef enum {
 // We can add 5 more booleans
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-// 124 / 160
+// 119 / 160
 typedef struct __attribute__((__packed__)) context_t {
   uint8_t on_struct;
   uint8_t next_param;
   uint32_t next_offset;    // is the value of the next target offset
   uint16_t current_length; // is the length of the current array
   uint16_t target_offset;  // is the offset of the parameter we want to parse
-  uint32_t current_tuple_offset; // is the value from which a given offset is
-                                 // calculated (in nested sturctures)
+  uint32_t current_tuple_offset; // is the value from which a given structure's
+                                 // offset is calculated in nested structures,
+                                 // it is set when 'indentation' increase.
   uint32_t last_calldata_offset; // is the offset of the last order's calldata
                                  // end, just before the last byte of the Tx
   uint8_t number_of_tokens; // is the number of tokens found, this is not always
