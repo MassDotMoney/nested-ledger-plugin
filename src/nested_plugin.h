@@ -53,6 +53,8 @@ typedef enum {
   SELL_TOKENS,
   WITHDRAW,
   SWAP,
+  BUY,
+  EDIT_ALLOC,
 } ui_selector;
 
 /*

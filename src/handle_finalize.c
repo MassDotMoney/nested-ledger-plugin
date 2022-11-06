@@ -9,6 +9,8 @@ void handle_finalize(void *parameters) {
   // set default numScreens
   msg->numScreens = 2;
 
+  PRINTF("PENZO Finalize: ui_selector = %d\n", context->ui_selector);
+
   // Determine screens count.
   switch ((selector_t)context->selectorIndex) {
   case RELEASE_TOKENS:
@@ -25,6 +27,8 @@ void handle_finalize(void *parameters) {
     case DEPOSIT:
     case WITHDRAW:
     case SYNCHRONIZATION:
+    case EDIT_ALLOC:
+      // case PROPORT_DEPOSIT:
       msg->numScreens = 1;
       break;
     case ADD_TOKENS:

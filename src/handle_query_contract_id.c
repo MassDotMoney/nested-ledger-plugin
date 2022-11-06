@@ -24,8 +24,18 @@ void handle_query_contract_id(void *parameters) {
       strlcpy(msg->version, MSG_ADD_TOKEN_ID, msg->versionLength);
     else if (context->ui_selector == DEPOSIT)
       strlcpy(msg->version, MSG_DEPOSIT_ID, msg->versionLength);
+    else if (context->ui_selector == EDIT_ALLOC)
+      strlcpy(msg->version, "Edit allocations", msg->versionLength);
+    else if (context->ui_selector == SWAP)
+      strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
+    else if (context->ui_selector == WITHDRAW)
+      strlcpy(msg->version, "Proportional withdrawing", msg->versionLength);
     else if (context->ui_selector == SYNCHRONIZATION)
       strlcpy(msg->version, MSG_SYNCHRONIZATION_ID, msg->versionLength);
+    else if (context->ui_selector == BUY)
+      strlcpy(msg->version, "Buy", msg->versionLength);
+    else if (context->ui_selector == SELL_TOKENS)
+      strlcpy(msg->version, MSG_SELL_TOKENS_ID, msg->versionLength);
     else {
       PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
       msg->result = ETH_PLUGIN_RESULT_ERROR;

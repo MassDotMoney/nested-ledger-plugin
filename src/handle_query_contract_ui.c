@@ -238,12 +238,17 @@ void handle_query_contract_ui(void *parameters) {
       handle_create_ui(msg, context);
     break;
   case PROCESS_INPUT_ORDERS:
-    if (context->ui_selector == ADD_TOKENS)
+    if (context->ui_selector == ADD_TOKENS || context->ui_selector == BUY)
       handle_add_tokens_ui(msg, context);
-    else if (context->ui_selector == DEPOSIT)
+    else if (context->ui_selector == DEPOSIT ||
+             context->ui_selector == EDIT_ALLOC)
       handle_deposit_ui(msg, context);
     else if (context->ui_selector == SYNCHRONIZATION)
       handle_synchronization_ui(msg);
+    else if (context->ui_selector == SELL_TOKENS)
+      handle_sell_tokens_ui(msg, context);
+    else if (context->ui_selector == SWAP)
+      handle_swap_ui(msg, context);
     else {
       PRINTF("Error in handle_query_contract_ui's ui_selector switch\n");
       msg->result = ETH_PLUGIN_RESULT_ERROR;
