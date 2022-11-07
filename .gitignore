@@ -9,7 +9,7 @@ DS_Store/
 **/.DS_Store
 **.swp
 Save*
-.clangformat
 
 tags
 tests/src/dummy.test.js
+tests/src/dummy.js
