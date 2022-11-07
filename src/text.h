@@ -8,17 +8,17 @@
 /* handle_query_contract_id.c strings */
 
 // TITLE string for 1st UI is PLUGIN_NAME.
-#define MSG_CREATE_ID "Create Portfolio"
-#define MSG_COPY_ID "Replicate a Portfolio"
-#define MSG_CLAIM_ID "Claim Royalties"
-#define MSG_DESTROY_ID "Sell Portfolio"
-#define MSG_TRANSFER_FROM_ID "Send Portfolio"
-#define MSG_ADD_TOKEN_ID "Add tokens"
-#define MSG_DEPOSIT_ID "Deposit"
+#define MSG_CREATE_ID          "Create Portfolio"
+#define MSG_COPY_ID            "Replicate a Portfolio"
+#define MSG_CLAIM_ID           "Claim Royalties"
+#define MSG_DESTROY_ID         "Sell Portfolio"
+#define MSG_TRANSFER_FROM_ID   "Send Portfolio"
+#define MSG_ADD_TOKEN_ID       "Add tokens"
+#define MSG_DEPOSIT_ID         "Deposit"
 #define MSG_SYNCHRONIZATION_ID "Synchronization"
-#define MSG_SWAP_ID "Swap"
-#define MSG_WITHDRAW_ID "Withdraw"
-#define MSG_SELL_TOKENS_ID "Sell Tokens"
+#define MSG_SWAP_ID            "Swap"
+#define MSG_WITHDRAW_ID        "Withdraw"
+#define MSG_SELL_TOKENS_ID     "Sell Tokens"
 
 /* handle_query_contract_ui.c strings */
 
@@ -55,7 +55,7 @@
 /// SYNCHRONIZATION ///
 
 #define TITLE_SYNCHRONIZATION_SCREEN_1_UI "Updating"
-#define MSG_SYNCHRONIZATION_SCREEN_1_UI "porfolio."
+#define MSG_SYNCHRONIZATION_SCREEN_1_UI   "porfolio."
 
 /// DEPOSIT ///
 

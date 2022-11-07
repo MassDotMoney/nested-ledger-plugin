@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAX_TICKER_LEN 12 // 10 characters + ' ' + '\0'
+#define MAX_TICKER_LEN 12  // 10 characters + ' ' + '\0'
 
 #define ADDRESS_LENGTH 20
 
@@ -23,9 +23,8 @@
 
 #define COLLECTION_NAME_MAX_LEN 70
 
-typedef struct tokenDefinition_t
-{
-    uint8_t address[ADDRESS_LENGTH]; // must be first item
+typedef struct tokenDefinition_t {
+    uint8_t address[ADDRESS_LENGTH];  // must be first item
 #ifdef HAVE_CONTRACT_NAME_IN_DESCRIPTOR
     uint8_t contractName[ADDRESS_LENGTH];
 #endif
@@ -33,16 +32,14 @@ typedef struct tokenDefinition_t
     uint8_t decimals;
 } tokenDefinition_t;
 
-typedef struct txInt256_t
-{
+typedef struct txInt256_t {
     uint8_t value[INT256_LENGTH];
     uint8_t length;
 } txInt256_t;
 
-typedef struct txContent_t
-{
-    txInt256_t gasprice; // Used as MaxFeePerGas when dealing with EIP1559 transactions.
-    txInt256_t startgas; // Also known as `gasLimit`.
+typedef struct txContent_t {
+    txInt256_t gasprice;  // Used as MaxFeePerGas when dealing with EIP1559 transactions.
+    txInt256_t startgas;  // Also known as `gasLimit`.
     txInt256_t value;
     txInt256_t nonce;
     txInt256_t chainID;
@@ -53,25 +50,20 @@ typedef struct txContent_t
     bool dataPresent;
 } txContent_t;
 
-typedef struct nftInfo_t
-{
-    uint8_t contractAddress[ADDRESS_LENGTH]; // must be first item
+typedef struct nftInfo_t {
+    uint8_t contractAddress[ADDRESS_LENGTH];  // must be first item
     char collectionName[COLLECTION_NAME_MAX_LEN + 1];
 } nftInfo_t;
 
-typedef union extraInfo_t
-{
+typedef union extraInfo_t {
     tokenDefinition_t token;
     nftInfo_t nft;
 } extraInfo_t;
 
-static __attribute__((no_instrument_function)) inline int allzeroes(void *buf, size_t n)
-{
-    uint8_t *p = (uint8_t *)buf;
-    for (size_t i = 0; i < n; ++i)
-    {
-        if (p[i])
-        {
+static __attribute__((no_instrument_function)) inline int allzeroes(void *buf, size_t n) {
+    uint8_t *p = (uint8_t *) buf;
+    for (size_t i = 0; i < n; ++i) {
+        if (p[i]) {
             return 0;
         }
     }
