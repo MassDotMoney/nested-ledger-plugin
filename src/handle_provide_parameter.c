@@ -50,7 +50,11 @@ static void handle_create(ethPluginProvideParameter_t *msg,
     PRINTF("CREATE__LEN_BIO\n");
     // For now, there is always 1 batchOrder in each Tx, we will parse the last
     // one if there are multiple batchOrders
-    context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
+    if (copy_number(&context->current_length, msg->parameter,
+                    PARAMETER_LENGTH)) {
+      msg->result = ETH_PLUGIN_RESULT_ERROR;
+      return;
+    }
     context->next_param = (create_parameter)CREATE__OFFSET_ARRAY_BIO;
     break;
   case CREATE__OFFSET_ARRAY_BIO:
@@ -110,7 +114,12 @@ static void handle_destroy(ethPluginProvideParameter_t *msg,
     break;
   case DESTROY__LEN_ORDERS:
     PRINTF("DESTROY LEN ORDERS\n");
-    context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
+    // context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
+    if (copy_number(&context->number_of_tokens, msg->parameter,
+                    PARAMETER_LENGTH)) {
+      msg->result = ETH_PLUGIN_RESULT_ERROR;
+      return;
+    }
     PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
     context->next_param = (destroy_parameter)DESTROY__ORDERS;
     break;
@@ -140,9 +149,17 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg,
     break;
   case RELEASE__LEN_TOKENS:
     PRINTF("RELEASE__LEN_TOKENS\n");
-    context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
+    if (copy_number(&context->number_of_tokens, msg->parameter,
+                    PARAMETER_LENGTH)) {
+      msg->result = ETH_PLUGIN_RESULT_ERROR;
+      return;
+    }
     PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
-    context->current_length = U2BE(msg->parameter, PARAMETER_LENGTH - 2);
+    if (copy_number(&context->current_length, msg->parameter,
+                    PARAMETER_LENGTH)) {
+      msg->result = ETH_PLUGIN_RESULT_ERROR;
+      return;
+    }
     context->next_param = (release_tokens_parameter)RELEASE__ARRAY_TOKENS;
     break;
   case RELEASE__ARRAY_TOKENS:

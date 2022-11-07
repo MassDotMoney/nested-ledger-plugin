@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "eth_internals.h"
 #include "eth_plugin_interface.h"
+#include <stdint.h>
 #include <string.h>
 
 // Number of decimals used when the token wasn't found in the Crypto Asset List.
@@ -140,27 +141,31 @@ typedef enum {
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 // 119 / 160
-typedef struct __attribute__((__packed__)) context_t {
-  uint8_t on_struct;
-  uint8_t next_param;
-  uint32_t next_offset;    // is the value of the next target offset
-  uint16_t current_length; // is the length of the current array
-  uint16_t target_offset;  // is the offset of the parameter we want to parse
+typedef struct context_t {
+  uint32_t next_offset; // is the value of the next target offset
+  // it is set when 'indentation' increase.
   uint32_t current_tuple_offset; // is the value from which a given structure's
                                  // offset is calculated in nested structures,
-                                 // it is set when 'indentation' increase.
+
   uint32_t last_calldata_offset; // is the offset of the last order's calldata
                                  // end, just before the last byte of the Tx
-  uint8_t number_of_tokens; // is the number of tokens found, this is not always
-                            // the number of all tokens include in the Tx
+  uint32_t target_offset; // is the offset of the parameter we want to parse
+
+  uint8_t token1_amount[INT256_LENGTH];
+  uint16_t current_length; // is the length of the current array
+
   /** token1 is often the input token */
   uint8_t token1_address[ADDRESS_LENGTH];
-  uint8_t token1_amount[INT256_LENGTH];
   uint8_t token1_decimals;
   char token1_ticker[MAX_TICKER_LEN];
   /** token2 is the output token */
   uint8_t token2_address[ADDRESS_LENGTH];
   char token2_ticker[MAX_TICKER_LEN];
+
+  uint8_t on_struct;
+  uint8_t next_param;
+  uint8_t number_of_tokens; // is the number of tokens found, this is not always
+                            // the number of all tokens include in the Tx
   uint8_t ui_selector;      // ui_selector is the byte set by Nested front to
                             // determine the action
   selector_t selectorIndex; // method id
@@ -170,6 +175,20 @@ typedef struct __attribute__((__packed__)) context_t {
 // Piece of code that will check that the above structure is not bigger than 5
 // * 32. Do not remove this check.
 _Static_assert(sizeof(context_t) <= 5 * 32, "Structure of parameters too big.");
+
+#define copy_number(T, parameter, parameter_length)                            \
+  _Generic((T), uint32_t *                                                     \
+           : copy_number_uint32, uint16_t *                                    \
+           : copy_number_uint16, uint8_t *                                     \
+           : copy_number_uint8, default                                        \
+           : copy_number_uint32)(T, parameter, parameter_length)
+
+#define add_numbers(T, to_add)                                                 \
+  _Generic((T), uint32_t *                                                     \
+           : add_in_uint32, uint16_t *                                         \
+           : add_in_uint16, uint8_t *                                          \
+           : add_in_uint8, default                                             \
+           : add_in_uint32)(T, to_add)
 
 void handle_provide_parameter(void *parameters);
 void handle_query_contract_ui(void *parameters);
@@ -191,3 +210,14 @@ void msg_2tickers_ui(ethQueryContractUI_t *msg, context_t *context);
 void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context,
                           int flag);
 void msg_amount_or_address_ui(ethQueryContractUI_t *msg, context_t *context);
+
+uint8_t copy_number_uint32(uint32_t *target, const uint8_t *parameter,
+                           uint8_t parameter_length);
+uint8_t copy_number_uint16(uint16_t *target, const uint8_t *parameter,
+                           uint8_t parameter_length);
+uint8_t copy_number_uint8(uint8_t *target, const uint8_t *parameter,
+                          uint8_t parameter_length);
+
+uint8_t add_in_uint32(uint32_t *target, uint32_t to_add);
+uint8_t add_in_uint16(uint16_t *target, uint32_t to_add);
+uint8_t add_in_uint8(uint8_t *target, uint32_t to_add);
