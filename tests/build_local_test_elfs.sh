@@ -120,6 +120,12 @@ then
         echo "plugin S+ + app-eth S+"
 				build_nanosp_plugin
 				build_nanosp_appeth
+elif [ "$1" == "devices"  ]
+then
+        echo "plugin X S S+"
+				build_nanox_plugin
+				build_nanos_plugin
+				build_nanosp_plugin
 elif [ "$1" == "all"  ]
 then
         echo "plugin S+X + app-eth S+X"

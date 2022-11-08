@@ -138,7 +138,7 @@ typedef enum {
 // We can add 5 more booleans
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-// 119 / 160
+// 124/160
 typedef struct context_t {
     uint32_t next_offset;  // is the value of the next target offset
     // it is set when 'indentation' increase.
@@ -154,8 +154,8 @@ typedef struct context_t {
 
     /** token1 is often the input token */
     uint8_t token1_address[ADDRESS_LENGTH];
-    uint8_t token1_decimals;
     char token1_ticker[MAX_TICKER_LEN];
+    uint8_t token1_decimals;
     /** token2 is the output token */
     uint8_t token2_address[ADDRESS_LENGTH];
     char token2_ticker[MAX_TICKER_LEN];
