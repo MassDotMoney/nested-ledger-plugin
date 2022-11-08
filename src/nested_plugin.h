@@ -140,36 +140,51 @@ typedef enum {
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 // 124/160
 typedef struct context_t {
-    uint32_t next_offset;  // is the value of the next target offset
-    // it is set when 'indentation' increase.
-    uint32_t current_tuple_offset;  // is the value from which a given structure's
-                                    // offset is calculated in nested structures,
-
-    uint32_t last_calldata_offset;  // is the offset of the last order's calldata
-                                    // end, just before the last byte of the Tx
-    uint32_t target_offset;         // is the offset of the parameter we want to parse
-
-    uint32_t last_batch_offset;  // is the offset processInputOrder._batchedOrders.-1
-
+    /* token1 */
     uint8_t token1_amount[INT256_LENGTH];
-    uint16_t current_length;  // is the length of the current array
-
-    /** token1 is often the input token */
     uint8_t token1_address[ADDRESS_LENGTH];
     char token1_ticker[MAX_TICKER_LEN];
     uint8_t token1_decimals;
-    /** token2 is the output token */
+
+    /* token2 */
     uint8_t token2_address[ADDRESS_LENGTH];
     char token2_ticker[MAX_TICKER_LEN];
 
+    /* ui_selector is the byte set by Nested frontend to determine the action put in screen ID */
+    uint8_t ui_selector;
+
+    /* Parsing */
     uint8_t on_struct;
     uint8_t next_param;
-    uint8_t number_of_tokens;  // is the number of tokens found, this is not always
-                               // the number of all tokens include in the Tx
-    uint8_t ui_selector;       // ui_selector is the byte set by Nested front to
-                               // determine the action
+
+    /* number_of_tokens is the number of tokens found, this is not always the number of all tokens
+     * include in the Tx */
+    uint8_t number_of_tokens;
+
+    /* current_tuple_offset is set when 'indentation' increase.
+     * it is use to calculate targeted offset (to match msg->parameterOffset) on nested structures
+     */
+    uint32_t current_tuple_offset;
+
+    /* last_batch_offset is the offset processInputOrder.batchedOrders[-1] */
+    uint32_t last_batch_offset;
+
+    /* last_order_offset is the offset of the last order struct in BOO/BIO structs
+     * processInputOrder.batchedOrders[-1].orders[-1] */
+    uint32_t last_order_offset;
+
+    /* ui_selector_offset is the offset of the last byte (containing ui_selector), found after the
+     * last order */
+    uint32_t ui_selector_offset;
+
+    /* current_length is the length of the current array/bytes we are parsing */
+    uint16_t current_length;
+
+    /* Method ID */
     selector_t selectorIndex;  // method id
-    uint8_t booleans;          // bitwise booleans
+
+    /* bitwise Booleans */
+    uint8_t booleans;
 } context_t;
 
 // Piece of code that will check that the above structure is not bigger than 5

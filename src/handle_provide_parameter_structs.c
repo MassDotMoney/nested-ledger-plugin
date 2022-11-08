@@ -1,27 +1,24 @@
 #include "nested_plugin.h"
 
 /*  Get the ui selector added by Nested front-end
-    @return first byte found
-    */
+    @return first byte found */
 static uint8_t get_ui_selector(const uint8_t *parameter) {
     uint8_t i = 0;
     while (parameter[i] == 0 && i < PARAMETER_LENGTH) i++;
     return parameter[i];
 }
 
-/*
-   parse order struct
-   */
+/* parse order struct */
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     // is on last tx param, where we can find ui_selector.
-    if (context->last_calldata_offset == msg->parameterOffset) {
+    if (context->ui_selector_offset == msg->parameterOffset) {
         context->ui_selector = get_ui_selector(msg->parameter);
         PRINTF("copied ui_selector: %d\n", context->ui_selector);
-        PRINTF("last_calldata_offset: %d\n", context->last_calldata_offset);
+        PRINTF("ui_selector_offset: %d\n", context->ui_selector_offset);
         return;
     }
     // is on beginning of last order, reset next_param for parsing purposes.
-    if (context->target_offset == msg->parameterOffset) {
+    if (context->last_order_offset == msg->parameterOffset) {
         PRINTF("START LAST ORDER\n");
         context->next_param = (order) ORDER__OPERATOR;
     }
@@ -62,19 +59,26 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
             break;
         case ORDER__LEN_CALLDATA:
             PRINTF("parse ORDER__LEN_CALLDATA\n");
-            // is on last order ?
-            if (msg->parameterOffset > context->target_offset) {
+            PRINTF(
+                "PENZO DEBUG -- before (msg->parameterOffset > context->last_order_offset)\n"
+                "with msg->parameterOffset: %d\n"
+                "with context->last_order_offset: %d\n"
+                "PENZO DEBUG -- END\n",
+                msg->parameterOffset,
+                context->last_order_offset);
+            // is on targeted order, on order.callData length (4th order's parameter)
+            if (msg->parameterOffset == context->last_order_offset + 3 * PARAMETER_LENGTH) {
                 // get the offset of the last calldata to parse last Tx's byte
-                if (copy_number(&context->last_calldata_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (copy_number(&context->ui_selector_offset, msg->parameter, PARAMETER_LENGTH)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                if (add_numbers(&context->last_calldata_offset,
+                if (add_numbers(&context->ui_selector_offset,
                                 msg->parameterOffset + PARAMETER_LENGTH)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                PRINTF("setting last_calldata_offset: %d\n", context->last_calldata_offset);
+                PRINTF("setting ui_selector_offset: %d\n", context->ui_selector_offset);
             }
             context->next_param = (order) ORDER__CALLDATA;
             break;
@@ -87,10 +91,8 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     }
 }
 
-/*
-   parse batch_output_orders struct
-   token2 is the output token
-   */
+/*  parse batch_output_orders struct.
+    token2 is the output token */
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context) {
     switch ((batch_output_orders) context->next_param) {
         case BOO__OUTPUTTOKEN:
@@ -168,16 +170,16 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             if (context->current_length == 0) {
                 PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
                 // Copy targeted offset
-                if (copy_number(&context->target_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (copy_number(&context->last_order_offset, msg->parameter, PARAMETER_LENGTH)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
                 // add current depth offset to target offset
-                if (add_numbers(&context->target_offset, context->current_tuple_offset)) {
+                if (add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                PRINTF("target_offset: %d\n", context->target_offset);
+                PRINTF("last_order_offset: %d\n", context->last_order_offset);
                 // Switch to order's parsing
                 context->on_struct = (on_struct) S_ORDER;
                 context->next_param = (order) ORDER__OPERATOR;
@@ -248,15 +250,15 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
             // is on last order's offset to match b2c
             if (context->current_length == 0) {
                 PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
-                if (copy_number(&context->target_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (copy_number(&context->last_order_offset, msg->parameter, PARAMETER_LENGTH)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                if (add_numbers(&context->target_offset, context->current_tuple_offset)) {
+                if (add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                PRINTF("target_offset: %d\n", context->target_offset);
+                PRINTF("last_order_offset: %d\n", context->last_order_offset);
                 // Switch to order's parsing
                 context->on_struct = (on_struct) S_ORDER;
                 context->next_param = (order) ORDER__OPERATOR;
