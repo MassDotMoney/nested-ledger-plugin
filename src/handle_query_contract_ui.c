@@ -234,9 +234,9 @@ void handle_query_contract_ui(void *parameters) {
         case PROCESS_INPUT_ORDERS:
             if (context->ui_selector == ADD_TOKENS || context->ui_selector == BUY)
                 handle_add_tokens_ui(msg, context);
-            else if (context->ui_selector == DEPOSIT || context->ui_selector == EDIT_ALLOC)
+            else if (context->ui_selector == DEPOSIT)
                 handle_deposit_ui(msg, context);
-            else if (context->ui_selector == SYNCHRONIZATION)
+            else if (context->ui_selector == SYNCHRONIZATION || context->ui_selector == EDIT_ALLOC)
                 handle_synchronization_ui(msg);
             else if (context->ui_selector == SELL_TOKENS)
                 handle_sell_tokens_ui(msg, context);

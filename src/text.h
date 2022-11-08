@@ -16,6 +16,7 @@
 #define MSG_ADD_TOKEN_ID       "Add tokens"
 #define MSG_DEPOSIT_ID         "Deposit"
 #define MSG_SYNCHRONIZATION_ID "Synchronization"
+#define MSG_EDIT_ALLOC_ID      "Edit Allocations"
 #define MSG_SWAP_ID            "Swap"
 #define MSG_WITHDRAW_ID        "Withdraw"
 #define MSG_SELL_TOKENS_ID     "Sell Tokens"

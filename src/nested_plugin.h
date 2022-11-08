@@ -149,6 +149,8 @@ typedef struct context_t {
                                     // end, just before the last byte of the Tx
     uint32_t target_offset;         // is the offset of the parameter we want to parse
 
+    uint32_t last_batch_offset;  // is the offset processInputOrder._batchedOrders.-1
+
     uint8_t token1_amount[INT256_LENGTH];
     uint16_t current_length;  // is the length of the current array
 

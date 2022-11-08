@@ -45,34 +45,56 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context) 
             break;
         case CREATE__LEN_BIO:
             PRINTF("CREATE__LEN_BIO\n");
-            // For now, there is always 1 batchOrder in each Tx, we will parse the last
-            // one if there are multiple batchOrders
+            // copy BIO/BOO[] len to get last BIO/BOO offset.
             if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
+            // reset current_tuple_offset to current tx offset.
+            context->current_tuple_offset = msg->parameterOffset;
             context->next_param = (create_parameter) CREATE__OFFSET_ARRAY_BIO;
             break;
         case CREATE__OFFSET_ARRAY_BIO:
             if (context->current_length) context->current_length--;
             PRINTF("CREATE__OFFSET_ARRAY_BIO, index: %d\n", context->current_length);
-            // is on last offset.
+            // If we are on last offset. skip otherwise.
             if (context->current_length == 0) {
-                // Switch to according struct's parsing method.
-                switch (context->selectorIndex) {
-                    case CREATE:
-                    case PROCESS_INPUT_ORDERS:
-                        context->on_struct = (on_struct) S_BATCHED_INPUT_ORDERS;
-                        context->next_param = (batch_input_orders) BIO__INPUTTOKEN;
-                        break;
-                    case PROCESS_OUTPUT_ORDERS:
-                        context->on_struct = (on_struct) S_BATCHED_OUTPUT_ORDERS;
-                        context->next_param = (batch_output_orders) BOO__OUTPUTTOKEN;
-                        break;
-                    default:
-                        PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
+                // copy last_batch_offset only once.
+                if (!context->last_batch_offset) {
+                    uint32_t buf = 0;
+                    // Copy offset
+                    if (copy_number(&buf, msg->parameter, PARAMETER_LENGTH)) {
                         msg->result = ETH_PLUGIN_RESULT_ERROR;
-                        break;
+                        return;
+                    }
+                    // Add current_tuple_offset to get the real target offset.
+                    if (add_numbers(&context->last_batch_offset,
+                                    buf + context->current_tuple_offset)) {
+                        msg->result = ETH_PLUGIN_RESULT_ERROR;
+                        return;
+                    }
+                    PRINTF("context->last_batch_offset: %d\n", context->last_batch_offset);
+                }
+                PRINTF("is parameterOffset: %d == last_batch_offset: %d ?\n",
+                       msg->parameterOffset,
+                       context->last_batch_offset);
+                // Switch to according struct's parsing method. only on last BIO/BOO
+                if (msg->parameterOffset == context->last_batch_offset) {
+                    switch (context->selectorIndex) {
+                        case CREATE:
+                        case PROCESS_INPUT_ORDERS:
+                            context->on_struct = (on_struct) S_BATCHED_INPUT_ORDERS;
+                            context->next_param = (batch_input_orders) BIO__INPUTTOKEN;
+                            break;
+                        case PROCESS_OUTPUT_ORDERS:
+                            context->on_struct = (on_struct) S_BATCHED_OUTPUT_ORDERS;
+                            context->next_param = (batch_output_orders) BOO__OUTPUTTOKEN;
+                            break;
+                        default:
+                            PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
+                            msg->result = ETH_PLUGIN_RESULT_ERROR;
+                            break;
+                    }
                 }
             }
             break;
