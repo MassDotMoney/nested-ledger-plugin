@@ -21,10 +21,12 @@
 #define WETH   "WETH "
 
 // Utility addresses checking
-#define NULL_ADDRESS                    "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+#define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+// Nested uses `0xeeeee` as a dummy address to represent network ticker.
+#define NETWORK_TOKEN_ADDRESS \
+    "\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee\xee"
 #define ADDRESS_IS_NETWORK_TOKEN(_addr) (!memcmp(_addr, NETWORK_TOKEN_ADDRESS, ADDRESS_LENGTH))
 #define ADDRESS_IS_NULL_ADDRESS(_addr)  (!memcmp(_addr, NULL_ADDRESS, ADDRESS_LENGTH))
-extern const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH];
 
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c

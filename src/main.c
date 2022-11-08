@@ -24,11 +24,6 @@
 
 #include "nested_plugin.h"
 
-// Nested uses `0xeeeee` as a dummy address to represent network ticker.
-const uint8_t NETWORK_TOKEN_ADDRESS[ADDRESS_LENGTH] = {0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
-                                                       0xee, 0xee, 0xee, 0xee, 0xee, 0xee, 0xee,
-                                                       0xee, 0xee, 0xee, 0xee, 0xee, 0xee};
-
 // List of selectors supported by this plugin.
 static const uint32_t CREATE_SELECTOR = 0xa378534b;
 static const uint32_t PROCESS_INPUT_ORDERS_SELECTOR = 0x90e1aa69;
