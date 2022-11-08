@@ -1,8 +1,8 @@
 #include "nested_plugin.h"
 
-/**
- * Check token id, set IS_COPY is token id is not '000...'
- */
+/*
+   Check token id, set IS_COPY is token id is not '000...'
+   */
 static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context) {
     for (uint8_t i = 0; i < PARAMETER_LENGTH; i++) {
         if (msg->parameter[i] != 0) {
@@ -12,9 +12,9 @@ static void check_token_id(ethPluginProvideParameter_t *msg, context_t *context)
     }
 }
 
-/**
- * parse both create, processInputOrder and processOutputOrder.
- */
+/*
+   parse both create, processInputOrder and processOutputOrder.
+   */
 static void handle_create(ethPluginProvideParameter_t *msg, context_t *context) {
     // Switch to current struct parsing function.
     if (context->on_struct) {

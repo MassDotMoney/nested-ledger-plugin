@@ -1,18 +1,17 @@
 #include "nested_plugin.h"
 
-/**
- * Get the ui selector added by Nested front-end
- * @return first byte found
- */
+/*  Get the ui selector added by Nested front-end
+    @return first byte found
+    */
 static uint8_t get_ui_selector(const uint8_t *parameter) {
     uint8_t i = 0;
     while (parameter[i] == 0 && i < PARAMETER_LENGTH) i++;
     return parameter[i];
 }
 
-/**
- * parse order struct
- */
+/*
+   parse order struct
+   */
 void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     // is on last tx param, where we can find ui_selector.
     if (context->last_calldata_offset == msg->parameterOffset) {
@@ -88,10 +87,10 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     }
 }
 
-/**
- * parse batch_output_orders struct
- * token2 is the output token
- */
+/*
+   parse batch_output_orders struct
+   token2 is the output token
+   */
 void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *context) {
     switch ((batch_output_orders) context->next_param) {
         case BOO__OUTPUTTOKEN:
@@ -191,9 +190,9 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
     }
 }
 
-/**
- * parse batched_input_orders struct
- */
+/*
+   parse batched_input_orders struct
+   */
 void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *context) {
     PRINTF("PARSING BIO step; %d\n", context->next_param);
     switch ((batch_input_orders) context->next_param) {
