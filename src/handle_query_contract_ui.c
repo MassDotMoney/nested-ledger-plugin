@@ -106,8 +106,21 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
 static void handle_synchronization_ui(ethQueryContractUI_t *msg) {
     switch (msg->screenIndex) {
         case 0:
-            strlcpy(msg->title, TITLE_SYNCHRONIZATION_SCREEN_1_UI, msg->titleLength);
-            strlcpy(msg->msg, MSG_SYNCHRONIZATION_SCREEN_1_UI, msg->msgLength);
+            strlcpy(msg->title, "Update", msg->titleLength);
+            strlcpy(msg->msg, "Portfolio", msg->msgLength);
+            break;
+        default:
+            strlcpy(msg->title, "ERROR", msg->titleLength);
+            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            break;
+    }
+}
+
+static void handle_edit_allocations_ui(ethQueryContractUI_t *msg) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Edit", msg->titleLength);
+            strlcpy(msg->msg, "Allocations", msg->msgLength);
             break;
         default:
             strlcpy(msg->title, "ERROR", msg->titleLength);
@@ -234,10 +247,13 @@ void handle_query_contract_ui(void *parameters) {
         case PROCESS_INPUT_ORDERS:
             if (context->ui_selector == ADD_TOKENS || context->ui_selector == BUY)
                 handle_add_tokens_ui(msg, context);
-            else if (context->ui_selector == DEPOSIT)
+            else if (context->ui_selector == DEPOSIT || context->ui_selector == PROPO_DEPOSIT ||
+                     context->ui_selector == SIMPLE_DEPOSIT)
                 handle_deposit_ui(msg, context);
-            else if (context->ui_selector == SYNCHRONIZATION || context->ui_selector == EDIT_ALLOC)
+            else if (context->ui_selector == SYNCHRONIZATION)
                 handle_synchronization_ui(msg);
+            else if (context->ui_selector == EDIT_ALLOC)
+                handle_edit_allocations_ui(msg);
             else if (context->ui_selector == SELL_TOKENS)
                 handle_sell_tokens_ui(msg, context);
             else if (context->ui_selector == SWAP)
@@ -251,7 +267,8 @@ void handle_query_contract_ui(void *parameters) {
         case PROCESS_OUTPUT_ORDERS:
             if (context->ui_selector == SELL_TOKENS)
                 handle_sell_tokens_ui(msg, context);
-            else if (context->ui_selector == WITHDRAW)
+            else if (context->ui_selector == WITHDRAW || context->ui_selector == PROPO_WITHDRAWAL ||
+                     context->ui_selector == SIMPLE_WITHDRAWAL)
                 handle_withdraw_ui(msg, context);
             else if (context->ui_selector == SWAP)
                 handle_swap_ui(msg, context);

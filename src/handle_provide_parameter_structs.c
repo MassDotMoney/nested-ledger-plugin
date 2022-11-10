@@ -59,13 +59,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
             break;
         case ORDER__LEN_CALLDATA:
             PRINTF("parse ORDER__LEN_CALLDATA\n");
-            PRINTF(
-                "PENZO DEBUG -- before (msg->parameterOffset > context->last_order_offset)\n"
-                "with msg->parameterOffset: %d\n"
-                "with context->last_order_offset: %d\n"
-                "PENZO DEBUG -- END\n",
-                msg->parameterOffset,
-                context->last_order_offset);
             // is on targeted order, on order.callData length (4th order's parameter)
             if (msg->parameterOffset == context->last_order_offset + 3 * PARAMETER_LENGTH) {
                 // get the offset of the last calldata to parse last Tx's byte

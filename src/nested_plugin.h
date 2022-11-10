@@ -56,6 +56,10 @@ typedef enum {
     SWAP,
     BUY,
     EDIT_ALLOC,
+    SIMPLE_WITHDRAWAL,
+    PROPO_WITHDRAWAL,
+    SIMPLE_DEPOSIT,
+    PROPO_DEPOSIT,
 } ui_selector;
 
 /*

@@ -15,27 +15,29 @@ void handle_query_contract_id(void *parameters) {
     switch (context->selectorIndex) {
         case CREATE:
             if (context->booleans & IS_COPY)
-                strlcpy(msg->version, MSG_COPY_ID, msg->versionLength);
+                strlcpy(msg->version, "Replicate a Portfolio", msg->versionLength);
             else
-                strlcpy(msg->version, MSG_CREATE_ID, msg->versionLength);
+                strlcpy(msg->version, "Create Portfolio", msg->versionLength);
             break;
         case PROCESS_INPUT_ORDERS:
             if (context->ui_selector == ADD_TOKENS)
-                strlcpy(msg->version, MSG_ADD_TOKEN_ID, msg->versionLength);
+                strlcpy(msg->version, "Add tokens", msg->versionLength);
             else if (context->ui_selector == DEPOSIT)
-                strlcpy(msg->version, MSG_DEPOSIT_ID, msg->versionLength);
+                strlcpy(msg->version, "Deposit", msg->versionLength);
+            else if (context->ui_selector == SIMPLE_DEPOSIT)
+                strlcpy(msg->version, "Simple Deposit", msg->versionLength);
+            else if (context->ui_selector == PROPO_DEPOSIT)
+                strlcpy(msg->version, "Proportional Deposit", msg->versionLength);
             else if (context->ui_selector == SWAP)
-                strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
-            else if (context->ui_selector == WITHDRAW)
-                strlcpy(msg->version, "Proportional withdrawing", msg->versionLength);
+                strlcpy(msg->version, "Swap", msg->versionLength);
             else if (context->ui_selector == SYNCHRONIZATION)
-                strlcpy(msg->version, MSG_SYNCHRONIZATION_ID, msg->versionLength);
+                ;  // no bottom screen
             else if (context->ui_selector == EDIT_ALLOC)
-                strlcpy(msg->version, MSG_EDIT_ALLOC_ID, msg->versionLength);
+                ;  // no bottom screen
             else if (context->ui_selector == BUY)
                 strlcpy(msg->version, "Buy", msg->versionLength);
             else if (context->ui_selector == SELL_TOKENS)
-                strlcpy(msg->version, MSG_SELL_TOKENS_ID, msg->versionLength);
+                strlcpy(msg->version, "Sell Tokens", msg->versionLength);
             else {
                 PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
@@ -44,11 +46,15 @@ void handle_query_contract_id(void *parameters) {
             break;
         case PROCESS_OUTPUT_ORDERS:
             if (context->ui_selector == SELL_TOKENS)
-                strlcpy(msg->version, MSG_SELL_TOKENS_ID, msg->versionLength);
+                strlcpy(msg->version, "Sell Tokens", msg->versionLength);
             else if (context->ui_selector == WITHDRAW)
-                strlcpy(msg->version, MSG_WITHDRAW_ID, msg->versionLength);
+                strlcpy(msg->version, "Withdraw", msg->versionLength);
+            else if (context->ui_selector == SIMPLE_WITHDRAWAL)
+                strlcpy(msg->version, "Simple withdrawal", msg->versionLength);
+            else if (context->ui_selector == PROPO_WITHDRAWAL)
+                strlcpy(msg->version, "Proportional withdrawal", msg->versionLength);
             else if (context->ui_selector == SWAP)
-                strlcpy(msg->version, MSG_SWAP_ID, msg->versionLength);
+                strlcpy(msg->version, "Swap", msg->versionLength);
             else {
                 PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
@@ -56,13 +62,13 @@ void handle_query_contract_id(void *parameters) {
             }
             break;
         case DESTROY:
-            strlcpy(msg->version, MSG_DESTROY_ID, msg->versionLength);
+            strlcpy(msg->version, "Sell Portfolio", msg->versionLength);
             break;
         case RELEASE_TOKENS:
-            strlcpy(msg->version, MSG_CLAIM_ID, msg->versionLength);
+            strlcpy(msg->version, "Claim Royalties", msg->versionLength);
             break;
         case TRANSFER_FROM:
-            strlcpy(msg->version, MSG_TRANSFER_FROM_ID, msg->versionLength);
+            strlcpy(msg->version, "Send Portfolio", msg->versionLength);
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);

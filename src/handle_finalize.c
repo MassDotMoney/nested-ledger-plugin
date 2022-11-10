@@ -9,8 +9,6 @@ void handle_finalize(void *parameters) {
     // set default numScreens
     msg->numScreens = 2;
 
-    PRINTF("PENZO Finalize: ui_selector = %d\n", context->ui_selector);
-
     // Determine screens count.
     switch ((selector_t) context->selectorIndex) {
         case RELEASE_TOKENS:
@@ -24,10 +22,14 @@ void handle_finalize(void *parameters) {
         case PROCESS_INPUT_ORDERS:
         case PROCESS_OUTPUT_ORDERS:
             switch ((ui_selector) context->ui_selector) {
-                case DEPOSIT:
-                case WITHDRAW:
                 case SYNCHRONIZATION:
                 case EDIT_ALLOC:
+                case DEPOSIT:
+                case WITHDRAW:
+                case SIMPLE_WITHDRAWAL:
+                case PROPO_WITHDRAWAL:
+                case SIMPLE_DEPOSIT:
+                case PROPO_DEPOSIT:
                     // case PROPORT_DEPOSIT:
                     msg->numScreens = 1;
                     break;
