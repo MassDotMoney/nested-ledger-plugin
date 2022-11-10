@@ -12,8 +12,7 @@ static void handle_create_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_number_of_tokens(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -29,8 +28,7 @@ static void handle_copy_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_number_of_tokens(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -46,8 +44,7 @@ static void handle_destroy_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_ticker_or_address(msg, context, 1);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -63,8 +60,7 @@ static void handle_swap_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_ticker_or_address(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -80,8 +76,7 @@ static void handle_add_tokens_ui(ethQueryContractUI_t *msg, context_t *context) 
             msg_number_of_tokens(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -97,8 +92,7 @@ static void handle_sell_tokens_ui(ethQueryContractUI_t *msg, context_t *context)
             msg_ticker_or_address(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -110,8 +104,7 @@ static void handle_synchronization_ui(ethQueryContractUI_t *msg) {
             strlcpy(msg->msg, "Portfolio", msg->msgLength);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -123,8 +116,7 @@ static void handle_edit_allocations_ui(ethQueryContractUI_t *msg) {
             strlcpy(msg->msg, "Allocations", msg->msgLength);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -136,8 +128,7 @@ static void handle_deposit_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_amount_or_address_ui(msg, context);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -149,8 +140,7 @@ static void handle_withdraw_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_ticker_or_address(msg, context, 2);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -162,8 +152,7 @@ static void handle_claim_single_ui(ethQueryContractUI_t *msg, context_t *context
             msg_ticker_or_address(msg, context, 1);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -179,8 +168,7 @@ static void handle_claim_all_ui(ethQueryContractUI_t *msg, context_t *context) {
             msg_2tickers_ui(msg, context);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
@@ -192,8 +180,7 @@ static void handle_send_portfolio_ui(ethQueryContractUI_t *msg, context_t *conte
             msg_display_address_ui(msg, context->token1_address);
             break;
         default:
-            strlcpy(msg->title, "ERROR", msg->titleLength);
-            strlcpy(msg->msg, "ERROR", msg->msgLength);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
 }
