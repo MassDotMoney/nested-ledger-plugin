@@ -22,28 +22,24 @@ void handle_finalize(void *parameters) {
         case PROCESS_INPUT_ORDERS:
         case PROCESS_OUTPUT_ORDERS:
             switch ((ui_selector) context->ui_selector) {
-                case SYNCHRONIZATION:
+                case SYNC:
                 case EDIT_ALLOC:
                 case DEPOSIT:
                 case WITHDRAW:
-                case SIMPLE_WITHDRAWAL:
                 case PROPO_WITHDRAWAL:
-                case SIMPLE_DEPOSIT:
                 case PROPO_DEPOSIT:
-                    // case PROPORT_DEPOSIT:
                     msg->numScreens = 1;
                     break;
-                case ADD_TOKENS:
-                case SELL_TOKENS:
+                case ADD:
+                case SELL:
                 case SWAP:
                     msg->numScreens = 2;
                     break;
                 case NONE:
                 default:
                     PRINTF("Error: could not find ui selector.\n");
-                    // msg->result = ETH_PLUGIN_RESULT_ERROR;
-                    // return;
-                    break;  // TODO
+                    msg->result = ETH_PLUGIN_RESULT_ERROR;
+                    return;
             }
             break;
         default:

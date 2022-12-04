@@ -48,18 +48,19 @@ extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 // selector of the Tx's last byte.
 typedef enum {
     NONE,
-    ADD_TOKENS,
+    ADD,
     DEPOSIT,
-    SYNCHRONIZATION,
-    SELL_TOKENS,
+    SYNC,
+    SELL,
     WITHDRAW,
     SWAP,
-    BUY,
     EDIT_ALLOC,
-    SIMPLE_WITHDRAWAL,
     PROPO_WITHDRAWAL,
-    SIMPLE_DEPOSIT,
     PROPO_DEPOSIT,
+    NOOP,  // CREATE, COPY, Send by nested front, but unused by plugin
+    BURN,  // Send by nested front, but unused by plugin
+    SEND,  // Send by nested front, but unused by plugin
+    // COPY,
 } ui_selector;
 
 /*

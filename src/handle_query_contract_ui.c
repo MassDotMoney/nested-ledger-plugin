@@ -232,16 +232,15 @@ void handle_query_contract_ui(void *parameters) {
                 handle_create_ui(msg, context);
             break;
         case PROCESS_INPUT_ORDERS:
-            if (context->ui_selector == ADD_TOKENS || context->ui_selector == BUY)
+            if (context->ui_selector == ADD)
                 handle_add_tokens_ui(msg, context);
-            else if (context->ui_selector == DEPOSIT || context->ui_selector == PROPO_DEPOSIT ||
-                     context->ui_selector == SIMPLE_DEPOSIT)
+            else if (context->ui_selector == DEPOSIT || context->ui_selector == PROPO_DEPOSIT)
                 handle_deposit_ui(msg, context);
-            else if (context->ui_selector == SYNCHRONIZATION)
+            else if (context->ui_selector == SYNC)
                 handle_synchronization_ui(msg);
             else if (context->ui_selector == EDIT_ALLOC)
                 handle_edit_allocations_ui(msg);
-            else if (context->ui_selector == SELL_TOKENS)
+            else if (context->ui_selector == SELL)
                 handle_sell_tokens_ui(msg, context);
             else if (context->ui_selector == SWAP)
                 handle_swap_ui(msg, context);
@@ -252,10 +251,9 @@ void handle_query_contract_ui(void *parameters) {
             }
             break;
         case PROCESS_OUTPUT_ORDERS:
-            if (context->ui_selector == SELL_TOKENS)
+            if (context->ui_selector == SELL)
                 handle_sell_tokens_ui(msg, context);
-            else if (context->ui_selector == WITHDRAW || context->ui_selector == PROPO_WITHDRAWAL ||
-                     context->ui_selector == SIMPLE_WITHDRAWAL)
+            else if (context->ui_selector == WITHDRAW || context->ui_selector == PROPO_WITHDRAWAL)
                 handle_withdraw_ui(msg, context);
             else if (context->ui_selector == SWAP)
                 handle_swap_ui(msg, context);

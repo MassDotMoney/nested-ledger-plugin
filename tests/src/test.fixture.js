@@ -149,8 +149,8 @@ const supportedNetwork = {
   'bsc': 56,
   'avalanche': 43114,
   // 'celo': 42220,
-  // 'arbitrum': 42161,
-  // 'optimism': 10,
+  'arbitrum': 42161,
+  'optimism': 10,
   // 'fantom': 250,
 }
 

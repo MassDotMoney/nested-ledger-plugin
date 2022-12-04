@@ -20,41 +20,26 @@ void handle_query_contract_id(void *parameters) {
                 strlcpy(msg->version, "Create Portfolio", msg->versionLength);
             break;
         case PROCESS_INPUT_ORDERS:
-            if (context->ui_selector == ADD_TOKENS)
-                strlcpy(msg->version, "Add tokens", msg->versionLength);
+        case PROCESS_OUTPUT_ORDERS:
+            if (context->ui_selector == ADD)
+                strlcpy(msg->version, "Buy", msg->versionLength);
             else if (context->ui_selector == DEPOSIT)
-                strlcpy(msg->version, "Deposit", msg->versionLength);
-            else if (context->ui_selector == SIMPLE_DEPOSIT)
                 strlcpy(msg->version, "Simple Deposit", msg->versionLength);
+            else if (context->ui_selector == SYNC || context->ui_selector == NOOP ||
+                     context->ui_selector == SEND || context->ui_selector == EDIT_ALLOC)
+                ;  // no bottom screen
+            else if (context->ui_selector == SELL)
+                strlcpy(msg->version, "Sell", msg->versionLength);
+            else if (context->ui_selector == WITHDRAW)
+                strlcpy(msg->version, "Simple Withdraw", msg->versionLength);
+            else if (context->ui_selector == SWAP)
+                strlcpy(msg->version, "Convert", msg->versionLength);
+            else if (context->ui_selector == PROPO_WITHDRAWAL)
+                strlcpy(msg->version, "Proportional Withdrawal", msg->versionLength);
             else if (context->ui_selector == PROPO_DEPOSIT)
                 strlcpy(msg->version, "Proportional Deposit", msg->versionLength);
-            else if (context->ui_selector == SWAP)
-                strlcpy(msg->version, "Swap", msg->versionLength);
-            else if (context->ui_selector == SYNCHRONIZATION)
-                ;  // no bottom screen
-            else if (context->ui_selector == EDIT_ALLOC)
-                ;  // no bottom screen
-            else if (context->ui_selector == BUY)
-                strlcpy(msg->version, "Buy", msg->versionLength);
-            else if (context->ui_selector == SELL_TOKENS)
-                strlcpy(msg->version, "Sell Tokens", msg->versionLength);
-            else {
-                PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-                return;
-            }
-            break;
-        case PROCESS_OUTPUT_ORDERS:
-            if (context->ui_selector == SELL_TOKENS)
-                strlcpy(msg->version, "Sell Tokens", msg->versionLength);
-            else if (context->ui_selector == WITHDRAW)
-                strlcpy(msg->version, "Withdraw", msg->versionLength);
-            else if (context->ui_selector == SIMPLE_WITHDRAWAL)
-                strlcpy(msg->version, "Simple withdrawal", msg->versionLength);
-            else if (context->ui_selector == PROPO_WITHDRAWAL)
-                strlcpy(msg->version, "Proportional withdrawal", msg->versionLength);
-            else if (context->ui_selector == SWAP)
-                strlcpy(msg->version, "Swap", msg->versionLength);
+            else if (context->ui_selector == BURN)
+                strlcpy(msg->version, "Sell all Portfolio", msg->versionLength);
             else {
                 PRINTF("ui_selector: %d not supported\n", context->selectorIndex);
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
