@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "synchronize"; // <= Name of the test
+const testLabel = "v2 synchronize"; // <= Name of the test (wording changed with v2 to "Update Portfolio")
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 
 // // https://polygonscan.com/tx/0xbb4a6ce909f3d093d04bfbde590cc3fe54b804e4e11738e1937ee7b56d532ff1
@@ -12,13 +12,9 @@ const inputData = "0x90e1aa69000000000000000000000000000000000000000000000000000
 
 const models = [
 	{
-		name: 'nanos',
+		name: 'nanox',
 		steps: 5
 	},
-	// {
-	// 	name: 'nanox',
-	// 	steps: 0
-	// },
 ]
 
 // populate unsignedTx from genericTx and get network chain id

@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "withdraw"; // <= Name of the test
+const testLabel = "withdraw"; // <= Name of the test (previously "withdraw", now "simple withdraw")
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, '_');
 
 //https://polygonscan.com/tx/0x7b729394d987f48f71ccf4d57a65d9cefc37c810650c3699db2a11f2ff3069f8 // selling 2 tokens(WETH + QUICK)to withdraw MATIC
