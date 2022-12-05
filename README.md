@@ -70,32 +70,6 @@ The singular test names can be found in the `./tests/src/<test-folder>/*.test.js
 
 Find more information about the Zondax [ZEMU tester](https://developers.ledger.com/docs/dapp/nano-plugin/testing/).
 
-## Testing on browser:
-
-It is possible to send APDU's to a browser hosted Nano S emulator using [speculos](https://github.com/LedgerHQ/speculos) via Docker.
-
-Install [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/):
-
-`pip3 install ledgerblue`
-
-Add these aliases.
-
-`speculos='docker run --rm -it -v <path>/plugin_dev/nested-ledger-plugin/tests/elfs:/speculos/apps -p 5000:5000 --publish 41000:41000 speculos --display headless --vnc-port 41000 --apdu-port 41000 apps/ethereum_nanos.elf -l Nested:apps/nested_nanos.elf'`
-
-`ledgerspec='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | LEDGER_PROXY_ADDRESS=127.0.0.1 LEDGER_PROXY_PORT=41000 python3 -m ledgerblue.runScript --apdu'`
-
-In a new terminal window enter:
-
-`speculos`
-
-Open a browser page and enter `localhost:5000` in the url field. The browser page should be emulating a Nano S.
-
-In another terminal window type:
-
-`ledgerspec transferFrom`
-
-The emulating page should display a Nested NFT transfer transaction.
-
 More information on the [speculos doc page](https://speculos.ledger.com/).
 
 # Plugin modifications:
