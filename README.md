@@ -1,10 +1,10 @@
 # Nested Finance Ledger plugin
 
-Ledger lightweight app for [Nested Finance](https://nested.fi/).
+Ledger lightweight app for [Nested](https://nested.fi/).
 
 ## Plugins:
 
-Plugins are lightweight applications that go hand-in-hand with the Ethereum Application on Nano S / X devices.
+Plugins are lightweight applications that go hand-in-hand with the Ethereum Application on Nano S, X and S+ devices.
 
 They allow users to safely interact with smart contracts by parsing the transaction data and displaying its content in a human readable way.
 
@@ -30,8 +30,6 @@ In a terminal window:
 
 `git clone https://github.com/NestedFi/nested-ledger-plugin/`
 
-`app-ethereum` and its `ethereum-plugin-sdk` must both be on the develop branch.
-
 ## Build the apps
 
 Launch Docker.
@@ -42,24 +40,11 @@ In the same terminal:
 
 `./start.sh`
 
-Git pull the docker sdk's:
-
-`cd ../../opt/nanos-secure-sdk && git pull` 
-
-`cd ../nanox-secure-sdk && git pull`
-
-*Note: At this time, the docker sdk's need to be pulled and on master every time you launch the docker image.*
-
 `cd ../nested-ledger-plugin/tests/`
 
 `./build_locals_test.sh all`
 
 If needed, replace `all` with the appropriate flags to specifically build the plugin for S, X and the ethereum app.
-
-To be able to print while debugging, comment the macro 
-`#define PRINTF(...)` in line 126 in `/opt/*-secure-sdk/include/os.h`.
-
-Find more info about `PRINTF` and debugging [here](https://developers.ledger.com/docs/nano-app/debug/#printf-macro).
 
 # Running the tests:
 
@@ -112,42 +97,6 @@ In another terminal window type:
 The emulating page should display a Nested NFT transfer transaction.
 
 More information on the [speculos doc page](https://speculos.ledger.com/).
-
-*Note: You must have previously killed other running speculos terminals.*
-
-## Testing by sideloading:
-
-It is also possible to sideload the plugin into a Nano S by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
-
-This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
-
-`pip3 install ledgerblue`
-
-Clone the apropriate repositories.
-
-Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
-
-Plug and unlock the device and enter in the terminal:
-
-`cd <path>/app-ethereum`
-
-`make load BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
-
-Follow the steps displayed on the ledger.
-
-Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
-
-`cd ../nested-ledger-plugin/`
-
-`make load BOLOS_SDK=$NANOS_SDK` to load the plugin.
-
-Send APDU's to the ledger with this alias:
-
-`ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
-
-Open the plugin.
-
-`ledger transferFrom` to send the APDU's contained in the file to the ledger.
 
 # Plugin modifications:
 
