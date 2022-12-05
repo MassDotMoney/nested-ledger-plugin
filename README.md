@@ -1,6 +1,6 @@
 # Nested Finance Ledger plugin
 
-Ledger lightweight app for [Nested Finance](https://nested.fi/).
+Ledger lightweight app for [Nested](https://nested.fi/).
 
 ## Plugins:
 
@@ -97,42 +97,6 @@ In another terminal window type:
 The emulating page should display a Nested NFT transfer transaction.
 
 More information on the [speculos doc page](https://speculos.ledger.com/).
-
-*Note: You must have previously killed other running speculos terminals.*
-
-## Testing by sideloading:
-
-It is also possible to sideload the plugin into a Nano S by using [ledgerblue](https://github.com/LedgerHQ/blue-loader-python/).
-
-This must be done on Debian (version 10 "Buster" or later) and Ubuntu (version 18.04 or later).
-
-`pip3 install ledgerblue`
-
-Clone the apropriate repositories.
-
-Set the path for `BOLOS_SDK` to `<path>/nanos-secure-sdk`.
-
-Plug and unlock the device and enter in the terminal:
-
-`cd <path>/app-ethereum`
-
-`make load BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum` to load the ethereum app to the device.
-
-Follow the steps displayed on the ledger.
-
-Once installed you should be able to open the ethereum app and land on the "Application is ready" screen.
-
-`cd ../nested-ledger-plugin/`
-
-`make load BOLOS_SDK=$NANOS_SDK` to load the plugin.
-
-Send APDU's to the ledger with this alias:
-
-`ledger='cat <path>/plugin_dev/nested-ledger-plugin/tests/apdu/"$1" | sudo -E python3 -m ledgerblue.runScript --targetId 0x310004 --apdu'`
-
-Open the plugin.
-
-`ledger transferFrom` to send the APDU's contained in the file to the ledger.
 
 # Plugin modifications:
 
