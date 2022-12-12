@@ -5,6 +5,7 @@
 #include "eth_plugin_interface.h"
 #include <stdint.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Number of decimals used when the token wasn't found in the Crypto Asset List.
 #define DEFAULT_DECIMAL WEI_TO_ETHER
@@ -198,19 +199,19 @@ typedef struct context_t {
 // * 32. Do not remove this check.
 _Static_assert(sizeof(context_t) <= 5 * 32, "Structure of parameters too big.");
 
-#define copy_number(T, parameter, parameter_length) \
-    _Generic((T), uint32_t *                        \
-             : copy_number_uint32, uint16_t *       \
-             : copy_number_uint16, uint8_t *        \
-             : copy_number_uint8, default           \
-             : copy_number_uint32)(T, parameter, parameter_length)
+#define copy_number(parameter, T)              \
+    _Generic((T), uint32_t *                   \
+             : U4BE_from_parameter, uint16_t * \
+             : U2BE_from_parameter, uint8_t *  \
+             : copy_number_uint8, default      \
+             : copy_error)(parameter, T)
 
 #define add_numbers(T, to_add)           \
     _Generic((T), uint32_t *             \
              : add_in_uint32, uint16_t * \
              : add_in_uint16, uint8_t *  \
              : add_in_uint8, default     \
-             : add_in_uint32)(T, to_add)
+             : add_type_error)(T, to_add)
 
 void handle_provide_parameter(void *parameters);
 void handle_query_contract_ui(void *parameters);
@@ -229,10 +230,10 @@ void msg_2tickers_ui(ethQueryContractUI_t *msg, context_t *context);
 void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int flag);
 void msg_amount_or_address_ui(ethQueryContractUI_t *msg, context_t *context);
 
-uint8_t copy_number_uint32(uint32_t *target, const uint8_t *parameter, uint8_t parameter_length);
-uint8_t copy_number_uint16(uint16_t *target, const uint8_t *parameter, uint8_t parameter_length);
-uint8_t copy_number_uint8(uint8_t *target, const uint8_t *parameter, uint8_t parameter_length);
+bool copy_number_uint8(const uint8_t *parameter, uint8_t *target);
+bool copy_error(const uint8_t *parameter, void *target);
 
-uint8_t add_in_uint32(uint32_t *target, uint32_t to_add);
-uint8_t add_in_uint16(uint16_t *target, uint32_t to_add);
-uint8_t add_in_uint8(uint8_t *target, uint32_t to_add);
+bool add_in_uint32(uint32_t *target, uint32_t to_add);
+bool add_in_uint16(uint16_t *target, uint32_t to_add);
+bool add_in_uint8(uint8_t *target, uint32_t to_add);
+bool add_type_error(uint8_t *target, uint32_t to_add);

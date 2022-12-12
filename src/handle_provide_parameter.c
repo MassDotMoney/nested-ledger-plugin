@@ -46,7 +46,7 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context) 
         case CREATE__LEN_BIO:
             PRINTF("CREATE__LEN_BIO\n");
             // copy BIO/BOO[] len to get last BIO/BOO offset.
-            if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->current_length)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -63,13 +63,13 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context) 
                 if (!context->last_batch_offset) {
                     uint32_t buf = 0;
                     // Copy offset
-                    if (copy_number(&buf, msg->parameter, PARAMETER_LENGTH)) {
+                    if (!copy_number(msg->parameter, &buf)) {
                         msg->result = ETH_PLUGIN_RESULT_ERROR;
                         return;
                     }
                     // Add current_tuple_offset to get the real target offset.
-                    if (add_numbers(&context->last_batch_offset,
-                                    buf + context->current_tuple_offset)) {
+                    if (!add_numbers(&context->last_batch_offset,
+                                     buf + context->current_tuple_offset)) {
                         msg->result = ETH_PLUGIN_RESULT_ERROR;
                         return;
                     }
@@ -132,7 +132,7 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
         case DESTROY__LEN_ORDERS:
             PRINTF("DESTROY LEN ORDERS\n");
             // context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
-            if (copy_number(&context->number_of_tokens, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -163,12 +163,12 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
             break;
         case RELEASE__LEN_TOKENS:
             PRINTF("RELEASE__LEN_TOKENS\n");
-            if (copy_number(&context->number_of_tokens, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
-            if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->current_length)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }

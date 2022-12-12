@@ -26,7 +26,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
         case ORDER__OPERATOR:
             PRINTF("parse ORDER__OPERATOR\n");
             context->current_tuple_offset = 0;
-            if (add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
+            if (!add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -62,12 +62,12 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
             // is on targeted order, on order.callData length (4th order's parameter)
             if (msg->parameterOffset == context->last_order_offset + 3 * PARAMETER_LENGTH) {
                 // get the offset of the last calldata to parse last Tx's byte
-                if (copy_number(&context->ui_selector_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (!copy_number(msg->parameter, &context->ui_selector_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                if (add_numbers(&context->ui_selector_offset,
-                                msg->parameterOffset + PARAMETER_LENGTH)) {
+                if (!add_numbers(&context->ui_selector_offset,
+                                 msg->parameterOffset + PARAMETER_LENGTH)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
@@ -93,7 +93,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
             PRINTF("copie token2 address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
             context->current_tuple_offset = 0;
-            if (add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
+            if (!add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -114,7 +114,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             break;
         case BOO__LEN_AMOUNTS:
             PRINTF("parse BOO__LEN_AMOUNTS\n");
-            if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->current_length)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -137,19 +137,19 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             break;
         case BOO__LEN_ORDERS:
             PRINTF("parse BOO__LEN_ORDERS\n");
-            if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->current_length)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("setting current_length: %d\n", context->current_length);
-            if (copy_number(&context->number_of_tokens, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
             context->current_tuple_offset = 0;
-            if (add_numbers(&context->current_tuple_offset,
-                            msg->parameterOffset + PARAMETER_LENGTH)) {
+            if (!add_numbers(&context->current_tuple_offset,
+                             msg->parameterOffset + PARAMETER_LENGTH)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -163,12 +163,12 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             if (context->current_length == 0) {
                 PRINTF("parse BOO__OFFSET_ARRAY_ORDERS LAST\n");
                 // Copy targeted offset
-                if (copy_number(&context->last_order_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (!copy_number(msg->parameter, &context->last_order_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
                 // add current depth offset to target offset
-                if (add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
+                if (!add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
@@ -218,19 +218,19 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
             break;
         case BIO__LEN_ORDERS:
             PRINTF("parse BIO__LEN_ORDERS\n");
-            if (copy_number(&context->number_of_tokens, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
-            if (copy_number(&context->current_length, msg->parameter, PARAMETER_LENGTH)) {
+            if (!copy_number(msg->parameter, &context->current_length)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("setting current_length: %d\n", context->current_length);
             context->current_tuple_offset = 0;
-            if (add_numbers(&context->current_tuple_offset,
-                            msg->parameterOffset + PARAMETER_LENGTH)) {
+            if (!add_numbers(&context->current_tuple_offset,
+                             msg->parameterOffset + PARAMETER_LENGTH)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -243,11 +243,11 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
             // is on last order's offset to match b2c
             if (context->current_length == 0) {
                 PRINTF("parse BIO__OFFSET_ARRAY_ORDERS LAST\n");
-                if (copy_number(&context->last_order_offset, msg->parameter, PARAMETER_LENGTH)) {
+                if (!copy_number(msg->parameter, &context->last_order_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
-                if (add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
+                if (!add_numbers(&context->last_order_offset, context->current_tuple_offset)) {
                     msg->result = ETH_PLUGIN_RESULT_ERROR;
                     return;
                 }
