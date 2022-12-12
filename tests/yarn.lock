@@ -1845,7 +1845,7 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@zondax/zemu@0.32.0":
+"@zondax/zemu@^0.32.0":
   version "0.32.0"
   resolved "https://registry.yarnpkg.com/@zondax/zemu/-/zemu-0.32.0.tgz#733ae016c464d813721bcaef273c759bde3be4a9"
   integrity sha512-xbcTu/G3bRz1ubf3fDjUtNnZTSnwv5MPFaKWpKQFGRp+iIS0FdPBFGLRtilN/JqsGiF2DebI9DFkFNFIV+Dh9g==
