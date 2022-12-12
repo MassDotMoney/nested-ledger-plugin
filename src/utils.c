@@ -41,7 +41,6 @@ bool add_in_uint8(uint8_t *target, uint32_t to_add) {
     return true;
 }
 
-bool add_type_error(__attribute__((unused)) uint8_t *target,
-                    __attribute__((unused)) uint32_t to_add) {
+bool add_type_error(__attribute__((unused)) void *target, __attribute__((unused)) uint32_t to_add) {
     return false;
 }

@@ -204,7 +204,7 @@ _Static_assert(sizeof(context_t) <= 5 * 32, "Structure of parameters too big.");
              : U4BE_from_parameter, uint16_t * \
              : U2BE_from_parameter, uint8_t *  \
              : copy_number_uint8, default      \
-             : copy_error)(parameter, T)
+             : copy_type_error)(parameter, T)
 
 #define add_numbers(T, to_add)           \
     _Generic((T), uint32_t *             \
@@ -231,9 +231,9 @@ void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int fla
 void msg_amount_or_address_ui(ethQueryContractUI_t *msg, context_t *context);
 
 bool copy_number_uint8(const uint8_t *parameter, uint8_t *target);
-bool copy_error(const uint8_t *parameter, void *target);
+bool copy_type_error(const uint8_t *parameter, void *target);
 
 bool add_in_uint32(uint32_t *target, uint32_t to_add);
 bool add_in_uint16(uint16_t *target, uint32_t to_add);
 bool add_in_uint8(uint8_t *target, uint32_t to_add);
-bool add_type_error(uint8_t *target, uint32_t to_add);
+bool add_type_error(void *target, uint32_t to_add);
