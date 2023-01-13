@@ -46,7 +46,8 @@ static void handle_create(ethPluginProvideParameter_t *msg, context_t *context) 
         case CREATE__LEN_BIO:
             PRINTF("CREATE__LEN_BIO\n");
             // copy BIO/BOO[] len to get last BIO/BOO offset.
-            if (!copy_number(msg->parameter, &context->current_length)) {
+            if (!copy_number(msg->parameter, &context->current_length) ||
+                !context->current_length) {  // if BIO/BOO[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -131,7 +132,6 @@ static void handle_destroy(ethPluginProvideParameter_t *msg, context_t *context)
             break;
         case DESTROY__LEN_ORDERS:
             PRINTF("DESTROY LEN ORDERS\n");
-            // context->number_of_tokens = msg->parameter[PARAMETER_LENGTH - 1];
             if (!copy_number(msg->parameter, &context->number_of_tokens)) {
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
@@ -163,15 +163,13 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
             break;
         case RELEASE__LEN_TOKENS:
             PRINTF("RELEASE__LEN_TOKENS\n");
-            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
+            if (!copy_number(msg->parameter, &context->number_of_tokens) ||
+                !copy_number(msg->parameter, &context->current_length) ||
+                !context->current_length) {  // if tokens list have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("number_of_tokens: %d\n", context->number_of_tokens);
-            if (!copy_number(msg->parameter, &context->current_length)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-                return;
-            }
             context->next_param = (release_tokens_parameter) RELEASE__ARRAY_TOKENS;
             break;
         case RELEASE__ARRAY_TOKENS:

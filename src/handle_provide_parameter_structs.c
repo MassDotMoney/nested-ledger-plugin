@@ -114,7 +114,8 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             break;
         case BOO__LEN_AMOUNTS:
             PRINTF("parse BOO__LEN_AMOUNTS\n");
-            if (!copy_number(msg->parameter, &context->current_length)) {
+            if (!copy_number(msg->parameter, &context->current_length) ||
+                !context->current_length) {  // if BIO/BOO[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -137,15 +138,13 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             break;
         case BOO__LEN_ORDERS:
             PRINTF("parse BOO__LEN_ORDERS\n");
-            if (!copy_number(msg->parameter, &context->current_length)) {
+            if (!copy_number(msg->parameter, &context->current_length) ||
+                !copy_number(msg->parameter, &context->number_of_tokens) ||
+                !context->current_length) {  // if BIO/BOO[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
             PRINTF("setting current_length: %d\n", context->current_length);
-            if (!copy_number(msg->parameter, &context->number_of_tokens)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-                return;
-            }
             PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
             context->current_tuple_offset = 0;
             if (!add_numbers(&context->current_tuple_offset,
@@ -223,7 +222,8 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
                 return;
             }
             PRINTF("setting number_of_tokens: %d\n", context->number_of_tokens);
-            if (!copy_number(msg->parameter, &context->current_length)) {
+            if (!copy_number(msg->parameter, &context->current_length) ||
+                !context->current_length) {  // if Orders[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
