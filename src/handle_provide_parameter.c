@@ -187,6 +187,8 @@ static void handle_release_tokens(ethPluginProvideParameter_t *msg, context_t *c
                 PRINTF("Copied to token2_address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
             }
             PRINTF("RELEASE_TOKENS token index: %d\n", context->current_length);
+            if (!context->current_length)
+                context->next_param++;  // Set error once all tokens are parsed.
             break;
         default:
             PRINTF("Param not supported: %d\n", context->next_param);
@@ -205,6 +207,7 @@ static void handle_transfer_from(ethPluginProvideParameter_t *msg, context_t *co
             context->next_param = (transfer_from_parameter) TRANSFER_FROM__TOKEN_ID;
             break;
         case TRANSFER_FROM__TOKEN_ID:
+            context->next_param++;  // Set error.
             break;
         default:
             PRINTF("Param not supported: %d\n", context->next_param);
