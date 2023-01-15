@@ -25,12 +25,6 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
     switch ((order) context->next_param) {
         case ORDER__OPERATOR:
             PRINTF("parse ORDER__OPERATOR\n");
-            context->current_tuple_offset = 0;
-            if (!add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-                return;
-            }
-            PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
             context->next_param = (order) ORDER__TOKEN_ADDRESS;
             break;
         case ORDER__TOKEN_ADDRESS:
@@ -92,12 +86,6 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             PRINTF("parse BOO__OUTPUTTOKEN\n");
             copy_address(context->token2_address, msg->parameter, ADDRESS_LENGTH);
             PRINTF("copie token2 address: %.*H\n", ADDRESS_LENGTH, context->token2_address);
-            context->current_tuple_offset = 0;
-            if (!add_numbers(&context->current_tuple_offset, msg->parameterOffset)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-                return;
-            }
-            PRINTF("setting current_tuple_offset: %d\n", context->current_tuple_offset);
             context->next_param = (batch_output_orders) BOO__OFFSET_AMOUNTS;
             break;
         case BOO__OFFSET_AMOUNTS:
@@ -196,9 +184,6 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
             PRINTF("Copied inputToken to token1_address: %.*H\n",
                    ADDRESS_LENGTH,
                    context->token1_address);
-            // Set current_tuple_offset for parsing purposes
-            context->current_tuple_offset = msg->parameterOffset;
-            PRINTF("parse BIO__INPUTTOKEN, NEW TUPLE_OFFSET: %d\n", context->current_tuple_offset);
             context->next_param = (batch_input_orders) BIO__AMOUNT;
             break;
         case BIO__AMOUNT:
