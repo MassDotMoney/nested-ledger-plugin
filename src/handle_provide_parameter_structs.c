@@ -70,6 +70,7 @@ void parse_order(ethPluginProvideParameter_t *msg, context_t *context) {
             context->next_param = (order) ORDER__CALLDATA;
             break;
         case ORDER__CALLDATA:
+        case ORDER__NOOP:
             break;
         default:
             PRINTF("order's param not supported: %d\n", context->next_param);
@@ -162,7 +163,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
                 PRINTF("last_order_offset: %d\n", context->last_order_offset);
                 // Switch to order's parsing
                 context->on_struct = (on_struct) S_ORDER;
-                context->next_param = (order) ORDER__OPERATOR;
+                context->next_param = (order) ORDER__NOOP;
             }
             break;
         default:
@@ -239,7 +240,7 @@ void parse_batched_input_orders(ethPluginProvideParameter_t *msg, context_t *con
                 PRINTF("last_order_offset: %d\n", context->last_order_offset);
                 // Switch to order's parsing
                 context->on_struct = (on_struct) S_ORDER;
-                context->next_param = (order) ORDER__OPERATOR;
+                context->next_param = (order) ORDER__NOOP;
             }
             break;
         default:

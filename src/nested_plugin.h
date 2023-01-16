@@ -74,6 +74,7 @@ typedef enum {
     ORDER__OFFSET_CALLDATA,
     ORDER__LEN_CALLDATA,
     ORDER__CALLDATA,
+    ORDER__NOOP,
 } order;
 
 typedef enum {
