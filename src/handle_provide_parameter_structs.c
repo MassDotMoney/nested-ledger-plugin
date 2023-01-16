@@ -113,17 +113,14 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             break;
         case BOO__AMOUNT:
             PRINTF("parse BOO__AMOUNT, index: %d\n", context->current_length);
-            // copy last amount, matching b2c
-            if (context->current_length == 1) {
+            if (context->current_length) context->current_length--;
+            if (context->current_length == 0) {
+                context->next_param = (batch_output_orders) BOO__LEN_ORDERS;
                 copy_parameter(context->token1_amount,
                                msg->parameter,
                                sizeof(context->token1_amount));
                 PRINTF("copie token1 amount: %.*H\n", PARAMETER_LENGTH, context->token1_amount);
             }
-            if (context->current_length) context->current_length--;
-            // skip until last amount
-            if (context->current_length == 0)
-                context->next_param = (batch_output_orders) BOO__LEN_ORDERS;
             break;
         case BOO__LEN_ORDERS:
             PRINTF("parse BOO__LEN_ORDERS\n");
