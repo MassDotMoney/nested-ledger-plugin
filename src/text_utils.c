@@ -23,10 +23,15 @@ void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int to
     {
         if (context->booleans & TOKEN2_FOUND)
             snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);
-        else
+        else if (context->number_of_tokens == 1)
             msg_display_address_ui(msg, context->token2_address);
-    } else
+        else {
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+        }
+    } else {
         snprintf(msg->msg, msg->msgLength, "ERROR");
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
+    }
 }
 
 void msg_2tickers_ui(ethQueryContractUI_t *msg, context_t *context) {
@@ -44,8 +49,10 @@ void msg_number_of_tokens(ethQueryContractUI_t *msg, context_t *context, int tok
             snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);
         else if (!(context->booleans & TOKEN1_FOUND) || !(context->booleans & TOKEN2_FOUND))
             snprintf(msg->msg, msg->msgLength, "%d token", context->number_of_tokens);
-        else
+        else {
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
             snprintf(msg->msg, msg->msgLength, "ERROR");
+        }
     } else
         snprintf(msg->msg, msg->msgLength, "%d tokens", context->number_of_tokens);
 }
