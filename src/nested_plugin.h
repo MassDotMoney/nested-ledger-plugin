@@ -46,7 +46,23 @@ typedef enum {
 
 extern const uint32_t NESTED_SELECTORS[NUM_SELECTORS];
 
-// selector of the Tx's last byte.
+/*
+ *  ui_selector is the value send by Nested's front, which determine screen's display (ID and UI).
+ *  Only the methods processInputOrder and processOutputOrder are affected by this selector.
+ *
+ *  ADD   => "Buy" + add_tokens_ui
+ *  DEPOSIT => "Simple Deposit" + deposit_ui
+ *  SYNC  => synchronization_ui
+ *  Sell  => "Sell" + sell_tokens_ui
+ *  WITHDRAW  => "Simple Withdraw" + withdraw_ui
+ *  SWAP  => "Convert" + swap_ui
+ *  EDIT_ALLOC  => edit_allocations_ui
+ *  PROPO_WITHDRAWAL  => "Proportional Withdrawal" + withdraw_ui
+ *  PROPO_DEPOSIT => "Proportional Deposit" + deposit_ui
+ *  NOOP  => (CREATE, COPY) send but unused
+ *  BURN  => "Sell all Portfolio"
+ *  SEND  => send but unused
+ */
 typedef enum {
     NONE,
     ADD,
@@ -58,10 +74,9 @@ typedef enum {
     EDIT_ALLOC,
     PROPO_WITHDRAWAL,
     PROPO_DEPOSIT,
-    NOOP,  // CREATE, COPY, Send by nested front, but unused by plugin
-    BURN,  // Send by nested front, but unused by plugin
-    SEND,  // Send by nested front, but unused by plugin
-    // COPY,
+    NOOP,
+    BURN,
+    SEND,
 } ui_selector;
 
 /*
