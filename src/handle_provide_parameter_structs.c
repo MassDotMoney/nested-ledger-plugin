@@ -104,7 +104,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
         case BOO__LEN_AMOUNTS:
             PRINTF("parse BOO__LEN_AMOUNTS\n");
             if (!copy_number(msg->parameter, &context->current_length) ||
-                !context->current_length) {  // if BIO/BOO[] have no items.
+                !context->current_length) {  // if BOO.amount[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
@@ -126,7 +126,7 @@ void parse_batched_output_orders(ethPluginProvideParameter_t *msg, context_t *co
             PRINTF("parse BOO__LEN_ORDERS\n");
             if (!copy_number(msg->parameter, &context->current_length) ||
                 !copy_number(msg->parameter, &context->number_of_tokens) ||
-                !context->current_length) {  // if BIO/BOO[] have no items.
+                !context->current_length) {  // if BOO.orders[] have no items.
                 msg->result = ETH_PLUGIN_RESULT_ERROR;
                 return;
             }
