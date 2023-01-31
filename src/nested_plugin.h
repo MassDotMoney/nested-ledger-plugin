@@ -12,14 +12,14 @@
 #define ETH_DECIMAL     WEI_TO_ETHER
 
 // Network tickers
-#define MATIC  "MATIC "
-#define WMATIC "WMATIC "
-#define AVAX   "AVAX "
-#define WAVAX  "WAVAX "
-#define BNB    "BNB "
-#define WBNB   "WBNB "
-#define ETH    "ETH "
-#define WETH   "WETH "
+#define MATIC  "MATIC"
+#define WMATIC "WMATIC"
+#define AVAX   "AVAX"
+#define WAVAX  "WAVAX"
+#define BNB    "BNB"
+#define WBNB   "WBNB"
+#define ETH    "ETH"
+#define WETH   "WETH"
 
 // Utility addresses checking
 #define NULL_ADDRESS "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
