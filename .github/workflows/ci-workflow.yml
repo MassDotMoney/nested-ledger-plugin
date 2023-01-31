@@ -4,262 +4,139 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - main
+      - master
+      - develop
       - dev
-      - master
   pull_request:
-    branches:
-      - master
 
 jobs:
-  job_build_plugin_nano_s:
-    name: Build plugin for Nano S
+  job_build_release_plugin:
+    name: Build release plugin
+    strategy:
+      matrix:
+        include:
+          - sdk: "$NANOS_SDK"
+            name: "nanos"
+          - sdk: "$NANOX_SDK"
+            name: "nanox"
+          - sdk: "$NANOSP_SDK"
+            name: "nanosp"
+
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder-lite:latest
+
     steps:
       - name: Clone
         uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
         with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin for Nano S
+          submodules: recursive
+
+      - name: Build
         run: |
-          make clean
-          make BOLOS_SDK=$NANOS_SDK
-  
-  job_build_plugin_nano_sp:
-    name: Build plugin for Nano S Plus
+          make BOLOS_SDK=${{ matrix.sdk }} -j
+
+  job_build_debug_plugin:
+    name: Build debug plugin
+    strategy:
+      matrix:
+        include:
+          - sdk: "$NANOS_SDK"
+            name: "nanos"
+          - sdk: "$NANOX_SDK"
+            name: "nanox"
+          - sdk: "$NANOSP_SDK"
+            name: "nanosp"
+
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder-lite:latest
+
     steps:
       - name: Clone
         uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
         with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin for Nano S Plus
+          submodules: recursive
+
+      - name: Build
         run: |
-          make clean
-          make BOLOS_SDK=$NANOSP_SDK
-  job_build_plugin_nano_x:
-    name: Build plugin for Nano X
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Clone
-        uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin for Nano X
+          make DEBUG=1 BOLOS_SDK=${{ matrix.sdk }} -j
+
+      - name: Rename binary
         run: |
-          make clean
-          make BOLOS_SDK=$NANOX_SDK
-  job_build_plugin_debug_nano_s:
-    name: Build plugin for Nano S testing
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Clone
-        uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin
-        run: |
-          make clean
-          make -j DEBUG=1 BOLOS_SDK=$NANOS_SDK
-      - name: Move binary to test directory
-        run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/nested_nanos.elf
-      - name: Upload plugin binary
+          mv bin/app.elf plugin_${{ matrix.name }}.elf
+
+      - name: Upload binary
         uses: actions/upload-artifact@v3
         with:
           name: binaries
-          path: tests/elfs/nested_nanos.elf
-  
+          path: plugin_${{ matrix.name }}.elf
 
-  job_build_plugin_debug_nano_sp:
-    name: Build plugin for Nano S Plus testing
+  job_build_debug_app:
+    name: Build debug Ethereum app
+    strategy:
+      matrix:
+        include:
+          - sdk: "$NANOS_SDK"
+            name: "nanos"
+          - sdk: "$NANOX_SDK"
+            name: "nanox"
+          - sdk: "$NANOSP_SDK"
+            name: "nanosp"
+
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Clone
-        uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin
-        run: |
-          make clean
-          make -j DEBUG=1 BOLOS_SDK=$NANOSP_SDK
-      - name: Move binary to test directory
-        run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/nested_nanosp.elf
-      - name: Upload plugin binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: binaries
-          path: tests/elfs/nested_nanosp.elf
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder-lite:latest
 
-  job_build_plugin_debug_nano_x:
-    name: Build plugin for Nano X testing
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Clone
-        uses: actions/checkout@v3
-      - name: Clone SDK
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/ethereum-plugin-sdk
-          path: ethereum-plugin-sdk
-          ref: develop
-      - name: Build plugin
-        run: |
-          make clean
-          make -j DEBUG=1 BOLOS_SDK=$NANOX_SDK
-      - name: Move binary to test directory
-        run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/nested_nanox.elf
-      - name: Upload plugin binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: binaries
-          path: tests/elfs/nested_nanox.elf
-
-  job_build_ethereum_nano_s:
-    name: Build Ethereum application for Nano S testing
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
     steps:
       - name: Checkout app-ethereum
         uses: actions/checkout@v3
         with:
           repository: LedgerHQ/app-ethereum
-          ref: develop
-          submodules: recursive
-      - name: Build ethereum
-        run: |
-          make clean
-          make -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOS_SDK CHAIN=ethereum
-      - name: Move binary to test directory
-        run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/ethereum_nanos.elf
-      - name: Upload plugin binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: binaries
-          path: tests/elfs/ethereum_nanos.elf
-  
-  job_build_ethereum_nano_sp:
-    name: Build Ethereum application for Nano S Plus testing
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Checkout app-ethereum
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/app-ethereum
-          ref: develop
-          submodules: recursive
-      - name: Build ethereum
-        run: |
-          make clean
-          make -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOSP_SDK CHAIN=ethereum
-      - name: Move binary to test directory
-        run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/ethereum_nanosp.elf
-      - name: Upload plugin binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: binaries
-          path: tests/elfs/ethereum_nanosp.elf
+          ref: ${{ ((github.base_ref || github.ref_name) == 'main' && 'master') || (github.base_ref || github.ref_name) }}
 
-  job_build_ethereum_nano_x:
-    name: Build Ethereum application for Nano X testing
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
-    steps:
-      - name: Checkout app-ethereum
-        uses: actions/checkout@v3
-        with:
-          repository: LedgerHQ/app-ethereum
-          ref: develop
-          submodules: recursive
-      - name: Build ethereum
+      - name: Build
         run: |
-          make clean
-          make -j DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=$NANOX_SDK CHAIN=ethereum
-      - name: Move binary to test directory
+          make DEBUG=1 BYPASS_SIGNATURES=1 BOLOS_SDK=${{ matrix.sdk }} -j
+
+      - name: Rename binary
         run: |
-          mkdir -p ./tests/elfs/
-          mv bin/app.elf ./tests/elfs/ethereum_nanox.elf
-      - name: Upload plugin binary
+          mv bin/app.elf ethereum_${{ matrix.name }}.elf
+
+      - name: Upload binary
         uses: actions/upload-artifact@v3
         with:
           name: binaries
-          path: tests/elfs/ethereum_nanox.elf
+          path: ethereum_${{ matrix.name }}.elf
 
   jobs-e2e-tests:
     name: E2E Tests
-    needs: [job_build_plugin_debug_nano_s, job_build_plugin_debug_nano_sp, job_build_plugin_debug_nano_x, job_build_ethereum_nano_s, job_build_ethereum_nano_sp, job_build_ethereum_nano_x]
+    needs: [job_build_debug_plugin, job_build_debug_app]
     runs-on: ubuntu-latest
     steps:
-      - name: Test
-        run: |
-          id
-          echo $HOME
-          echo $DISPLAY
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Download built binaries
         uses: actions/download-artifact@v3
         with:
           name: binaries
           path: tests/elfs/
-      - name: Check downloaded binaries
-        run: ls -lh ./tests/elfs
-      - name: Install system dependencies
-        run: sudo apt-get update -y && sudo apt-get install -y libusb-1.0.0 libudev-dev
+
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: "14.18.1"
+          node-version: "16.19.0"
+
       - name: Install yarn
         run: |
           npm install -g yarn
-      - name: Build/Install build js deps
+
+      - name: Install JS deps
         run: |
           cd tests && yarn install
-      - name: Run zemu tests
+
+      - name: Run Zemu tests
         run: |
           cd tests && yarn test
