@@ -36,4 +36,13 @@ module.exports = {
 
   // Stop immediatly when a test fail
   bail: true,
+
+  reporters: [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }]
+  ],
+  // To use after the tests
+  testResultsProcessor: "./node_modules/jest-html-reporter"
 };

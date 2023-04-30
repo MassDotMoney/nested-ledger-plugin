@@ -13,3 +13,9 @@ Save*
 tags
 tests/src/dummy.test.js
 tests/src/dummy.js
+
+build/
+tests/.yarn
+
+compile_flags.txt
+tests/test-report.html
