@@ -35,14 +35,14 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
 
   // Stop immediatly when a test fail
-  bail: true,
+  bail: false,
 
-  reporters: [
-    "default",
-    ["./node_modules/jest-html-reporter", {
-      "pageTitle": "Test Report"
-    }]
-  ],
-  // To use after the tests
-  testResultsProcessor: "./node_modules/jest-html-reporter"
+  // reporters: [
+  //   "default",
+  //   ["./node_modules/jest-html-reporter", {
+  //     "pageTitle": "Test Report"
+  //   }]
+  // ],
+  // // To use after the tests
+  // testResultsProcessor: "./node_modules/jest-html-reporter"
 };
