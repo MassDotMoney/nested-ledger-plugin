@@ -1,3 +1,4 @@
+#include "nested_plugin.h"
 #include "text.h"
 
 void msg_display_address_ui(ethQueryContractUI_t *msg, uint8_t *address) {
@@ -13,6 +14,10 @@ void msg_display_address_ui(ethQueryContractUI_t *msg, uint8_t *address) {
  * @param token choose token1 or token2
  */
 void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int token) {
+    PRINTF("[msg_ticker_or_address] token: %d\n", token);
+    PRINTF("[msg_ticker_or_address] TOKEN1_FOUND: %d\n", context->booleans & TOKEN1_FOUND);
+    PRINTF("[msg_ticker_or_address] TOKEN2_FOUND: %d\n", context->booleans & TOKEN2_FOUND);
+    PRINTF("[msg_ticker_or_address] number_of_tokens: %d\n", context->number_of_tokens);
     if (token == 1)  // Token1
     {
         if (context->booleans & TOKEN1_FOUND)
@@ -23,7 +28,8 @@ void msg_ticker_or_address(ethQueryContractUI_t *msg, context_t *context, int to
     {
         if (context->booleans & TOKEN2_FOUND)
             snprintf(msg->msg, msg->msgLength, "%s", context->token2_ticker);
-        else if (context->number_of_tokens == 1)
+        else if (context->ui_selector == WITHDRAW || context->ui_selector == PROPO_WITHDRAWAL ||
+                 context->number_of_tokens == 1)
             msg_display_address_ui(msg, context->token2_address);
         else {
             msg->result = ETH_PLUGIN_RESULT_ERROR;
