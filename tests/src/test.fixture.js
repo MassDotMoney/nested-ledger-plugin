@@ -5,7 +5,7 @@ import { parseEther, parseUnits, RLP } from "ethers/lib/utils";
 import { ethers } from "ethers";
 import ledgerService from "@ledgerhq/hw-app-eth/lib/services/ledger"
 
-const transactionUploadDelay = 90000;
+const transactionUploadDelay = 900000;
 
 const sim_options_nano = {
   ...DEFAULT_START_OPTIONS,
@@ -31,7 +31,7 @@ const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
 const NFT_EXPLORER_BASE_URL = "https://nft.api.live.ledger.com/v1/ethereum"
 const PLUGIN_BASE_URL = "https://cdn.live.ledger.com"
 
-const nano_models: DeviceModel[] = [
+const nano_models = [
   { name: 'nanos', letter: 'S', path: NANOS_PLUGIN_PATH, eth_path: NANOS_ETH_PATH },
   { name: 'nanox', letter: 'X', path: NANOX_PLUGIN_PATH, eth_path: NANOX_ETH_PATH },
   { name: 'nanosp', letter: 'SP', path: NANOSP_PLUGIN_PATH, eth_path: NANOSP_ETH_PATH }
@@ -139,7 +139,8 @@ function processTest(device, step, contractName, testLabel, testDirSuffix, unsig
         testNetwork,
         unsignedTx
       );
-    })
+    }),
+    4000000
   );
 }
 
