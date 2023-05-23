@@ -3,8 +3,11 @@
 /*  Get the ui selector added by Nested front-end
     @return first byte found */
 static uint8_t get_ui_selector(const uint8_t *parameter) {
-    uint8_t i = 0;
-    while (parameter[i] == 0 && i < PARAMETER_LENGTH) i++;
+    // uint8_t i = 0;
+    // while (parameter[i] == 0 && i < PARAMETER_LENGTH) i++;
+    // return parameter[i];
+    uint8_t i = PARAMETER_LENGTH - 1;
+    while (parameter[i] == 0 && i > 0) i--;
     return parameter[i];
 }
 
