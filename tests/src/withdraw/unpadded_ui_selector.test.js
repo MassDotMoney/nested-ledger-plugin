@@ -4,7 +4,7 @@ const contractName = "NestedFactory";
 const contractAddr = "0xfd896db057f260adce7fd1fd48c6623e023406cd";
 const testNetwork = "polygon";
 
-const testLabel = "v2 adrien"; // <= Name of the test
+const testLabel = "withdraw unpadded ui_selector"; // <= Name of the test
 const testDirSuffix = testLabel.toLowerCase().replace(/\s+/g, "_");
 
 // https://polygonscan.com/tx/0x6343e8f3f778f05ab3b7386231e09e94e7e1f7e3de64cc309432240ed65543c6
@@ -18,7 +18,7 @@ const models = [
   // },
   {
     name: "nanosp",
-    steps: 6,
+    steps: 5,
   }
 ];
 
@@ -29,7 +29,6 @@ models.forEach((model) => {
   const nano_model = nano_models.find((nano_model) =>
     nano_model.name === model.name
   );
-  console.log("PENZO NANO_MODEL: ", nano_model)
   processTest(
     nano_model,
     model.steps,
