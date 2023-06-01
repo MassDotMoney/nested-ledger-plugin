@@ -32,7 +32,7 @@
         "0xbba9b10c": {
           "erc20OfInterest": [
             "_buyToken",
-            "_orders.0.token"
+            "_orders.-1.token"
           ],
           "method": "destroy",
           "plugin": "Nested"

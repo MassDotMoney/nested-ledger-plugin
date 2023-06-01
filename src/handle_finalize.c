@@ -38,7 +38,7 @@ void handle_finalize(void *parameters) {
                     break;
                 case SWAP:
                     if (context->number_of_tokens > 1) {
-                        PRINTF("Error: 2023 too many tokens for SWAP\n");
+                        PRINTF("Error: too many tokens for SWAP\n");
                         msg->result = ETH_PLUGIN_RESULT_ERROR;
                         return;
                     }
