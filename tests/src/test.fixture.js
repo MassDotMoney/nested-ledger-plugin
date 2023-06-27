@@ -21,9 +21,9 @@ const NANOS_ETH_PATH = Resolve('elfs/ethereum_nanos.elf');
 const NANOX_ETH_PATH = Resolve('elfs/ethereum_nanox.elf');
 const NANOSP_ETH_PATH = Resolve('elfs/ethereum_nanosp.elf');
 
-const NANOS_PLUGIN_PATH = Resolve('elfs/nested_nanos.elf');
-const NANOX_PLUGIN_PATH = Resolve('elfs/nested_nanox.elf');
-const NANOSP_PLUGIN_PATH = Resolve('elfs/nested_nanosp.elf');
+const NANOS_PLUGIN_PATH = Resolve('elfs/plugin_nanos.elf');
+const NANOX_PLUGIN_PATH = Resolve('elfs/plugin_nanox.elf');
+const NANOSP_PLUGIN_PATH = Resolve('elfs/plugin_nanosp.elf');
 
 const SPECULOS_ADDRESS = '0xFE984369CE3919AA7BB4F431082D027B4F8ED70C';
 const RANDOM_ADDRESS = '0xaaaabbbbccccddddeeeeffffgggghhhhiiiijjjj'
