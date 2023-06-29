@@ -7,7 +7,6 @@ on:
       - main
       - master
       - develop
-      - dev
   pull_request:
 
 jobs:
@@ -22,6 +21,8 @@ jobs:
             name: "nanox"
           - sdk: "$NANOSP_SDK"
             name: "nanosp"
+          - sdk: "$STAX_SDK"
+            name: "stax"
 
     runs-on: ubuntu-latest
     container:
@@ -36,6 +37,27 @@ jobs:
       - name: Build
         run: |
           make BOLOS_SDK=${{ matrix.sdk }} -j
+
+  job_scan_build:
+    name: Clang Static Analyzer
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder-lite:latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Build with Clang Static Analyzer
+        run: |
+          scan-build --use-cc=clang -analyze-headers -enable-checker security -enable-checker unix -enable-checker valist -o scan-build --status-bugs make default
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: scan-build
+          path: scan-build
 
   job_build_debug_plugin:
     name: Build debug plugin
@@ -139,4 +161,4 @@ jobs:
 
       - name: Run Zemu tests
         run: |
-          cd tests && yarn test
+          cd tests && docker pull zondax/builder-zemu@sha256:8d7b06cedf2d018b9464f4af4b7a8357c3fbb180f3ab153f8cb8f138defb22a4 && yarn test
