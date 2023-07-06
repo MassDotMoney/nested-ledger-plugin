@@ -1875,13 +1875,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:^1.8.8":
-  version: 1.8.14
-  resolution: "@grpc/grpc-js@npm:1.8.14"
+"@grpc/grpc-js@npm:^1.8.15":
+  version: 1.8.17
+  resolution: "@grpc/grpc-js@npm:1.8.17"
   dependencies:
     "@grpc/proto-loader": ^0.7.0
     "@types/node": ">=12.12.47"
-  checksum: 7b889ae67cde5eb9b4feb92d54e73945d881309b9b879a2dde478fa7850b99835efa7592a8154a0f923851d7a18a177c106f5f52b45061180bb04aef7783c1c9
+  checksum: 0ac8cd7342a33d7e507ec0ebb470721ae84eb964fd164e4b7b829cb35774c09df158124cbce859d9398c9a015f0e29d2308a3a17be35d54e030a7dc091e7e9a4
   languageName: node
   linkType: hard
 
@@ -2238,6 +2238,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ledgerhq/devices@npm:^8.0.4":
+  version: 8.0.4
+  resolution: "@ledgerhq/devices@npm:8.0.4"
+  dependencies:
+    "@ledgerhq/errors": ^6.12.7
+    "@ledgerhq/logs": ^6.10.1
+    rxjs: 6
+    semver: ^7.3.5
+  checksum: cd228b09c3510e4ec51206670343d7b4e5ee0fad8a75a8f1ba05945489cb3635b24521dbd0b08622f4b1fadcd58202c4e91f7dd694949cdc4633b7cb10d0b974
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/domain-service@npm:^1.1.1":
   version: 1.1.1
   resolution: "@ledgerhq/domain-service@npm:1.1.1"
@@ -2261,6 +2273,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ledgerhq/errors@npm:^6.12.7":
+  version: 6.12.7
+  resolution: "@ledgerhq/errors@npm:6.12.7"
+  checksum: 8b0f0b0c57842479609e4d8d91f68d7f29197fcfdf233a0e61060492db495125b497f359ab33bcbcab7983dc10ead9434e638422d4f1036d159f003470cd8f6b
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/hw-app-eth@npm:^6.27.1":
   version: 6.33.3
   resolution: "@ledgerhq/hw-app-eth@npm:6.33.3"
@@ -2280,7 +2299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ledgerhq/hw-transport-http@npm:^6.27.1, @ledgerhq/hw-transport-http@npm:^6.27.11":
+"@ledgerhq/hw-transport-http@npm:^6.27.1":
   version: 6.27.14
   resolution: "@ledgerhq/hw-transport-http@npm:6.27.14"
   dependencies:
@@ -2290,6 +2309,19 @@ __metadata:
     axios: ^0.26.1
     ws: ^7.5.2
   checksum: 84b35e84ffd0fa5cb004cc60448899f2fe1f4c80411ca39ba2ee18cd060b2437dcbcac133acead65c61483590430da1bf96554fefb6fc06ab55a17da1f906d3d
+  languageName: node
+  linkType: hard
+
+"@ledgerhq/hw-transport-http@npm:^6.27.15":
+  version: 6.28.0
+  resolution: "@ledgerhq/hw-transport-http@npm:6.28.0"
+  dependencies:
+    "@ledgerhq/errors": ^6.12.7
+    "@ledgerhq/hw-transport": ^6.28.5
+    "@ledgerhq/logs": ^6.10.1
+    axios: ^0.26.1
+    ws: ^7.5.2
+  checksum: a6782e19e25e99cc7119286d94072bc1f9df6f9c6c166f17e835cda6a0a7bcabed387a15d31ac2edc27b4423955d98d37be7ac3f89e094cf9e070cdfd2a83168
   languageName: node
   linkType: hard
 
@@ -2303,7 +2335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ledgerhq/hw-transport@npm:^6.28.0, @ledgerhq/hw-transport@npm:^6.28.3":
+"@ledgerhq/hw-transport@npm:^6.28.3":
   version: 6.28.3
   resolution: "@ledgerhq/hw-transport@npm:6.28.3"
   dependencies:
@@ -2311,6 +2343,17 @@ __metadata:
     "@ledgerhq/errors": ^6.12.5
     events: ^3.3.0
   checksum: 0d69fba365296fb3647afe3ed766fc175d2145a8ec3d8fa88c040d7ab3ac5e8e79b2dfa18ca0d5fef265815cc139f2461342333c069568260e9815dd7c800333
+  languageName: node
+  linkType: hard
+
+"@ledgerhq/hw-transport@npm:^6.28.4, @ledgerhq/hw-transport@npm:^6.28.5":
+  version: 6.28.5
+  resolution: "@ledgerhq/hw-transport@npm:6.28.5"
+  dependencies:
+    "@ledgerhq/devices": ^8.0.4
+    "@ledgerhq/errors": ^6.12.7
+    events: ^3.3.0
+  checksum: 7b9a3beec21c5ac73d69187de87f3de90071d5e7efe1e97ae3c6def0e8c9d68758bb8ecc863925da9baad2b7147e637769fd6fff4301f0b57dc0cf86de070bbe
   languageName: node
   linkType: hard
 
@@ -2632,23 +2675,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zondax/zemu@npm:^0.35.1":
-  version: 0.35.1
-  resolution: "@zondax/zemu@npm:0.35.1"
+"@zondax/zemu@npm:0.43.1":
+  version: 0.43.1
+  resolution: "@zondax/zemu@npm:0.43.1"
   dependencies:
-    "@grpc/grpc-js": ^1.8.8
+    "@grpc/grpc-js": ^1.8.15
     "@grpc/proto-loader": ^0.7.5
-    "@ledgerhq/hw-transport": ^6.28.0
-    "@ledgerhq/hw-transport-http": ^6.27.11
-    axios: ^1.3.3
+    "@ledgerhq/hw-transport": ^6.28.4
+    "@ledgerhq/hw-transport-http": ^6.27.15
+    axios: ^1.3.4
     axios-retry: ^3.4.0
     dockerode: ^3.3.1
     elfy: ^1.0.0
     fs-extra: ^11.0.0
     get-port: ^5.1.1
-    pngjs: ^6.0.0
-    randomstring: ^1.2.3
-  checksum: e09bd2c9e4a0c340e0ae06b307def67766706dbb8b409116d4184dae5cea351eb467a1bada1b854e9db95d9e0671e23755e010fa2b5a630c59b54f98bd2ee0ea
+    pngjs: ^7.0.0
+    randomstring: ^1.3.0
+  checksum: 5aa86c4392d4a4cfb1329b4cc05b64ba972f40ce778f4134106b8d03149b71f2f4d6d36711cd8dc014731acfedc76dafa7d924d2268e13b1cd7aa830b726bdf4
   languageName: node
   linkType: hard
 
@@ -2845,13 +2888,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-uniq@npm:1.0.2":
-  version: 1.0.2
-  resolution: "array-uniq@npm:1.0.2"
-  checksum: 8c4beb94aa183791da1e155935aba4df3fe2eeb6f491c69e666ca7351f897b9b260fa04d016e0ce766ae8280129c16f11071e17359c81c01741289009bb5ac6d
-  languageName: node
-  linkType: hard
-
 "array.prototype.flat@npm:^1.3.1":
   version: 1.3.1
   resolution: "array.prototype.flat@npm:1.3.1"
@@ -2932,7 +2968,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.3.3, axios@npm:^1.3.4":
+"axios@npm:^1.3.4":
   version: 1.4.0
   resolution: "axios@npm:1.4.0"
   dependencies:
@@ -6565,10 +6601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pngjs@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "pngjs@npm:6.0.0"
-  checksum: ab6c285086060087097eab9fe6b5a528a24f9e79c03dea2b4fd6264ed4fdb5beff4a3257eeeaf2a9dc18249b539609c2a4e4013c567164a1f6b5ba2c974d5ecb
+"pngjs@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "pngjs@npm:7.0.0"
+  checksum: b19a018930d27de26229c1b3ff250b3a25d09caa22cbb0b0459987d91eb0a560a18ab5d67da45a38ed7514140f26d1db58de83c31159ec101f2bb270a3c707f1
   languageName: node
   linkType: hard
 
@@ -6689,15 +6725,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"randomstring@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "randomstring@npm:1.2.3"
+"randomstring@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "randomstring@npm:1.3.0"
   dependencies:
-    array-uniq: 1.0.2
     randombytes: 2.0.3
   bin:
     randomstring: bin/randomstring
-  checksum: 9f201638d1a51091b0262fae062bec53a94636dd1f193c703245eaa7676ee8de22f6e7d35075cfe49ba446999f0d6f1032fb7a50a99a2a80d8c28145748a4d67
+  checksum: ec89fd1337b197edea5a7f60686cc674170f6f0424cb8ac025f7acb043d906fdd30b4a3b21073d0c566efec4921be9e87749b41609954f6656c9d5f3278e2284
   languageName: node
   linkType: hard
 
@@ -7369,7 +7404,7 @@ __metadata:
     "@ledgerhq/hw-app-eth": ^6.27.1
     "@ledgerhq/hw-transport-http": ^6.27.1
     "@ledgerhq/logs": ^6.2.0
-    "@zondax/zemu": ^0.35.1
+    "@zondax/zemu": 0.43.1
     core-js: ^3.16.3
     eslint: ^7.32.0
     eslint-config-airbnb-base: ^14.2.1
