@@ -21,6 +21,7 @@
 
 #include "cx.h"
 #include "os.h"
+#include "glyphs.h"
 
 #include "glyphs.h"
 
